@@ -27,3 +27,6 @@ npm run dev
 ```sh
 npm run build
 ```
+
+Пока это чудо выглядит так 
+![image](https://github.com/Response418/PSDS_Front/assets/42736248/befc1384-a613-4c6d-9dd3-89b787225469)
