@@ -1,7 +1,9 @@
 <template>
 
   <div v-if="!viewAuthForm" class="profileShow">
-    <img src="`@/components/images/profile.png`" @click="viewAuthForm = !viewAuthForm" alt=""/>
+    <div class="profileShowBack" @click="viewAuthForm = !viewAuthForm">
+        &#128100;
+    </div>
   </div>
 
   <div class="container" v-if="viewAuthForm">
@@ -204,14 +206,29 @@ button:focus {
   display: flex;
 }
 
-.profileShow{
-  position: fixed;
+.profileShowBack {
   width: 50px;
   height: 50px;
+  background: white;
+  opacity: 0.8;
+  font-size: 32px;
+  text-align: center;
+  margin: 1px;
+  border-radius: 50px;
+}
+
+.profileShowBack:hover{
+  opacity: 0.9;
+  cursor: pointer;
+}
+
+.profileShow{
+  position: fixed;
   z-index: 7;
   border-radius: 50px;
   top: 20px;
   right: 40px;
+  background: linear-gradient(45deg, var(--color-main-second), var(--color-main));
 }
 
 .profileShow img{

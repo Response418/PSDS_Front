@@ -1,32 +1,47 @@
 <template>
-  <div class="CardObject" @click="$router.push('/profile/special')">
-    <div class="internal_card">
-      <div class="opacity_card">
-        <p class="title">{{profile.title}}</p>
 
-        <div class="description">
-          {{profile.description}}
-        </div>
+  <div class="theme">
 
-        <div class="descriptionBack">
-          &#128366;
+    <div class="themeInfo" @click="ShowLesson = !ShowLesson">
+
+      <p class="title">{{theme.title}}</p>
+
+      <div class="arrow">
+        <p v-if="ShowLesson">△</p>
+        <p v-else>▽</p>
+      </div>
+
+    </div>
+
+    <div v-if="ShowLesson">
+      <div class="description">
+        {{theme.description}}
+      </div>
+
+      <div class="lessons">
+        <div v-for="(lesson,key) in theme.lessons" :key="key">
+          <Lesson :lesson="lesson"/>
         </div>
       </div>
     </div>
-<!--    <div class="levelBlock">-->
-<!--      <p>Level </p>-->
-<!--      <div class="level">-->
-<!--        <div v-for="index in 5" :key="index" :class="{ 'filled': index <= profile.level }" class="square"></div>-->
-<!--      </div>-->
-<!--    </div>-->
+
   </div>
+
 </template>
 
 <script>
+import Lesson from "@/components/Lesson.vue";
+
 export default {
-  name: "Profile",
+  name: "Theme",
+  components: {Lesson},
+  data() {
+    return {
+      ShowLesson: false,
+    }
+  },
   props: {
-    profile: {
+    theme: {
       type: Object,
     }
   }
@@ -35,29 +50,39 @@ export default {
 
 <style scoped>
 
+.arrow p{
+  font-size: 40px;
+  margin: 10px 0;
+  background: linear-gradient(45deg, var(--color-main), var(--color-main-second));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.themeInfo{
+  display: flex;
+}
+
+.lessons{
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .title{
   font-size: 40px;
-  margin: 10px;
+  background: linear-gradient(45deg, var(--color-main), var(--color-main-second));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 10px 0 0 20px;
 }
 
 .description {
-  font-size: 20px;
-  margin: 0 10px;
-  position: absolute;
-  bottom: 20px;
-}
-
-.descriptionBack{
-  position: absolute;
-  opacity: 0.05;
-  font-size: 200px;
-  bottom: 0;
-  right: 0;
+  font-size: 25px;
+  margin: 0 30px;
 }
 
 .CardObject{
   position: relative;
-  width: 300px;
+  width: 1300px;
   height: 300px;
   margin: 10px 10px;
 }
@@ -70,12 +95,8 @@ export default {
   width: 100%;
   height: 100%;
   background: linear-gradient(var(--color-main), var(--color-main-second));
-  opacity: 0.1;
-  transition: opacity 1s ease;
-}
-
-.CardObject:hover::before {
   opacity: 1;
+  transition: opacity 1s ease;
 }
 
 .level {
@@ -114,13 +135,8 @@ export default {
 }
 
 .opacity_card{
-  opacity: 0.6;
   height: 100%;
   width: 100%;
-}
-
-.opacity_card:hover{
-  opacity: 1;
 }
 
 .CardObject p{

@@ -15,6 +15,16 @@ const routes = [
     name: "AuthPage",
     component: () => import("@/views/Auth.vue"),
   },
+  {
+    path: "/profile",
+    name: "Profiles",
+    component: () => import("@/views/Profiles.vue"),
+  },
+  {
+    path: "/profile/special",
+    name: "ProfileSpecialist",
+    component: () => import("@/views/ProfileSpecialist.vue"),
+  },
 ];
 
 const router = createRouter({
