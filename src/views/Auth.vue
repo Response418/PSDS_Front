@@ -38,6 +38,7 @@
 <script>
 // import Concurs from "@/services/Concurs";
 import AlertMessages from "@/components/AlertMessages.vue";
+import Psds from "@/services/Psds.js";
 
 export default {
   name: "AuthPage",
@@ -55,7 +56,7 @@ export default {
       Repassword: "",
       file: null,
     };
-  }
+  },
 //   beforeRouteEnter(to, from, next) {
 //     next(vm => {
 //       vm.previousPage = from.fullPath
@@ -68,10 +69,10 @@ export default {
 //   created() {
 //     this.CheckSession();
 //   },
-//   methods: {
-//     AddAlert(mess){
-//       this.$refs.AddAlertMess.AddAlertMess(mess);
-//     },
+  methods: {
+    AddAlert(mess){
+      this.$refs.AddAlertMess.AddAlertMess(mess);
+    },
 //     chooseFiles: function() {
 //       document.getElementById("fileUpload").click()
 //     },
@@ -93,28 +94,21 @@ export default {
 //           this.$router.push({ path: this.$route.query.redirect || '/' });
 //       })
 //     },
-//     Login(){
-//       const user = {
-//         email: this.Email,
-//         password: this.Password
-//       };
-//       Concurs.signIn(user)
-//           .then(response => {
-//             if(response.statusText === "OK"){
-//               this.AddAlert({ status: true, message: "Успешная авторизация" });
-//               this.Name = "";
-//               this.Email = "";
-//               this.Password = "";
-//               this.Repassword = "";
-//               this.viewAuthForm = false;
-//               this.$router.push({ path: this.$route.query.redirect || '/' });
-//             }
-//             else
-//               this.AddAlert({ status: false, message: "Ошибка в авторизации" });
-//           }).catch(() => {
-//         this.AddAlert({ status: false, message: "Ошибка в авторизации" });
-//       });
-//     },
+    async Login() {
+
+      const user = {
+        email: this.Email,
+        password: this.Password
+      };
+
+      console.log(user)
+
+      await Psds.loginUser(this.Email, this.Password)
+          .then(token => {
+            console.log(token)
+            localStorage.setItem('token', token.token);
+          })
+    },
 //     Sign(){
 //       if (this.Password === this.Repassword) {
 //         const data = {
@@ -154,7 +148,7 @@ export default {
 //       else
 //         this.AddAlert({ status: false, message: "Пароли не совпадают" });
 //     },
-//   },
+  },
 }
 </script>
 

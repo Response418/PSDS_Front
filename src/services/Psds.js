@@ -1,6 +1,32 @@
 import http from "../http-common";
+import axios from "axios";
 
 class Psds {
+
+  login(data) {
+    return http.post(`login`, data, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    });
+  }
+
+  async loginUser(username, password) {
+    try {
+      const response = await axios.post('http://localhost:8080/api/auth/login', {'email': username, 'password': password});
+      // Обработка успешного входа
+      console.log('Успешный вход', response.data);
+      return response.data;
+    } catch (error) {
+      // Обработка ошибок входа
+      console.error('Ошибка входа', error);
+    }
+  }
+
+
+
+
   CreateUser(formData) {
     return http.post(`/users/create`, formData, {
       headers: {
