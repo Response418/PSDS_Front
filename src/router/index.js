@@ -3,6 +3,7 @@ import NProgress from "nprogress";
 import "nprogress/nprogress.css";
 // import Concurs from "@/services/Concurs";
 
+
 const routes = [
   {
     path: "/",
@@ -11,10 +12,49 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
-    path: "/auth",
+    path: "/auth/login",
     name: "AuthPage",
     component: () => import("@/views/Auth.vue"),
   },
+
+  {
+    path: "/auth/registration",
+    name: "Registration",
+    component: () => import("@/views/Registration.vue"),
+  },
+
+  {
+    path: "/moderator",
+    name: "Moderator",
+    component: () => import("@/views/Moderator.vue"),
+  },
+
+  {
+    path: "/api/groups/moderator/group",
+    name: "Group",
+    component: () => import("@/views/Group.vue"),
+  },
+
+  {
+    path: "/api/groups/moderator",
+    name: "GroupsModerator",
+    component: () => import("@/views/GroupsModerator.vue"),
+  },
+
+
+  {
+    path: "/api/roleInGroup",
+    name: "RoleInGroup",
+    component: () => import("@/views/RoleInGroup.vue"),
+  },
+
+  {
+    path: "/api/groups",
+    name: "UserGroup",
+    component: () => import("@/views/UserGroup.vue"),
+  },
+
+
   {
     path: "/profile",
     name: "Profiles",
@@ -25,6 +65,12 @@ const routes = [
     name: "ProfileSpecialist",
     component: () => import("@/views/ProfileSpecialist.vue"),
   },
+
+  // {
+  //   path: "/moderator",
+  //   name: "Moderator",
+  //   component: () => import("@/views/Moderator.vue"),
+  // },
 ];
 
 const router = createRouter({

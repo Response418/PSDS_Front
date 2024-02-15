@@ -1,5 +1,6 @@
 <template>
   <AuthForm/>
+  <HeaderUser />
 
     <div class="lapsha">
       The Professional Skills Development System, abbreviated as PSDS, is a comprehensive platform designed for the assessment of professional competencies. In this innovative system, individuals have the opportunity to join teams where they can collaborate with friends and mentors to evaluate their knowledge and skills.
@@ -36,7 +37,7 @@
 
     <div class="navigate">
 
-      <div class="team card card2">
+      <div class="team card card2" @click="$router.push('/team')">
         <div class="internal_card">
           <div class="opacity_card">
             <p>my team</p>
@@ -104,10 +105,13 @@ import AuthForm from "@/components/AuthForm.vue";
 import AlertMessages from "@/components/AlertMessages.vue";
 import Profile from "@/components/Profile.vue";
 import Plan from "@/components/Plan.vue";
+import Team from "@/components/Team.vue";
+
+import HeaderUser from "@/components/HeaderUser.vue";
 
 export default {
   name: "HomeMain",
-  components: {Plan, Profile, AuthForm, AlertMessages },
+  components: {HeaderUser, Plan, Profile, AuthForm, AlertMessages, Team },
   data() {
     return {
       width: window.innerWidth,
@@ -129,17 +133,10 @@ export default {
           level: 3
         },
       ],
+
       plan: {
 
       }
-    }
-  },
-  methods: {
-    AddAlert(mess){
-      this.$refs.AddAlertMess.AddAlertMess(mess);
-    },
-    goToUrl(url){
-      window.location.href= url
     }
   }
 }

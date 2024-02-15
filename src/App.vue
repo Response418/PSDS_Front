@@ -13,8 +13,8 @@ export default {
 
 :root {
   --color-back: #ffffff;
-  --color-main: #7700ff;
-  --color-main-second: #e74913;
+  --color-main: #a281d2;
+  --color-main-second: #e84918;
   --color-second: #ffffff;
   --color-back-second: #282828;
   --color-back-gradient-main: #5301b2;

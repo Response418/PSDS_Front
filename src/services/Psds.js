@@ -1,7 +1,17 @@
 import http from "../http-common";
 import axios from "axios";
+// import * as http from "http";
+// import data from "bootstrap/js/src/dom/data.js";
+// import * as console from "console";
+// import response from "core-js/internals/is-forced.js";
+// import * as console from "console";
+// import {error} from "vue-resource/src/util.js";
+
+
 
 class Psds {
+  constructor() {
+  }
 
   login(data) {
     return http.post(`login`, data, {
@@ -14,16 +24,106 @@ class Psds {
 
   async loginUser(username, password) {
     try {
-      const response = await axios.post('http://localhost:8080/api/auth/login', {'email': username, 'password': password});
-      // Обработка успешного входа
+      const response = await axios.post('http://localhost:8080/api/auth/login',
+          {'email': username, 'password': password});
       console.log('Успешный вход', response.data);
       return response.data;
     } catch (error) {
-      // Обработка ошибок входа
       console.error('Ошибка входа', error);
     }
   }
 
+  async registerUser(lastName, firstName, fatherName, city, phoneNumber, email, password) {
+    try {
+      const response = await axios.post('http://localhost:8080/api/auth/registration',
+          {'lastName': lastName, 'firstName': firstName, 'fatherName': fatherName, 'city': city,
+          'phoneNumber': phoneNumber, 'email': email, 'password': password});
+      console.log('Регистрация прошла успешно', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Ошибка регистрации пользователя', error);
+    }
+  }
+
+  async getGroupForUser() {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        console.error('Токен отсутствует');
+        return;
+      }
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+      const response = await axios.get('http://localhost:8080/api/groups', { headers });
+      console.log('Получен список групп', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Ошибка при получении списка групп', error);
+    }
+  }
+
+  async createGroup(name, description) {
+    try {
+      const response = await axios.post('http://localhost:8080/api/groups/moderator/group',
+          {'name': name, 'description': description});
+      console.log('Группа добавлена', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Ошибка добавления группа', error);
+    }
+  }
+  async getListGroups() {
+    try {
+      const response = await axios.get('http://localhost:8080/api/groups/moderator');
+      console.log('Получен список групп', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Ошибка при получении списка групп', error);
+    }
+  }
+
+  async editGroupModerator(id, name, description) {
+    try {
+      const response = await axios.put('http://localhost:8080/api/groups/moderator',
+          {'id': id, 'name': name, 'description': description});
+      console.log('Данные группы изменены', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Ошибка в изминениях данных группы', error);
+    }
+  }
+
+  async deleteGroup(groupId) {
+    try {
+      const response = await axios.delete(`http://localhost:8080/api/groups/moderator/${groupId}`);
+      console.log('Группа успешно удалена', response.data);
+      await this.getListGroups();
+    } catch (error) {
+      console.error('Ошибка при удалении группы', error);
+    }
+  }
+
+  async createRoleInGroup(userId, roleId, groupId) {
+    try {
+      const response = await axios.post('http://localhost:8080/api/roleInGroup',
+          {'userId': userId, 'roleId': roleId, 'groupId': groupId});
+      console.log('Добавлена роль в группе', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Ошибка добавления роль в группе', error);
+    }
+  }
+
+  async getRolesInGroup() {
+    try {
+      const response = await axios.get('http://localhost:8080/api/roleInGroup');
+      console.log('Получены роли в группе', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Ошибка при получении ролей в группе', error);
+    }
+  }
 
 
 
@@ -108,7 +208,9 @@ class Psds {
       }
     });
   }
-  getWinner(data) {
+
+
+getWinner(data) {
     return http.post(`/competition/getWinner`, data, {
       headers: {
         'Content-Type': 'application/json'
