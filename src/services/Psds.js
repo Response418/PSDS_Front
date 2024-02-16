@@ -104,6 +104,28 @@ class Psds {
     }
   }
 
+
+  async getUsersForModerator() {
+    try {
+      const response = await axios.get('http://localhost:8080/api/moderator/users');
+      console.log('Получен список пользователей', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Ошибка при получении списка пользователей', error);
+    }
+  }
+
+  async deleteUser(userId) {
+    try {
+      const response = await axios.delete(`http://localhost:8080/api/moderator/users/${userId}`);
+      console.log('Пользователь успешно удален', response.data);
+      await this.getUsersForModerator();
+    } catch (error) {
+      console.error('Ошибка при удалении пользователя', error);
+    }
+  }
+
+
   async createRoleInGroup(userId, roleId, groupId) {
     try {
       const response = await axios.post('http://localhost:8080/api/roleInGroup',
@@ -122,6 +144,17 @@ class Psds {
       return response.data;
     } catch (error) {
       console.error('Ошибка при получении ролей в группе', error);
+    }
+  }
+
+
+  async getAllLessons() {
+    try {
+      const response = await axios.get('http://localhost:8080/api/lessons');
+      console.log('Получены все уроки', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Уроки не получены', error);
     }
   }
 

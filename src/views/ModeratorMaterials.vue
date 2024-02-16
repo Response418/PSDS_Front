@@ -44,22 +44,23 @@ export default {
     return {
       cards: [
         {
-          imgSrc: miroLessonPlanningImg,
-          title: "Учебные группы",
-          description: "Управление учебными группами включает в себя возможности добавления, редактирования и удаления!",
-          route: "/api/groups/moderator",
-        },
-        {
           imgSrc: materialImg,
-          title: "Учебный материал",
-          description: "Добавление тем, необходимых для обучения специалистов, создание уроков и добавление материалов для обеспечения эффективного обучения!",
-          route: "/moderator/materials",
+          title: "Уроки",
+          description: "Добавление уроков!",
+          route: "/moderator/materials/lessons",
         },
         {
           imgSrc: userImg,
-          title: "Пользователи",
-          description: "Управление пользователями включает в себя возможности добавления, редактирования и удаления!",
-          route: "/moderator/work",
+          title: "Темы",
+          description: "Добавление тем!",
+          route: "/moderator/materials/themes",
+        },
+
+        {
+          imgSrc: userImg,
+          title: "Профиль специалиста",
+          description: "Добавление профилей специалиста!",
+          route: "/moderator/materials/specialist-profiles",
         },
       ],
     };

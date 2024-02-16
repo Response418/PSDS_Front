@@ -54,6 +54,38 @@ const routes = [
     component: () => import("@/views/UserGroup.vue"),
   },
 
+  {
+    path: "/moderator/materials",
+    name: "ModeratorMaterials",
+    component: () => import("@/views/ModeratorMaterials.vue"),
+  },
+
+  {
+    path: "/moderator/materials/lessons",
+    name: "ModeratorLessons",
+    component: () => import("@/views/ModeratorLessons.vue"),
+  },
+
+  {
+    path: "/moderator/materials/lessons/lesson",
+    name: "ModeratorLesson",
+    component: () => import("@/views/ModeratorLesson.vue"),
+  },
+
+
+
+  {
+    path: "/moderator/work",
+    name: "UserModerator",
+    component: () => import("@/views/UserModerator.vue"),
+  },
+
+  {
+    path: "/moderator/work/users",
+    name: "UserModeratorWork",
+    component: () => import("@/views/UserModeratorWork.vue"),
+  },
+
 
   {
     path: "/profile",

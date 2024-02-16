@@ -2,8 +2,8 @@
   <div>
     <HeaderModerator />
     <section id="header" class="jumbotron text-center mt-4 mb-4">
-      <h1 class="display-4">ПАНЕЛЬ АДМИНИСТРАТОРА</h1>
-      <p class="lead">Настройка и редактирование необходимых материалов.</p>
+      <h1 class="display-4">РАБОТА С ПОЛЬЗОВАТЕЛЯМИ</h1>
+      <p class="lead">Настройка и редактирование данных пользователя.</p>
     </section>
 
     <section id="gallery">
@@ -45,22 +45,16 @@ export default {
       cards: [
         {
           imgSrc: miroLessonPlanningImg,
-          title: "Учебные группы",
-          description: "Управление учебными группами включает в себя возможности добавления, редактирования и удаления!",
-          route: "/api/groups/moderator",
+          title: "Упраление пользователями",
+          description: "Удаление, редактирование данных пользователя!",
+          route: "/moderator/work/users",
         },
-        {
-          imgSrc: materialImg,
-          title: "Учебный материал",
-          description: "Добавление тем, необходимых для обучения специалистов, создание уроков и добавление материалов для обеспечения эффективного обучения!",
-          route: "/moderator/materials",
-        },
-        {
-          imgSrc: userImg,
-          title: "Пользователи",
-          description: "Управление пользователями включает в себя возможности добавления, редактирования и удаления!",
-          route: "/moderator/work",
-        },
+        // {
+        //   imgSrc: materialImg,
+        //   title: "Добавление пользователя в группу",
+        //   description: "!",
+        //   route: "/api/groups/moderator",
+        // },
       ],
     };
   },
