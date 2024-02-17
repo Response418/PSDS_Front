@@ -72,8 +72,6 @@ const routes = [
     component: () => import("@/views/ModeratorLesson.vue"),
   },
 
-
-
   {
     path: "/moderator/work",
     name: "UserModerator",
@@ -86,16 +84,23 @@ const routes = [
     component: () => import("@/views/UserModeratorWork.vue"),
   },
 
-
   {
     path: "/profile",
     name: "Profiles",
     component: () => import("@/views/Profiles.vue"),
+    meta: { requiresAuth: true },
   },
   {
-    path: "/profile/special",
+    path: "/profile/:id",
     name: "ProfileSpecialist",
     component: () => import("@/views/ProfileSpecialist.vue"),
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/lesson/:id",
+    name: "Lesson",
+    component: () => import("@/views/Lesson.vue"),
+    meta: { requiresAuth: true },
   },
 
   // {
@@ -122,21 +127,21 @@ router.afterEach(() => {
   NProgress.done();
 });
 
-// router.beforeEach((to, from, next) => {
-//   if (to.matched.some(record => record.meta.requiresAuth)) {
-//     Concurs.isAuthenticated().then((res) => {
-//       if (!res.data.login) {
-//         next({
-//           path: '/auth',
-//           query: { redirect: to.fullPath } // сохраняем URL для перенаправления после регистрации
-//         })
-//       } else {
-//         next() // продолжаем навигацию
-//       }
-//     })
-//   } else {
-//     next() // продолжаем навигацию
-//   }
-// })
+router.beforeEach((to, from, next) => {
+  const isAuthenticated = !!localStorage.getItem('token');
+
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!isAuthenticated) {
+      next({
+        name: 'AuthPage',
+        query: { redirect: to.fullPath }
+      });
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
+});
 
 export default router;

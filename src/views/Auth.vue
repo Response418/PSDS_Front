@@ -163,7 +163,7 @@ export default {
           .then(token => {
             console.log(token)
             localStorage.setItem('token', token.token);
-            this.$router.push('/api/groups');
+            this.$router.push('/');
           })
     },
 //     Sign(){

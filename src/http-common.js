@@ -2,8 +2,23 @@ import axios from "axios";
 import path from "@/services/path";
 
 const instance = axios.create({
-  withCredentials: true,
-  baseURL: path.path,
+    baseURL: path.path,
 });
-//modelCard CardCompetition Competition server http-common
+
+// Добавляем перехватчик
+instance.interceptors.request.use(
+    (config) => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+);
+
 export default instance;
+
+

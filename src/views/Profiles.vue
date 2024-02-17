@@ -1,122 +1,128 @@
 <template>
-  <AuthForm/>
-  <GoPrev :path="'/'"/>
+  <div>
+    <HeaderUser />
+    <div class="container mt-3">
+      <h1 class="mb-3">Учебные планы</h1> <!-- Добавлено название страницы -->
+      <div class="d-flex justify-content-end mb-3">
+        <input v-model="searchQuery" type="text" class="form-control" placeholder="Поиск учебного плана">
+      </div>
 
-  <div class="empty"></div>
+      <AlertMessages ref="AddAlertMess" />
 
-  <div class="search">
-    <input type="text"
-           :class="{'searchShow': showSearch, 'searchHide': !showSearch}">
-    <div class="buttonEmpty"></div>
-    <button @click="showSearch = !showSearch">🔍</button>
-  </div>
-  <div class="profiles">
-    <div v-for="(profile,key) in profiles" :key="key">
-      <Profile :profile="profile" />
+      <div class="row">
+        <div v-for="(profile, index) in filteredProfiles" :key="index" class="mb-4" @click="$router.push(`/profile/${profile.id}`)">
+          <div class="card custom-card">
+            <div class="card-body d-flex justify-content-between align-items-center">
+              <div>
+                <h4 class="card-title mb-3">{{ profile.title }}</h4>
+                <p class="card-text">{{ profile.description }}</p>
+                <p class="small-text mb-0 text-muted">Темы:{{ profile.themes.length }}, Уроки:{{ getTotalLessons(profile.themes) }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-
-  <AlertMessages ref="AddAlertMess"/>
 </template>
 
-
 <script>
-import AuthForm from "@/components/AuthForm.vue";
+import HeaderUser from "@/components/HeaderUser.vue";
 import AlertMessages from "@/components/AlertMessages.vue";
-import Profile from "@/components/Profile.vue";
-import GoPrev from "@/components/GoPrev.vue";
+import Psds from "@/services/Psds.js";
 
 export default {
   name: "Profiles",
-  components: {GoPrev, Profile, AuthForm, AlertMessages },
+  components: {HeaderUser, AlertMessages},
   data() {
     return {
-      profiles: [
-        {
-          title: "Front-end разработчик",
-          description: "Очень крутое описание про специальность и профиль специалиста",
-        },
-        {
-          title: "Back-end разработчик",
-          description: "Очень крутое описание про специальность и профиль специалиста",
-        },
-        {
-          title: "Аналитик",
-          description: "Очень крутое описание про специальность и профиль специалиста",
-        },
-      ],
+      profiles: [],
       showSearch: false,
-    }
+      searchQuery: "",
+      hoverIndex: null,
+    };
+  },
+  computed: {
+    filteredProfiles: function () {
+      const query = this.searchQuery.toLowerCase();
+      return this.profiles.filter(
+          (profile) =>
+              profile.title.toLowerCase().includes(query) ||
+              profile.description.toLowerCase().includes(query)
+      );
+    },
+  },
+  created() {
+    Psds.getSpecialistProfile().then((profiles) => {
+      if (profiles != null) this.profiles = profiles;
+    });
   },
   methods: {
-
-  }
-}
+    hoverButton(index) {
+      this.hoverIndex = index;
+    },
+    resetButton(index) {
+      this.hoverIndex = null;
+    },
+    getTotalLessons(themes) {
+      return themes.reduce((total, theme) => total + theme.lessons.length, 0);
+    },
+  },
+};
 </script>
 
 <style scoped>
-
-.buttonEmpty{
-  width: 44px;
-  height: 100%;
+.container {
+  background-color: #f8f9fa;
+  padding: 20px;
 }
 
-.search button:hover {
-  background: rgba(255, 255, 255, 0.93);
+.mb-3 {
+  margin-bottom: 1.5rem !important;
 }
 
-.search{
-  display: flex;
-  position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: linear-gradient(45deg, var(--color-main-second), var(--color-main));
-  padding: 1px;
-  border-radius: 30px;
-  height: 50px;
+.form-control {
+  background-color: #fff;
+  border-color: #a281d2;
+  color: #495057;
 }
 
-.search input {
-  box-sizing: border-box;
+.card {
   border: none;
-  background: transparent;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
-  color: #fff;
-  outline: none;
-  font-size: 35px;
-  margin: 0 10px;
-  transition: width 1s ease;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
 }
 
-.searchShow {
-  width: 400px;
+.custom-card:hover {
+  transform: scale(1.05);
 }
 
-.searchHide {
-  width: 0;
+.card-text {
+  color: #495057;
 }
 
-.search button {
-  position: absolute;
-  right: 0;
-  border: var(--color-main) 1px solid;
-  background: rgba(255, 255, 255, 0.78);
-  float:right;
-  cursor: pointer;
-  border-radius: 30px;
-  font-size: 34px;
-  width: 70px;
+.card-title {
+  font-size: 1.5rem;
 }
 
-.empty{
-  height: 70px;
-  width: 100%;
-}
-
-.profiles{
-  display: flex;
-  justify-content: center;
+.row {
   flex-wrap: wrap;
+}
+
+.btn-primary {
+  background-color: #a281d2;
+  border-color: #a281d2;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #ee6738;
+  border-color: #ee6738;
+}
+
+.small-text {
+  font-size: 0.85rem;
+  opacity: 0.5;
 }
 </style>

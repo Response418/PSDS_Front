@@ -1,265 +1,170 @@
 <template>
-  <AuthForm/>
-  <GoPrev :path="'/profile'"/>
-  <div class="empty"></div>
-
   <div>
+    <HeaderUser />
+    <div class="container mt-3">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="profile-info mb-4">
+            <h1 class="profile-title">{{ profile.title }}</h1>
+            <p class="profile-description">{{ profile.description }}</p>
+            <button class="btn btn-primary float-right" @click="addProfile">
+              Добавить в учебный план
+            </button>
+          </div>
 
-    <div class="title">
-      <p>
-        {{profile.title}}
-      </p>
+          <div class="mt-4">
+            <div v-for="(theme, index) in profile.themes" :key="index" class="mb-4">
+              <div class="card custom-card" @click="toggleLessonList(index)">
+                <div class="card-body">
+                  <h5 class="card-title">
+                    {{ theme.title }}
+                  </h5>
+                  <p class="card-text">{{ theme.description }}</p>
+                  <p class="small-text mb-0 text-muted">Уроков: {{ theme.lessons.length }}</p>
 
-      <div class="description">
-        {{profile.description}}
+                  <div class="cards">
+                    <div class="card lesson-card"
+                         v-if="theme.showLessons"
+                         v-for="(lesson, lessonIndex) in theme.lessons" :key="lessonIndex"
+                         @click="$router.push(`/lesson/${lesson.id}`)">
+                      <div class="card-body">
+                        <p class="card-text" @click="toggleLessonList(index)">
+                          {{ lesson.title }}
+                        </p>
+                        <p class="small-text mb-0 text-muted">Сложность: {{ lesson.level }}</p>
+                        <p v-if="lesson.grade !== 0" class="small-text mb-0 text-muted">Оценка: {{ lesson.grade }}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-
-    <div v-for="(theme,key) in profile.themes" :key="key">
-      <Themes :theme="theme"/>
-    </div>
-
   </div>
-
-  <AlertMessages ref="AddAlertMess"/>
 </template>
 
-
 <script>
-import AuthForm from "@/components/AuthForm.vue";
-import AlertMessages from "@/components/AlertMessages.vue";
-import Profile from "@/components/Profile.vue";
-import GoPrev from "@/components/GoPrev.vue";
-import Themes from "@/components/Theme.vue";
+import HeaderUser from "@/components/HeaderUser.vue";
+import Psds from "@/services/Psds.js";
 
 export default {
   name: "ProfileSpecialist",
-  components: {Themes, GoPrev, AuthForm, AlertMessages },
+  components: { HeaderUser },
   data() {
     return {
-      profile: {
-          title: "Front-end разработчик",
-          description: "Очень крутое описание про специальность и профиль специалиста это описание может быть больше, интересно что будет. Пробую его увеличить ",
-          themes: [
-            {
-              title: "Тема 1. Делаем что-то",
-              description: "Очень крутое описание темы, где мы делаем что-то",
-              lessons: [
-                {
-                  title: "Урок 1. Делаем что-то",
-                  description: "Очень крутое описание темы, где мы делаем что-то",
-                  level: 4,
-                  grade: 8,
-                  materials: [
-                    {
-                      title: "Material 1",
-                      description: "https://metanit.com/"
-                    },
-                    {
-                      title: "Material 2",
-                      description: "https://metanit.com/"
-                    },
-                    {
-                      title: "Material 2",
-                      description: "https://metanit.com/"
-                    }
-                  ]
-                },
-                {
-                  title: "Урок 1. Делаем что-то",
-                  description: "Очень крутое описание темы, где мы делаем что-то",
-                  level: 4,
-                  grade: 8,
-                  materials: [
-                    {
-                      title: "Material 1",
-                      description: "https://metanit.com/"
-                    },
-                    {
-                      title: "Material 2",
-                      description: "https://metanit.com/"
-                    },
-                    {
-                      title: "Material 2",
-                      description: "https://metanit.com/"
-                    }
-                  ]
-                },
-                {
-                  title: "Урок 1. Делаем что-то",
-                  description: "Очень крутое описание темы, где мы делаем что-то",
-                  level: 4,
-                  grade: 8,
-                  materials: [
-                    {
-                      title: "Material 1",
-                      description: "https://metanit.com/"
-                    },
-                    {
-                      title: "Material 2",
-                      description: "https://metanit.com/"
-                    },
-                    {
-                      title: "Material 2",
-                      description: "https://metanit.com/"
-                    }
-                  ]
-                },
-                {
-                  title: "Урок 1. Делаем что-то",
-                  description: "Очень крутое описание темы, где мы делаем что-то",
-                  level: 4,
-                  grade: 8,
-                  materials: [
-                    {
-                      title: "Material 1",
-                      description: "https://metanit.com/"
-                    },
-                    {
-                      title: "Material 2",
-                      description: "https://metanit.com/"
-                    },
-                    {
-                      title: "Material 2",
-                      description: "https://metanit.com/"
-                    }
-                  ]
-                },
-                {
-                  title: "Урок 1. Делаем что-то",
-                  description: "Очень крутое описание темы, где мы делаем что-то",
-                  level: 4,
-                  grade: 8,
-                  materials: [
-                    {
-                      title: "Material 1",
-                      description: "https://metanit.com/"
-                    },
-                    {
-                      title: "Material 2",
-                      description: "https://metanit.com/"
-                    },
-                    {
-                      title: "Material 2",
-                      description: "https://metanit.com/"
-                    }
-                  ]
-                },
-                {
-                  title: "Урок 1. Делаем что-то",
-                  description: "Очень крутое описание темы, где мы делаем что-то",
-                  level: 4,
-                  grade: 8,
-                  materials: [
-                    {
-                      title: "Material 1",
-                      description: "https://metanit.com/"
-                    },
-                    {
-                      title: "Material 2",
-                      description: "https://metanit.com/"
-                    },
-                    {
-                      title: "Material 2",
-                      description: "https://metanit.com/"
-                    }
-                  ]
-                },
-                {
-                  title: "Урок 1. Делаем что-то",
-                  description: "Очень крутое описание темы, где мы делаем что-то",
-                  level: 2,
-                  grade: 5
-                },
-                {
-                  title: "Урок 1. Делаем что-то",
-                  description: "Очень крутое описание темы, где мы делаем что-то",
-                  level: 3,
-                  grade: 1
-                }
-              ]
-            },
-            {
-              title: "Тема 1. Делаем что-то",
-              description: "Очень крутое описание темы, где мы делаем что-то",
-              lessons: [
-                {
-                  title: "Урок 1. Делаем что-то",
-                  description: "Очень крутое описание темы, где мы делаем что-то",
-                  level: 4,
-                  grade: 0
-                },
-                {
-                  title: "Урок 1. Делаем что-то",
-                  description: "Очень крутое описание темы, где мы делаем что-то",
-                  level: 2,
-                  grade: 2
-                },
-                {
-                  title: "Урок 1. Делаем что-то",
-                  description: "Очень крутое описание темы, где мы делаем что-то",
-                  level: 3,
-                  grade: 2
-                }
-              ]
-            },
-            {
-              title: "Тема 1. Делаем что-то",
-              description: "Очень крутое описание темы, где мы делаем что-то",
-              lessons: [
-                {
-                  title: "Урок 1. Делаем что-то",
-                  description: "Очень крутое описание темы, где мы делаем что-то",
-                  level: 4,
-                  grade: 2
-                },
-                {
-                  title: "Урок 1. Делаем что-то",
-                  description: "Очень крутое описание темы, где мы делаем что-то",
-                  level: 2,
-                  grade: 2
-                },
-                {
-                  title: "Урок 1. Делаем что-то",
-                  description: "Очень крутое описание темы, где мы делаем что-то",
-                  level: 3,
-                  grade: 2
-                }
-              ]
-            }
-          ]
-        },
-    }
+      profile: {},
+    };
+  },
+  created() {
+    Psds.getProfileDetails(this.$route.params.id).then((profile) => {
+      if (profile != null) this.profile = profile;
+    });
   },
   methods: {
+    addProfile() {
+      // Логика добавления профиля
+      console.log("Добавление профиля");
+    },
+    toggleLessonList(index) {
+      this.profile.themes[index] = {
+        ...this.profile.themes[index],
+        showLessons: !this.profile.themes[index].showLessons,
+      };
 
-  }
-}
+    },
+  },
+};
 </script>
 
+
 <style scoped>
-
-.title{
-  width: 60vw;
+.container {
+  background-color: #f8f9fa;
+  padding: 20px;
 }
 
-.title p {
-  font-size: 100px;
-  text-transform: uppercase;
-  background: linear-gradient(45deg, var(--color-main), var(--color-main-second));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin: 0;
+.card {
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
 }
 
-.description{
-  font-size: 20px;
-  margin: 0 10px;
+.custom-card:hover {
+  transform: scale(1.05);
 }
 
-.empty{
-  height: 70px;
-  width: 100%;
+.card-text {
+  color: #495057;
 }
 
+.card-title {
+  font-size: 1.5rem;
+}
+
+.profile-info {
+  margin-bottom: 1.5rem;
+}
+
+.profile-title {
+  margin-bottom: 0.5rem;
+}
+
+.profile-description {
+  color: #6c757d;
+}
+
+.row {
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  background-color: #a281d2;
+  border-color: #a281d2;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #ee6738;
+  border-color: #ee6738;
+}
+
+.small-text {
+  font-size: 0.85rem;
+  opacity: 0.5;
+}
+
+.mb-4 {
+  margin-bottom: 1.5rem !important;
+}
+
+.mt-4 {
+  margin-top: 1.5rem !important;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.lesson-card{
+  width: 30%;
+  margin: 1rem;
+}
+
+.lesson-card:hover {
+  transform: scale(1.02);
+}
+
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
 </style>

@@ -1,5 +1,6 @@
 import http from "../http-common";
 import axios from "axios";
+import data from "bootstrap/js/src/dom/data.js";
 // import * as http from "http";
 // import data from "bootstrap/js/src/dom/data.js";
 // import * as console from "console";
@@ -158,7 +159,42 @@ class Psds {
     }
   }
 
+  getSpecialistProfile() {
+    return http.get(`api/specialistProfiles`)
+        .then(response => response.data)
+  }
+  getProfileDetails(id) {
+    return http.get(`api/specialistProfiles/${id}`)
+        .then(response => response.data)
+  }
+  getLesson(id) {
+    return http.get(`api/lessons/${id}/1`)
+        .then(response => response.data)
+  }
+  getMaterials(id) {
+    return http.get(`api/materials/${id}`)
+        .then(response => response.data)
+  }
 
+  // async getSpecialistProfile() {
+  //   try {
+  //     const token = localStorage.getItem('token');
+  //     if (!token) {
+  //       console.error('Токен отсутствует');
+  //       return;
+  //     }
+  //     const headers = {
+  //       Authorization: `Bearer ${token}`,
+  //     };
+  //
+  //     const response = await axios.get('http://localhost:8080/api/specialistProfiles', {headers});
+  //     console.log('Получены все профили специалиста', response.data);
+  //     return response.data;
+  //   } catch (error) {
+  //     console.error('Профили не получены', error);
+  //   }
+  //
+  // }
 
   CreateUser(formData) {
     return http.post(`/users/create`, formData, {
