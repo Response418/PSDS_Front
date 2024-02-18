@@ -103,6 +103,30 @@ const routes = [
     component: () => import("@/views/Lesson.vue"),
     meta: { requiresAuth: true },
   },
+  {
+    path: "/plan",
+    name: "Plan",
+    component: () => import("@/views/Plan.vue"),
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/mentor/plan",
+    name: "MentorPlan",
+    component: () => import("@/views/MentorPlan.vue"),
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/mentor/:linkId/profile/:profileId",
+    name: "MentorProfile",
+    component: () => import("@/views/MentorProfile.vue"),
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/mentor/:linkId/lesson/:lessonId",
+    name: "MentorLesson",
+    component: () => import("@/views/MentorLesson.vue"),
+    meta: { requiresAuth: true },
+  },
 
   // {
   //   path: "/moderator",
@@ -139,9 +163,9 @@ router.beforeEach((to, from, next) => {
       });
     } else {
       Psds.getDataSession().then(data => {
-        console.log(data)
         localStorage.setItem('userId', data.userId)
         localStorage.setItem('groupId', data.groupId)
+        localStorage.setItem('role', data.role)
       });
       next();
     }

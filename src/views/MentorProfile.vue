@@ -7,9 +7,6 @@
           <div class="profile-info mb-4">
             <h1 class="profile-title">{{ profile.title }}</h1>
             <p class="profile-description">{{ profile.description }}</p>
-            <button class="btn btn-primary float-right" @click="addProfile" v-if="!isAdded">
-              Добавить в учебный план
-            </button>
           </div>
 
           <div class="mt-4">
@@ -26,13 +23,12 @@
                     <div class="card lesson-card"
                          v-if="theme.showLessons"
                          v-for="(lesson, lessonIndex) in theme.lessons" :key="lessonIndex"
-                         @click="$router.push(`/lesson/${lesson.id}`)">
+                         @click="$router.push(`/mentor/${this.$route.params.linkId}/lesson/${lesson.id}`)">
                       <div class="card-body">
                         <p class="card-text" @click="toggleLessonList(index)">
                           {{ lesson.title }}
                         </p>
                         <p class="small-text mb-0 text-muted">Сложность: {{ lesson.level }}</p>
-                        <p v-if="lesson.grade !== 0" class="small-text mb-0 text-muted">Оценка: {{ lesson.grade }}</p>
                       </div>
                     </div>
                   </div>
@@ -47,51 +43,28 @@
   </div>
 </template>
 
+
 <script>
 import HeaderUser from "@/components/HeaderUser.vue";
+import AlertMessages from "@/components/AlertMessages.vue";
 import Psds from "@/services/Psds.js";
 
 export default {
-  name: "ProfileSpecialist",
-  components: { HeaderUser },
+  name: "MentorProfile",
+  components: {HeaderUser, AlertMessages},
   data() {
     return {
       profile: {},
-      isAdded: false,
-    };
+      linkId: 0,
+    }
   },
   created() {
-    Psds.getProfileDetails(this.$route.params.id).then((profile) => {
+    Psds.getProfileDetails(this.$route.params.profileId).then((profile) => {
       if (profile != null) this.profile = profile;
     });
 
-    const userId = localStorage.getItem("userId");
-    const groupId = localStorage.getItem("groupId");
-    Psds.getLink(userId, groupId).then(link => {
-      Psds.getPlan(link.id).then(plan => {
-        plan.specialistProfiles.forEach(profile => {
-          if(profile.id == this.$route.params.id){
-            this.isAdded = true;
-          }
-        })
-      })
-    })
   },
   methods: {
-
-    addProfile() {
-      if(this.isAdded) return;
-
-      const userId = localStorage.getItem("userId");
-      const groupId = localStorage.getItem("groupId");
-      Psds.getLink(userId, groupId).then(link => {
-        Psds.subscribeProfile(link.id, this.$route.params.id)
-            .then(data => {
-              this.isAdded = true;
-            })
-      })
-      console.log("Добавление профиля");
-    },
     toggleLessonList(index) {
       this.profile.themes[index] = {
         ...this.profile.themes[index],
@@ -102,7 +75,6 @@ export default {
   },
 };
 </script>
-
 
 <style scoped>
 .container {
@@ -191,3 +163,5 @@ export default {
   margin-top: 0.5rem;
 }
 </style>
+
+

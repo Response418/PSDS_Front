@@ -10,13 +10,14 @@
 
           <h5>Материалы урока</h5>
           <div class="cards">
-            <div class="card material-card"
-                v-for="(material, index) in materials" :key="index">
+            <div
+                class="card material-card"
+                v-for="(material, index) in materials"
+                :key="index"
+            >
               <a :href="material.description">
                 <div class="card-body">
-                  <p class="card-text">
-                    {{ material.title }}
-                  </p>
+                  <p class="card-text">{{ material.title }}</p>
                 </div>
               </a>
             </div>
@@ -26,7 +27,20 @@
           <div class="card mt-3">
             <div class="card-body">
               <h5 class="card-title">Сложность урока: {{ lesson.level }}</h5>
-              <h5 class="card-title" v-if="grade !== -1">Оценка за урок: {{ grade !== 0 ? grade : 'Нет' }}</h5>
+
+              <!-- Input field for grade -->
+              <div class="form-group">
+                <label for="inputGrade">Ваша оценка:</label>
+                <input
+                    type="number"
+                    class="form-control"
+                    id="inputGrade"
+                    v-model="userGrade"
+                />
+              </div>
+
+              <!-- Button to rate the lesson -->
+              <button class="btn btn-primary" @click="rateLesson">Оценить</button>
             </div>
           </div>
         </div>
@@ -43,17 +57,18 @@ import AlertMessages from "@/components/AlertMessages.vue";
 import Psds from "@/services/Psds.js";
 
 export default {
-  name: "Profiles",
+  name: "MentorLesson",
   components: { HeaderUser, AlertMessages },
   data() {
     return {
       lesson: {},
-      grade: -1,
       materials: [],
+      userGrade: null, // Add a variable to store user's input grade
     };
   },
   created() {
-    const lessonId = this.$route.params.id;
+    const lessonId = this.$route.params.lessonId;
+    const linkId = this.$route.params.linkId;
 
     Psds.getLesson(lessonId).then((lesson) => {
       if (lesson != null) {
@@ -61,28 +76,29 @@ export default {
       }
     });
 
-    if(localStorage.getItem("userId"))
-      Psds.getListLinkByUserId(localStorage.getItem("userId")).then(links => {
-        links.forEach(link => {
-          Psds.getGrade(lessonId, link.id).then(grade => {
-            if(grade) this.grade = grade.value;
-          })
-        })
-      })
+    Psds.getGrade(lessonId, linkId).then((grade) => {
+      if (grade) this.userGrade = grade.value;
+    });
 
-    Psds.getMaterials(this.$route.params.id).then((materials) => {
+    Psds.getMaterials(lessonId).then((materials) => {
       if (materials != null) {
         this.materials = materials;
       }
     });
   },
-  methods: {},
+  methods: {
+    rateLesson() {
+      if (this.userGrade !== null) {
+        const lessonId = this.$route.params.lessonId;
+        const linkId = this.$route.params.linkId;
+        Psds.saveGrade(linkId, lessonId, this.userGrade)
+      }
+    },
+  },
 };
 </script>
 
-
 <style scoped>
-
 .container {
   background-color: #f8f9fa;
   padding: 20px;
@@ -110,7 +126,7 @@ export default {
   height: 100%;
 }
 
-.material-card{
+.material-card {
   width: 70%;
   margin: 0.5rem 1rem;
 }
@@ -128,6 +144,18 @@ a {
   color: inherit;
 }
 
+.btn-primary {
+  background-color: #a281d2;
+  border-color: #a281d2;
+  transition: background-color 0.3s ease;
+  margin: 1rem;
+}
+
+.btn-primary:hover {
+  background-color: #ee6738;
+  border-color: #ee6738;
+}
 </style>
+
 
 

@@ -2,7 +2,7 @@
   <div>
     <HeaderUser />
     <div class="container mt-3">
-      <h1 class="mb-3">Учебные планы</h1> <!-- Добавлено название страницы -->
+      <h1 class="mb-3">Профили специалистов</h1>
       <div class="d-flex justify-content-end mb-3">
         <input v-model="searchQuery" type="text" class="form-control" placeholder="Поиск учебного плана">
       </div>

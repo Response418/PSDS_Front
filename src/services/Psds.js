@@ -170,14 +170,6 @@ class Psds {
     return http.get(`api/materials/${id}`)
         .then(response => response.data)
   }
-  getPlan(id) {
-    return http.get(`api/plans/${id}`)
-        .then(response => response.data)
-  }
-  getLessonWithUserLink(lessonId, linkId) {
-    return http.get(`api/lessons/${lessonId}/${linkId}`)
-        .then(response => response.data)
-  }
   getGrade(lessonId, LinkId) {
     return http.get(`api/grades/${lessonId}/${LinkId}`)
         .then(response => response.data)
@@ -192,6 +184,26 @@ class Psds {
   }
   getDataSession() {
     return http.get(`users/data/session`)
+        .then(response => response.data)
+  }
+  getPlan(id) {
+    return http.get(`api/plans/${id}`)
+        .then(response => response.data)
+  }
+  getLink(userId, groupId) {
+    return http.get(`api/relation-users/${userId}/${groupId}`)
+        .then(response => response.data)
+  }
+  subscribeProfile(linkId, profileId) {
+    return http.get(`api/plans/${linkId}/specialistProfiles/${profileId}`)
+        .then(response => response.data)
+  }
+  getStudentsByMentor() {
+    return http.get(`api/groups/masters/students`)
+        .then(response => response.data)
+  }
+  saveGrade(linkId, lessonId, userGrade) {
+    return http.put(`api/grades/${lessonId}/${linkId}`, {grade: userGrade})
         .then(response => response.data)
   }
   // async getSpecialistProfile() {
