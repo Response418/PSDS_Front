@@ -3,6 +3,7 @@ import path from "@/services/path";
 
 const instance = axios.create({
     baseURL: path.path,
+    withCredentials: true,
 });
 
 // Добавляем перехватчик

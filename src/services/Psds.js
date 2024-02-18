@@ -15,19 +15,14 @@ class Psds {
   }
 
   login(data) {
-    return http.post(`login`, data, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
-      }
-    });
+    return http.post(`api/auth/login`, data)
   }
 
   async loginUser(username, password) {
     try {
       const response = await axios.post('http://localhost:8080/api/auth/login',
           {'email': username, 'password': password});
-      console.log('Успешный вход', response.data);
+      console.log('Успешный вход', response);
       return response.data;
     } catch (error) {
       console.error('Ошибка входа', error);
@@ -168,14 +163,37 @@ class Psds {
         .then(response => response.data)
   }
   getLesson(id) {
-    return http.get(`api/lessons/${id}/1`)
+    return http.get(`api/lessons/${id}`)
         .then(response => response.data)
   }
   getMaterials(id) {
     return http.get(`api/materials/${id}`)
         .then(response => response.data)
   }
-
+  getPlan(id) {
+    return http.get(`api/plans/${id}`)
+        .then(response => response.data)
+  }
+  getLessonWithUserLink(lessonId, linkId) {
+    return http.get(`api/lessons/${lessonId}/${linkId}`)
+        .then(response => response.data)
+  }
+  getGrade(lessonId, LinkId) {
+    return http.get(`api/grades/${lessonId}/${LinkId}`)
+        .then(response => response.data)
+  }
+  getUserIdByLink(LinkId) {
+    return http.get(`users/link/${LinkId}`)
+        .then(response => response.data)
+  }
+  getListLinkByUserId(userId) {
+    return http.get(`api/relation-users/${userId}`)
+        .then(response => response.data)
+  }
+  getDataSession() {
+    return http.get(`users/data/session`)
+        .then(response => response.data)
+  }
   // async getSpecialistProfile() {
   //   try {
   //     const token = localStorage.getItem('token');

@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
+import Psds from "@/services/Psds.js";
 // import Concurs from "@/services/Concurs";
 
 
@@ -137,6 +138,11 @@ router.beforeEach((to, from, next) => {
         query: { redirect: to.fullPath }
       });
     } else {
+      Psds.getDataSession().then(data => {
+        console.log(data)
+        localStorage.setItem('userId', data.userId)
+        localStorage.setItem('groupId', data.groupId)
+      });
       next();
     }
   } else {

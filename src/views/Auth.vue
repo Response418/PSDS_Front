@@ -159,12 +159,18 @@ export default {
 
       console.log(user)
 
-      await Psds.loginUser(this.Email, this.Password)
-          .then(token => {
-            console.log(token)
-            localStorage.setItem('token', token.token);
-            this.$router.push('/');
-          })
+      Psds.login(user).then(token => {
+        console.log(token.data)
+        localStorage.setItem('token', token.data.token);
+        this.$router.push('/');
+      })
+
+      // await Psds.loginUser(this.Email, this.Password)
+      //     .then(token => {
+      //       console.log(token)
+      //       localStorage.setItem('token', token.token);
+      //       this.$router.push('/');
+      //     })
     },
 //     Sign(){
 //       if (this.Password === this.Repassword) {

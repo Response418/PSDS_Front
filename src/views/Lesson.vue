@@ -26,7 +26,7 @@
           <div class="card mt-3">
             <div class="card-body">
               <h5 class="card-title">Сложность урока: {{ lesson.level }}</h5>
-              <h5 class="card-title">Оценка за урок: {{ grade !== 0 ? grade : 'Нет' }}</h5>
+              <h5 class="card-title" v-if="grade !== -1">Оценка за урок: {{ grade !== 0 ? grade : 'Нет' }}</h5>
             </div>
           </div>
         </div>
@@ -48,17 +48,28 @@ export default {
   data() {
     return {
       lesson: {},
-      grade: 0,
+      grade: -1,
       materials: [],
     };
   },
   created() {
-    Psds.getLesson(this.$route.params.id).then((grade) => {
-      if (grade != null) {
-        this.lesson = grade.lesson;
-        this.grade = grade.value;
+    const lessonId = this.$route.params.id;
+
+    Psds.getLesson(lessonId).then((lesson) => {
+      if (lesson != null) {
+        this.lesson = lesson;
       }
     });
+
+    Psds.getUserIdByLink(1).then(userId => {
+      Psds.getListLinkByUserId(userId).then(links => {
+        links.forEach(link => {
+          Psds.getGrade(lessonId, link.id).then(grade => {
+            if(grade) this.grade = grade.value;
+          })
+        })
+      })
+    })
 
     Psds.getMaterials(this.$route.params.id).then((materials) => {
       if (materials != null) {
