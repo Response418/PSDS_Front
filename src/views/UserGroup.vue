@@ -1,62 +1,87 @@
 <template>
+
   <div>
-    <div class="container mt-5">
-      <h2>Список ваших групп</h2>
-      <div v-for="(group, index) in groupList" :key="group.id" class="card-container mt-3">
-        <router-link :to="{ path: '/' }" class="card h-100 d-flex flex-column" :style="{ 'background-image': group.hasGradient ? 'linear-gradient(45deg, #efe5e2, #6e0f0f)' : '' }">
-          <div class="card-body flex-grow-1">
-            <h5 class="card-title text-center font-weight-bold font-italic" :style="{ color: group.hasGradient ? 'white' : 'black' }">{{ group.name }}</h5>
+    <HeaderUser />
+    <div class="container mt-3 rounded" style="background-color: #6623cc; color: white;">
+      <div v-if="groupList.length === 0">
+        <h2 class="mb-3" > Для Вас нет учебных групп (дождитесь добавления в учебную группу) </h2>
+      </div>
+      <div v-else >
+        <h1 class="mb-3" > Учебные группы </h1>
+        <AlertMessages ref="AddAlertMess" />
+        <div class="row">
+          <div v-if="groupList.length === 0">
+            <p>Для вас еще нет учебных групп.</p>
           </div>
-          <div class="card-footer bg-white">
-            <p class="card-text">{{ group.description }}</p>
+
+          <div v-for="(group, index) in groupList" :key="index" class="mb-4" @click="handleGroupClick(group.id)">
+            <div class="card custom-card">
+              <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                  <h4 class="card-title mb-3">{{ group.name }}</h4>
+                  <p class="card-text">{{ group.description }}</p>
+                  <ul>
+                    <li v-for="(role, roleIndex) in group.userRoles" :key="roleIndex">
+                      <span v-if="role === 'ROLE_STUDENT'">Студент</span>
+                      <span v-else-if="role === 'ROLE_DIRECTOR'">Руководитель группы</span>
+                      <span v-else-if="role === 'ROLE_MENTOR'">Наставник</span>
+                      <span v-else>{{ role }}</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
           </div>
-        </router-link>
+        </div>
       </div>
     </div>
   </div>
 
-
-<!--  <div>-->
-<!--    <HeaderModerator />-->
-<!--    <div class="container mt-5">-->
-<!--      <h2>Список ваших групп</h2>-->
-<!--      <ul>-->
-<!--        <li v-for="(group, index) in groupList" :key="group.id">-->
-<!--          <strong>{{ group.name }}</strong>: {{ group.description }}-->
-<!--        </li>-->
-<!--      </ul>-->
-<!--    </div>-->
-<!--  </div>-->
 </template>
 
 <script>
 import Psds from "@/services/Psds.js";
+import HeaderUser from "@/components/HeaderUser.vue";
+import AlertMessages from "@/components/AlertMessages.vue";
 
 export default {
+  components: {AlertMessages, HeaderUser},
   data() {
     return {
       groupList: [],
     };
   },
 
-  async created() {
-    await this.getGroupForUser();
+  created() {
+    this.loadGroupList();
   },
 
+  // created() {
+  //   Psds.getGroupForUser().then((groupList) => {
+  //     if (groupList != null) this.groupList = groupList;
+  //   });
+  // },
+
+
   methods: {
-    async getGroupForUser() {
-      try {
-        const groupList = await Psds.getGroupForUser();
-        this.groupList = groupList;
-      } catch (error) {
-        console.error("Ошибка при получении списка групп", error);
-      }
+    loadGroupList() {
+      Psds.getGroupForUser().then((groupList) => {
+        if (groupList != null) this.groupList = groupList;
+      });
     },
 
-    getCardClass(group) {
-      // Возвращаем класс в зависимости от данных в groupList
-      return group.hasGradient ? 'bg-gradient' : '';
+    handleGroupClick(groupId) {
+      Psds.selectGroup(groupId).then(() => {
+        // После успешного выполнения запроса, можно выполнить дополнительные действия,
+        // например, обновить список групп.
+        console.log('Выбрана группа с id:', groupId);
+        this.$router.push('/');
+      }).catch((error) => {
+        console.error("Ошибка при выборе группы:", error);
+        // Обработка ошибок при выполнении запроса.
+      });
     },
+
   },
 };
 </script>
@@ -64,24 +89,58 @@ export default {
 
 <style scoped>
 
-.card.h-100 {
-  border-radius: 10px;
-  overflow: hidden;
-  background-size: cover; /* Добавьте это, чтобы градиент занимал всю площадь карточки */
-}
-
-.card-body {
+.container {
+  background-color: #f8f9fa;
   padding: 20px;
 }
 
-.card-title {
-  font-size: 24px;
-  font-weight: bold;
-  font-style: italic;
-  margin: 0;
+.mb-3 {
+  margin-bottom: 1.5rem !important;
 }
-bg-gradient {
-  background: linear-gradient(45deg, #c04824, #6e0f0f);
+
+.form-control {
+  background-color: #fff;
+  border-color: #a281d2;
+  color: #495057;
+}
+
+.card {
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+}
+
+.custom-card:hover {
+  transform: scale(1.05);
+}
+
+.card-text {
+  color: #495057;
+}
+
+.card-title {
+  font-size: 1.5rem;
+}
+
+.row {
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  background-color: #a281d2;
+  border-color: #a281d2;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #ee6738;
+  border-color: #ee6738;
+}
+
+.small-text {
+  font-size: 0.85rem;
+  opacity: 0.5;
 }
 
 </style>

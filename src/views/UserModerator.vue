@@ -2,7 +2,7 @@
   <div>
     <HeaderModerator />
     <section id="header" class="jumbotron text-center mt-4 mb-4">
-      <h1 class="display-4">РАБОТА С ПОЛЬЗОВАТЕЛЯМИ</h1>
+      <h1 class="display-4">Работа с пользователями</h1>
       <p class="lead">Настройка и редактирование данных пользователя.</p>
     </section>
 
@@ -49,12 +49,12 @@ export default {
           description: "Удаление, редактирование данных пользователя!",
           route: "/moderator/work/users",
         },
-        // {
-        //   imgSrc: materialImg,
-        //   title: "Добавление пользователя в группу",
-        //   description: "!",
-        //   route: "/api/groups/moderator",
-        // },
+        {
+          imgSrc: materialImg,
+          title: "Добавление пользователя в группу",
+          description: "Добавление и удаление пользователя в группу!",
+          route: "/moderator/work/role-in-group",
+        },
       ],
     };
   },

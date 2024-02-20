@@ -17,15 +17,15 @@
               </a>
             </li>
             <li>
-              <a href="#" class="nav-link text-white">
+              <a href="#" class="nav-link text-white" @click="$router.push('/group-leader')">
                 <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#speedometer2"></use></svg>
-                Dashboard
+                Руководитель группы
               </a>
             </li>
             <li>
               <a href="#" class="nav-link text-white">
                 <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#table"></use></svg>
-                Orders
+                Наставник
               </a>
             </li>
             <li>
@@ -41,7 +41,7 @@
               </a>
             </li>
             <li>
-              <a href="#" class="nav-link text-white">
+              <a href="#" class="nav-link text-white" @click="$router.push('/auth/login')">
                 <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#people-circle"></use></svg>
                 Выход
               </a>
