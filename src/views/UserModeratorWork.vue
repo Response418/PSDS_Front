@@ -43,34 +43,32 @@ export default {
   data() {
     return {
       usersModerList: [],
-      // ModeViewAuthForm: 'Редактировать',
     };
   },
 
-  async created() {
-    await this.getUsersForModerator();
+  created() {
+    this.getUsersForModerator();
   },
 
   methods: {
-    async getUsersForModerator(){
-      try {
-        const usersModerList = await Psds.getUsersForModerator();
-        this.usersModerList = usersModerList;
-      } catch (error) {
-        console.error("Ошибка при получении данных с сервера", error);
-      }
+    getUsersForModerator() {
+      Psds.getUsersForModerator().then((usersModerList) => {
+        if (usersModerList != null) this.usersModerList = usersModerList;
+      });
     },
 
-    async deleteUser(userId) {
-      try {
-        await Psds.deleteUser(userId);
-        await this.getUsersForModerator();
-        console.log('Удаление пользователя с id:', userId);
-      } catch (error) {
-        console.error('Ошибка при удалении пользователя', error);
-      }
+    deleteUser(userId) {
+      Psds.deleteUser(userId)
+          .then(() => {
+            return this.getUsersForModerator();
+          })
+          .then(() => {
+            console.log('Удаление пользователя с id:', userId);
+          })
+          .catch((error) => {
+            console.error('Ошибка при удалении пользователя', error);
+          });
     },
-
   }
 };
 </script>

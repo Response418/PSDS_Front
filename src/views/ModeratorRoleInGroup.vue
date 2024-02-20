@@ -1,28 +1,17 @@
 <template>
+  <HeaderModerator />
+  <section id="header" class="jumbotron text-center mt-4 mb-4">
+    <h1 class="display-4">ДОБАВЛЕНИЕ ПОЛЬЗОВАТЕЛЯ В ГРУППУ</h1>
+    <p class="lead">Добавление пользователя в группу.</p>
+  </section>
   <div class="container mt-5">
-    <h2>Select Roles In Group</h2>
 
     <form @submit.prevent="submitForm">
-
-<!--      &lt;!&ndash; Выбор группы &ndash;&gt;-->
-<!--      <div class="mb-3">-->
-<!--        <label for="groupSelect" class="form-label">Select Group:</label>-->
-<!--        <select v-model="selectedGroup" id="groupSelect" class="form-select">-->
-<!--          <option v-for="group in groupList" :key="group.id" :value="group.id">{{ group.name }}</option>-->
-<!--        </select>-->
-<!--      </div>-->
-
-<!--      &lt;!&ndash; Выбор роли &ndash;&gt;-->
-<!--      <div class="mb-3">-->
-<!--        <label for="roleSelect" class="form-label">Select Role:</label>-->
-<!--        <select v-model="selectedRole" id="roleSelect" class="form-select">-->
-<!--          <option v-for="role in roleList" :key="role.id" :value="role.id">{{ role.name }}</option>-->
-<!--        </select>-->
-<!--      </div>-->
       <div class="mb-3">
-        <label for="groupSelect" class="form-label">Select Group:</label>
+        <label for="groupSelect" class="form-label">Выберите группы:</label>
         <div class="dropdown">
-          <input v-model="searchGroupQuery" type="text" id="groupSelect" class="form-control" placeholder="Search..." @click="toggleGroupDropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" role="button">
+          <input v-model="searchGroupQuery" type="text" id="groupSelect" class="form-control" placeholder="Поиск..."
+                 @click="toggleGroupDropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" role="button">
           <div class="dropdown-menu" aria-labelledby="groupSelect" :class="{ show: isGroupDropdownOpen }">
             <a v-for="group in filteredGroupList" :key="group.id" class="dropdown-item" @click="selectGroup(group)">
               {{ group.name }}
@@ -31,11 +20,11 @@
         </div>
       </div>
 
-      <!-- Выбор роли с помощью поиска -->
       <div class="mb-3">
-        <label for="roleSelect" class="form-label">Select Role:</label>
+        <label for="roleSelect" class="form-label">Выберите Роль в группе:</label>
         <div class="dropdown">
-          <input v-model="searchRoleQuery" type="text" id="roleSelect" class="form-control" placeholder="Search..." @click="toggleRoleDropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" role="button">
+          <input v-model="searchRoleQuery" type="text" id="roleSelect" class="form-control" placeholder="Поиск..."
+                 @click="toggleRoleDropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" role="button">
           <div class="dropdown-menu" aria-labelledby="roleSelect" :class="{ show: isRoleDropdownOpen }">
             <a v-for="role in filteredRoleList" :key="role.id" class="dropdown-item" @click="selectRole(role)">
               {{ role.name }}
@@ -44,11 +33,11 @@
         </div>
       </div>
 
-      <!-- Выбор пользователя с помощью поиска -->
       <div class="mb-3">
-        <label for="userSelect" class="form-label">Select User:</label>
+        <label for="userSelect" class="form-label">Выберите пользователя:</label>
         <div class="dropdown">
-          <input v-model="searchQuery" type="text" id="userSelect" class="form-control" placeholder="Search..." @click="toggleDropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" role="button">
+          <input v-model="searchQuery" type="text" id="userSelect" class="form-control" placeholder="Поиск..."
+                 @click="toggleDropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" role="button">
           <div class="dropdown-menu" aria-labelledby="userSelect" :class="{ show: isDropdownOpen }">
             <a v-for="user in filteredUserList" :key="user.id" class="dropdown-item" @click="selectUser(user)">
               {{ user.lastName + " " + user.firstName + " " + user.fatherName }}
@@ -57,8 +46,7 @@
         </div>
       </div>
 
-      <!-- Кнопка для отправки формы -->
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="submit" class="btn btn-primary">Сохранить</button>
     </form>
   </div>
 </template>
@@ -67,8 +55,10 @@
 <script>
 
 import Psds from "@/services/Psds.js";
+import HeaderModerator from "@/components/HeaderModerator.vue";
 export default {
-  name: "RolesInGroup",
+  name: "ModeratorRoleInGroup",
+  components: {HeaderModerator},
   data() {
     return {
       userList: [],

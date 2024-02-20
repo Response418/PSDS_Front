@@ -47,7 +47,7 @@ export default {
           imgSrc: miroLessonPlanningImg,
           title: "Учебные группы",
           description: "Управление учебными группами включает в себя возможности добавления, редактирования и удаления!",
-          route: "/api/groups/moderator",
+          route: "/groups/moderator",
         },
         {
           imgSrc: materialImg,

@@ -23,16 +23,22 @@ class Psds {
     });
   }
 
-  async loginUser(username, password) {
-    try {
-      const response = await axios.post('http://localhost:8080/api/auth/login',
-          {'email': username, 'password': password});
-      console.log('Успешный вход', response.data);
-      return response.data;
-    } catch (error) {
-      console.error('Ошибка входа', error);
-    }
+  // async loginUser(username, password) {
+  //   try {
+  //     const response = await axios.post('http://localhost:8080/api/auth/login',
+  //         {'email': username, 'password': password});
+  //     console.log('Успешный вход', response.data);
+  //     return response.data;
+  //   } catch (error) {
+  //     console.error('Ошибка входа', error);
+  //   }
+  // }
+
+  loginUser(email, password) {
+    return http.post(`api/auth/login`,{email, password} )
+        .then(response => response.data)
   }
+
 
   async registerUser(lastName, firstName, fatherName, city, phoneNumber, email, password) {
     try {
@@ -46,106 +52,102 @@ class Psds {
     }
   }
 
-  async getGroupForUser() {
-    try {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        console.error('Токен отсутствует');
-        return;
-      }
-      const headers = {
-        Authorization: `Bearer ${token}`,
-      };
-      const response = await axios.get('http://localhost:8080/api/groups', { headers });
-      console.log('Получен список групп', response.data);
-      return response.data;
-    } catch (error) {
-      console.error('Ошибка при получении списка групп', error);
-    }
-  }
 
-  async createGroup(name, description) {
-    try {
-      const response = await axios.post('http://localhost:8080/api/groups/moderator/group',
-          {'name': name, 'description': description});
-      console.log('Группа добавлена', response.data);
-      return response.data;
-    } catch (error) {
-      console.error('Ошибка добавления группа', error);
-    }
-  }
-  async getListGroups() {
-    try {
-      const response = await axios.get('http://localhost:8080/api/groups/moderator');
-      console.log('Получен список групп', response.data);
-      return response.data;
-    } catch (error) {
-      console.error('Ошибка при получении списка групп', error);
-    }
-  }
-
-  async editGroupModerator(id, name, description) {
-    try {
-      const response = await axios.put('http://localhost:8080/api/groups/moderator',
-          {'id': id, 'name': name, 'description': description});
-      console.log('Данные группы изменены', response.data);
-      return response.data;
-    } catch (error) {
-      console.error('Ошибка в изминениях данных группы', error);
-    }
-  }
-
-  async deleteGroup(groupId) {
-    try {
-      const response = await axios.delete(`http://localhost:8080/api/groups/moderator/${groupId}`);
-      console.log('Группа успешно удалена', response.data);
-      await this.getListGroups();
-    } catch (error) {
-      console.error('Ошибка при удалении группы', error);
-    }
+  getGroupForUser() {
+    return http.get(`api/groups`)
+        .then(response => response.data)
   }
 
 
-  async getUsersForModerator() {
-    try {
-      const response = await axios.get('http://localhost:8080/api/moderator/users');
-      console.log('Получен список пользователей', response.data);
-      return response.data;
-    } catch (error) {
-      console.error('Ошибка при получении списка пользователей', error);
-    }
-  }
-
-  async deleteUser(userId) {
-    try {
-      const response = await axios.delete(`http://localhost:8080/api/moderator/users/${userId}`);
-      console.log('Пользователь успешно удален', response.data);
-      await this.getUsersForModerator();
-    } catch (error) {
-      console.error('Ошибка при удалении пользователя', error);
-    }
+  selectGroup(groupId) {
+    return http.put(`api/groups/${groupId}`)
+        .then(response => response.data)
   }
 
 
-  async createRoleInGroup(userId, roleId, groupId) {
-    try {
-      const response = await axios.post('http://localhost:8080/api/roleInGroup',
-          {'userId': userId, 'roleId': roleId, 'groupId': groupId});
-      console.log('Добавлена роль в группе', response.data);
-      return response.data;
-    } catch (error) {
-      console.error('Ошибка добавления роль в группе', error);
-    }
+  createGroup(name, description) {
+    return http.post(`api/groups/moderator/group`,{name, description} )
+        .then(response => response.data)
   }
 
-  async getRolesInGroup() {
-    try {
-      const response = await axios.get('http://localhost:8080/api/roleInGroup');
-      console.log('Получены роли в группе', response.data);
-      return response.data;
-    } catch (error) {
-      console.error('Ошибка при получении ролей в группе', error);
-    }
+  // getProfileDetails(id) {
+  //   return http.get(`api/specialistProfiles/${id}`)
+  //       .then(response => response.data)
+  // }
+
+  getListGroups() {
+    return http.get(`api/groups/moderator`)
+        .then(response => response.data)
+  }
+
+  editGroupModerator(id, name, description) {
+    return http.put(`api/groups/moderator`, {id, name, description })
+        .then(response => response.data)
+  }
+
+  deleteGroup(groupId) {
+    return http.delete(`api/groups/moderator/${groupId}`)
+        .then(response => response.data);
+  }
+
+
+  getSpecialistProfile() {
+    return http.get(`api/specialistProfiles`)
+        .then(response => response.data)
+  }
+
+
+  getUsersForModerator() {
+    return http.get(`api/moderator/users`)
+        .then(response => response.data)
+  }
+
+  deleteUser(userId) {
+    return http.delete(`api/moderator/users/${userId}`)
+        .then(response => response.data);
+  }
+
+
+  createRoleInGroup(userId, roleId, groupId) {
+    return http.post(`api/roleInGroup`,{userId, roleId, groupId} )
+        .then(response => response.data)
+  }
+
+  getRolesInGroup() {
+    return http.get(`api/roleInGroup`)
+        .then(response => response.data)
+  }
+
+
+  createSpecialistProfiles(title, description) {
+    return http.put(`api/specialistProfiles`, {title, description })
+        .then(response => response.data)
+  }
+
+  editSpecialistProfiles(id, title, description, themes) {
+    return http.put(`api/specialistProfiles`, {id, title, description, themes})
+        .then(response => response.data)
+  }
+
+  deleteSpecialistProfiles(specialistProfileId) {
+    return http.delete(`api/specialistProfiles/${specialistProfileId}`)
+        .then(response => response.data);
+  }
+
+  createTheme(title, description) {
+    return http.put(`api/themes`, {title, description })
+        .then(response => response.data)
+  }
+
+  getAllThemes() {
+    return http.get(`api/themes`)
+        .then(response => response.data)
+  }
+
+
+  deleteThemes(themeId) {
+    return http.delete(`/api/themes/${themeId}`)
+        .then(response => response.data);
   }
 
 
@@ -159,10 +161,6 @@ class Psds {
     }
   }
 
-  getSpecialistProfile() {
-    return http.get(`api/specialistProfiles`)
-        .then(response => response.data)
-  }
   getProfileDetails(id) {
     return http.get(`api/specialistProfiles/${id}`)
         .then(response => response.data)
@@ -175,6 +173,13 @@ class Psds {
     return http.get(`api/materials/${id}`)
         .then(response => response.data)
   }
+
+
+  getListRelationUserDTO() {
+    return http.get(`api/relation-users`)
+        .then(response => response.data)
+  }
+
 
   // async getSpecialistProfile() {
   //   try {

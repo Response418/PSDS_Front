@@ -22,8 +22,7 @@
                       </div>
                     </div>
                     <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                      <button type="button" class="btn btn-primary btn-lg"
-                              style="padding-left: 2.5rem; padding-right: 2.5rem;background-color: #7804e0;"
+                      <button type="button" class="btn mt-2 my-custom-button btn-lg"
                               @click="Login">{{ ModeViewAuthForm }}</button>
                     </div>
                     <div class="text-center">
@@ -55,44 +54,10 @@
       </div>
     </div>
   </section>
-<!--  <div class="backAuth">-->
-<!--    <div class="container">-->
-<!--      <div class='window'>-->
-<!--        <div class='backfield'></div>-->
-<!--        <div class='content'>-->
-<!--          <div class='welcome'>Приветсвуем!</div>-->
-<!--          <div class='subtitle'>Прежде чем воспользоваться нашими услугами, вам необходимо создать учетную запись.</div>-->
-<!--          <div class='input-fields'>-->
-<!--            <div v-if="ModeViewAuthForm === 'Регистрация'">-->
-<!--              <input type="text" class='input-line full-width' v-model="Name" placeholder="Имя">-->
-<!--            </div>-->
-<!--            <input type="text" class='input-line full-width' v-model="Email" placeholder="Почта">-->
-<!--            <input type="password" class='input-line full-width' v-model="Password" placeholder="Пароль">-->
-<!--            <div v-if="ModeViewAuthForm === 'Регистрация'">-->
-<!--              <input type="password" class='input-line full-width' v-model="Repassword" placeholder="Повторите пароль">-->
-<!--            </div>-->
-
-<!--            <div class="control-group imgPicker" v-if="ModeViewAuthForm === 'Регистрация'">-->
-<!--              <input type="file" id="fileUpload" @change="onFileChange" hidden/>-->
-<!--              <button class='ghost-round full-width' @click="chooseFiles()">Выберите картинку</button>-->
-<!--              <p v-if="file">Картинка загружена</p>-->
-<!--            </div>-->
-
-<!--          </div>-->
-<!--          <div>-->
-<!--            <button class='ghost-round full-width' v-if="ModeViewAuthForm === 'Регистрация'" @click="Sign">{{ ModeViewAuthForm }}</button>-->
-<!--            <button class='ghost-round full-width' v-else @click="Login">{{ ModeViewAuthForm }}</button>-->
-<!--          </div>-->
-<!--          <div class='spacing'><span class='highlight' @click="ChangeModeAuthForm">{{ ReverseModeViewAuthForm }}</span></div>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
   <AlertMessages ref="AddAlertMess"/>
 </template>
 
 <script>
-// import Concurs from "@/services/Concurs";
 import AlertMessages from "@/components/AlertMessages.vue";
 import Psds from "@/services/Psds.js";
 
@@ -113,98 +78,47 @@ export default {
       file: null,
     };
   },
-//   beforeRouteEnter(to, from, next) {
-//     next(vm => {
-//       vm.previousPage = from.fullPath
-//     })
-//   },
-//   beforeRouteLeave(to, from, next) {
-//     this.previousPage = from.fullPath;
-//     next();
-//   },
-//   created() {
-//     this.CheckSession();
-//   },
+
   methods: {
     AddAlert(mess){
       this.$refs.AddAlertMess.AddAlertMess(mess);
     },
-//     chooseFiles: function() {
-//       document.getElementById("fileUpload").click()
-//     },
-//     onFileChange(e) {
-//       this.file = e.target.files[0];
-//     },
-//     ChangeModeAuthForm(){
-//       this.Name = "";
-//       this.Email = "";
-//       this.Password = "";
-//       this.Repassword = "";
-//       const temp = this.ModeViewAuthForm;
-//       this.ModeViewAuthForm = this.ReverseModeViewAuthForm;
-//       this.ReverseModeViewAuthForm = temp;
-//     },
-//     CheckSession() {
-//       Concurs.isAuthenticated().then((res) => {
-//         if (res.data.login)
-//           this.$router.push({ path: this.$route.query.redirect || '/' });
-//       })
-//     },
-    async Login() {
 
+    Login() {
       const user = {
         email: this.Email,
         password: this.Password
       };
 
-      console.log(user)
+      console.log(user);
 
-      await Psds.loginUser(this.Email, this.Password)
+      Psds.loginUser(this.Email, this.Password)
           .then(token => {
-            console.log(token)
             localStorage.setItem('token', token.token);
-            this.$router.push('/');
+            this.$router.push('/groups');
           })
+          .catch(error => {
+            console.error(error);
+            this.AddAlert('Ошибка авторизации. Пожалуйста, проверьте правильность введенных данных.');
+          });
     },
-//     Sign(){
-//       if (this.Password === this.Repassword) {
-//         const data = {
-//           email: this.Email,
-//         };
-//         Concurs.findUserByEmail(data)
-//             .then(response => {
-//               if (response.data.name) {
-//                 this.AddAlert({ status: false, message: "Почта занята" });
-//                 return;
-//               }
-//               else {
-//                 let formData = new FormData();
-//                 formData.append("filedata", this.file);
-//                 formData.append("name", this.Name);
-//                 formData.append("email", this.Email);
-//                 formData.append("password", this.Password);
-//                 Concurs.CreateUser(formData)
-//                     .then(response => {
-//                       if(response.statusText === "OK"){
-//                         this.AddAlert({ status: true, message: "Успешная регистрация" });
-//                         this.Login();
-//                         this.Name = "";
-//                         this.Email = "";
-//                         this.Password = "";
-//                         this.Repassword = "";
-//                         this.viewAuthForm = false;
-//                       }
-//                       else this.AddAlert({ status: false, message: "Ошибка в регистрации" });
-//                     })
-//                     .catch(() => {
-//                       this.AddAlert({ status: false, message: "Ошибка в регистрации" });
-//                     });
-//               }
-//             });
-//       }
-//       else
-//         this.AddAlert({ status: false, message: "Пароли не совпадают" });
-//     },
+
+    // async Login() {
+    //
+    //   const user = {
+    //     email: this.Email,
+    //     password: this.Password
+    //   };
+    //
+    //   console.log(user)
+    //
+    //   await Psds.loginUser(this.Email, this.Password)
+    //       .then(token => {
+    //         // console.log(token)
+    //         localStorage.setItem('token', token.token);
+    //         this.$router.push('/groups');
+    //       })
+    // },
   },
 }
 </script>
@@ -217,5 +131,15 @@ export default {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   margin: 0 0 -20px 0;
+}
+
+.my-custom-button {
+  background-color: #6623cc;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.my-custom-button:hover {
+  background-color: #ee6738; /* Замените на оранжевый цвет при наведении */
 }
 </style>

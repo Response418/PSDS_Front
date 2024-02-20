@@ -28,20 +28,20 @@ export default {
   },
   methods: {
 
-    async Group() {
+    Group() {
       const group = {
         name: this.name,
         description: this.description
       };
 
-      console.log(group)
-
-      try {
-        await Psds.createGroup(this.name, this.description);
-        this.$router.push('/api/groups/moderator');
-      } catch (error) {
-        console.error('Ошибка при добавлении группы', error);
-      }
+      Psds.createGroup(group.name, group.description)
+          .then(() => {
+            console.log('Успешное добавление группы');
+            this.$router.push('/groups/moderator');
+          })
+          .catch((error) => {
+            console.error('Ошибка при добавлении группы', error);
+          });
     },
   }
 }

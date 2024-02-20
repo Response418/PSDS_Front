@@ -13,31 +13,28 @@
             <li>
               <a href="#" class="nav-link text-secondary" @click="$router.push('/moderator')" >
                 <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#speedometer2" ></use></svg>
-                Home
+                Панель администратора
               </a>
             </li>
             <li>
-              <a href="#" class="nav-link text-white">
+              <a href="#" class="nav-link text-secondary" @click="$router.push('/groups/moderator')" >
+<!--              <a href="#" class="nav-link text-white">-->
                 <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#speedometer2"></use></svg>
-                Dashboard
+               Учебные группы
               </a>
             </li>
             <li>
-              <a href="#" class="nav-link text-white">
+              <a href="#" class="nav-link text-secondary" @click="$router.push('/moderator/materials')" >
+<!--              <a href="#" class="nav-link text-white">-->
                 <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#table"></use></svg>
-                Orders
+                Учебный материал
               </a>
             </li>
             <li>
-              <a href="#" class="nav-link text-white">
+              <a href="#" class="nav-link text-secondary" @click="$router.push('/moderator/work')" >
+<!--              <a href="#" class="nav-link text-white">-->
                 <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#grid"></use></svg>
-                Products
-              </a>
-            </li>
-            <li>
-              <a href="#" class="nav-link text-white">
-                <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#people-circle"></use></svg>
-                Customers
+                Пользователи
               </a>
             </li>
             <li>

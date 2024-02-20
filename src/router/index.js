@@ -23,41 +23,83 @@ const routes = [
     component: () => import("@/views/Registration.vue"),
   },
 
+
   {
     path: "/moderator",
     name: "Moderator",
     component: () => import("@/views/Moderator.vue"),
+    meta: { requiresAuth: true },
   },
 
+
   {
-    path: "/api/groups/moderator/group",
+    path: "/group-leader",
+    name: "Director",
+    component: () => import("@/views/Director.vue"),
+    meta: { requiresAuth: true },
+  },
+
+  // path: "/profile",
+  //   name: "Profiles",
+  //   component: () => import("@/views/Profiles.vue"),
+  //   meta: { requiresAuth: true },
+
+  {
+    path: "/moderator/groups/group",
     name: "Group",
     component: () => import("@/views/Group.vue"),
+    meta: { requiresAuth: true },
   },
 
   {
-    path: "/api/groups/moderator",
+    path: "/groups/moderator",
     name: "GroupsModerator",
     component: () => import("@/views/GroupsModerator.vue"),
+    meta: { requiresAuth: true },
   },
 
 
   {
-    path: "/api/roleInGroup",
-    name: "RoleInGroup",
-    component: () => import("@/views/RoleInGroup.vue"),
+    path: "/moderator/work/role-in-group",
+    name: "ModeratorRoleInGroup",
+    component: () => import("@/views/ModeratorRoleInGroup.vue"),
+    meta: { requiresAuth: true },
   },
 
   {
-    path: "/api/groups",
+    path: "/groups",
     name: "UserGroup",
     component: () => import("@/views/UserGroup.vue"),
+    meta: { requiresAuth: true },
   },
 
   {
     path: "/moderator/materials",
     name: "ModeratorMaterials",
     component: () => import("@/views/ModeratorMaterials.vue"),
+    meta: { requiresAuth: true },
+  },
+
+  {
+    path: "/moderator/materials/profile",
+    name: "ModeratorCreateProfile",
+    component: () => import("@/views/ModeratorCreateProfile.vue"),
+    meta: { requiresAuth: true },
+  },
+
+  {
+    path: "/moderator/materials/profile/:id",
+    name: "ModeratorProfile",
+    component: () => import("@/views/ModeratorProfile.vue"),
+    meta: { requiresAuth: true },
+  },
+
+
+  {
+    path: "/moderator/materials/theme",
+    name: "ModeratorCreateTheme",
+    component: () => import("@/views/ModeratorCreateTheme.vue"),
+    meta: { requiresAuth: true },
   },
 
   {
@@ -65,6 +107,8 @@ const routes = [
     name: "ModeratorLessons",
     component: () => import("@/views/ModeratorLessons.vue"),
   },
+
+
 
   {
     path: "/moderator/materials/lessons/lesson",
@@ -76,12 +120,14 @@ const routes = [
     path: "/moderator/work",
     name: "UserModerator",
     component: () => import("@/views/UserModerator.vue"),
+    meta: { requiresAuth: true },
   },
 
   {
     path: "/moderator/work/users",
     name: "UserModeratorWork",
     component: () => import("@/views/UserModeratorWork.vue"),
+    meta: { requiresAuth: true },
   },
 
   {
@@ -103,11 +149,6 @@ const routes = [
     meta: { requiresAuth: true },
   },
 
-  // {
-  //   path: "/moderator",
-  //   name: "Moderator",
-  //   component: () => import("@/views/Moderator.vue"),
-  // },
 ];
 
 const router = createRouter({

@@ -61,10 +61,7 @@
                     </div>
 
                     <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                      <button type="button" class="btn btn-primary btn-lg"
-                              style="padding-left: 2.5rem; padding-right: 2.5rem;background-color: #7804e0;"
-                              @click="Registration">{{ ModeViewAuthForm }}</button>
-
+                      <button type="button" class="btn mt-2 my-custom-button btn-lg" @click="Registration">{{ ModeViewAuthForm }}</button>
                     </div>
                   </form>
                 </div>
@@ -166,5 +163,15 @@ export default {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   margin: 0 0 -20px 0;
+}
+
+.my-custom-button {
+  background-color: #6623cc;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.my-custom-button:hover {
+  background-color: #ee6738; /* Замените на оранжевый цвет при наведении */
 }
 </style>
