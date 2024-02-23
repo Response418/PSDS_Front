@@ -56,11 +56,6 @@ export default {
     this.loadGroupList();
   },
 
-  // created() {
-  //   Psds.getGroupForUser().then((groupList) => {
-  //     if (groupList != null) this.groupList = groupList;
-  //   });
-  // },
 
 
   methods: {
@@ -72,13 +67,10 @@ export default {
 
     handleGroupClick(groupId) {
       Psds.selectGroup(groupId).then(() => {
-        // После успешного выполнения запроса, можно выполнить дополнительные действия,
-        // например, обновить список групп.
         console.log('Выбрана группа с id:', groupId);
         this.$router.push('/');
       }).catch((error) => {
         console.error("Ошибка при выборе группы:", error);
-        // Обработка ошибок при выполнении запроса.
       });
     },
 

@@ -102,23 +102,6 @@ export default {
             this.AddAlert('Ошибка авторизации. Пожалуйста, проверьте правильность введенных данных.');
           });
     },
-
-    // async Login() {
-    //
-    //   const user = {
-    //     email: this.Email,
-    //     password: this.Password
-    //   };
-    //
-    //   console.log(user)
-    //
-    //   await Psds.loginUser(this.Email, this.Password)
-    //       .then(token => {
-    //         // console.log(token)
-    //         localStorage.setItem('token', token.token);
-    //         this.$router.push('/groups');
-    //       })
-    // },
   },
 }
 </script>
@@ -140,6 +123,6 @@ export default {
 }
 
 .my-custom-button:hover {
-  background-color: #ee6738; /* Замените на оранжевый цвет при наведении */
+  background-color: #ee6738;
 }
 </style>

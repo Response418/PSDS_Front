@@ -1,35 +1,48 @@
 <template>
   <div>
     <HeaderUser />
-    <h2>Студенты:</h2>
-    <ul>
-      <li v-for="student in data.studentList" :key="student.id">
-        {{ student.lastName }} {{ student.firstName }} {{ student.fatherName }}
-      </li>
-    </ul>
+    <section id="header" class="jumbotron text-center mt-4 mb-4">
+      <h1 class="display-4">Выбор наставника для студента</h1>
+    </section>
 
-    <h2>Наставники:</h2>
-    <ul>
-      <li v-for="mentor in data.mentorList" :key="mentor.id">
-        {{ mentor.lastName }} {{ mentor.firstName }} {{ mentor.fatherName }}
-      </li>
-    </ul>
+    <div class="container mt-3 rounded" style="background-color: #8145e0; color: white;">
+      <div class="d-flex justify-content-end mb-3">
+        <input v-model="searchQuery" type="text" class="form-control" placeholder="Поиск студента">
+      </div>
+      <div class="row mt-3">
+        <div v-for="(relation, index) in data.listRelation" :key="index" class="mb-4">
+          <div class="card custom-card">
+            <div class="card-body d-flex justify-content-between align-items-center">
+              <div class="text-container">
+                <h5 class="lead mb-2">Студент: {{ relation.student.lastName }} {{ relation.student.firstName }} {{ relation.student.fatherName }}</h5>
+                <div class="d-flex align-items-center">
+                  <h5 class="lead mb-2 mr-4">Наставник:&nbsp; </h5>
+                  <div v-if="relation.master" class="mr-4">
+                    <h5 class="lead mb-2"> {{ relation.master.lastName }} {{ relation.master.firstName }} {{ relation.master.fatherName }}</h5>
+                  </div>
+                  <div v-else>
+                    <h5 class="lead mb-2"> наставник не выбран</h5>
+                  </div>
+                </div>
 
-    <h2>Отношения:</h2>
-    <ul>
-      <li v-for="relation in data.listRelation" :key="relation.id">
-        <p v-if="relation.student">
-          Студент: {{ relation.student.lastName }} {{ relation.student.firstName }} {{ relation.student.fatherName }}
-        </p>
-        <p v-if="relation.mentor">
-          Наставник: {{ relation.mentor.lastName }} {{ relation.mentor.firstName }} {{ relation.mentor.fatherName }}
-        </p>
-        <p v-else>
-          Наставник не назначен
-        </p>
-        <p>Группа: {{ relation.group.name }}</p>
-      </li>
-    </ul>
+                  <div class="d-flex align-items-center justify-content-between align-items-center">
+                    <h5 class="lead mb-2 mr-4">Выберите наставника для изменения:&nbsp;&nbsp;</h5>
+                    <div class="form-group">
+                      <select id="mentorSelect" class="form-control" v-model="relation.selectedMentor">
+                        <option v-for="mentor in data.mentorList" :key="mentor.id" :value="mentor.id">
+                          {{ mentor.lastName }} {{ mentor.firstName }} {{ mentor.fatherName }}
+                        </option>
+                      </select>
+                    </div>
+                    &nbsp;
+                    <button @click="saveRelation(relation)"  class="btn btn-primary">Изменить</button>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
 </template>
@@ -38,9 +51,10 @@
 import Psds from "@/services/Psds.js";
 import HeaderUser from "@/components/HeaderUser.vue";
 import AlertMessages from "@/components/AlertMessages.vue";
+import HeaderModerator from "@/components/HeaderModerator.vue";
 
 export default {
-  components: {AlertMessages, HeaderUser},
+  components: {HeaderModerator, AlertMessages, HeaderUser},
   data() {
     return {
       data: {
@@ -49,6 +63,10 @@ export default {
         studentList: [],
         mentorList: [],
       },
+
+      temporarySelectedMentor: {},
+
+
     };
   },
 
@@ -60,7 +78,19 @@ export default {
 
 
   methods: {
+    saveRelation(relation) {
+      const mentorId = relation.selectedMentor;
+      const relationId = relation.id;
 
+      Psds.editMentorForGroup(mentorId, relationId)
+          .then(() => {
+            console.log('Успешное изменение наставника для студента');
+            window.location.reload();
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+    },
   },
 };
 </script>
@@ -91,15 +121,7 @@ export default {
 }
 
 .custom-card:hover {
-  transform: scale(1.05);
-}
-
-.card-text {
-  color: #495057;
-}
-
-.card-title {
-  font-size: 1.5rem;
+  transform: scale(1.02);
 }
 
 .row {
@@ -115,11 +137,6 @@ export default {
 .btn-primary:hover {
   background-color: #ee6738;
   border-color: #ee6738;
-}
-
-.small-text {
-  font-size: 0.85rem;
-  opacity: 0.5;
 }
 
 </style>

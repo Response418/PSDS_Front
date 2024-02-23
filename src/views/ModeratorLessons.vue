@@ -25,9 +25,9 @@
             <td class="text-start">{{ lesson.title }}</td>
             <td class="text-start">{{ lesson.description }}</td>
             <td class="text-start">{{ lesson.level}}</td>
-<!--            <td>-->
-<!--              <button @click="deleteUser(user.id)" class="btn btn-danger btn-sm ms-2">Удалить</button>-->
-<!--            </td>-->
+            <!--            <td>-->
+            <!--              <button @click="deleteUser(user.id)" class="btn btn-danger btn-sm ms-2">Удалить</button>-->
+            <!--            </td>-->
           </tr>
           </tbody>
         </table>
@@ -64,15 +64,6 @@ export default {
       }
     },
 
-    // async deleteUser(userId) {
-    //   try {
-    //     await Psds.deleteUser(userId);
-    //     await this.getUsersForModerator();
-    //     console.log('Удаление пользователя с id:', userId);
-    //   } catch (error) {
-    //     console.error('Ошибка при удалении пользователя', error);
-    //   }
-    // },
 
   }
 };

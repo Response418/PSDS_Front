@@ -18,16 +18,6 @@ class Psds {
     return http.post(`api/auth/login`, data)
   }
 
-  // async loginUser(username, password) {
-  //   try {
-  //     const response = await axios.post('http://localhost:8080/api/auth/login',
-  //         {'email': username, 'password': password});
-  //     console.log('Успешный вход', response.data);
-  //     return response.data;
-  //   } catch (error) {
-  //     console.error('Ошибка входа', error);
-  //   }
-  // }
 
   logoutUser() {
     return http.post(`api/auth/logout` )
@@ -77,6 +67,11 @@ class Psds {
 
   getListGroups() {
     return http.get(`api/groups/moderator`)
+        .then(response => response.data)
+  }
+
+  getGroupById(groupId) {
+    return http.get(`api/groups/moderator/${groupId}`)
         .then(response => response.data)
   }
 
@@ -139,6 +134,11 @@ class Psds {
         .then(response => response.data)
   }
 
+  editTheme(id, title, description, lessons) {
+    return http.put(`api/themes`, {id, title, description, lessons})
+        .then(response => response.data)
+  }
+
   getAllThemes() {
     return http.get(`api/themes`)
         .then(response => response.data)
@@ -151,20 +151,48 @@ class Psds {
   }
 
 
-  async getAllLessons() {
-    try {
-      const response = await axios.get('http://localhost:8080/api/lessons');
-      console.log('Получены все уроки', response.data);
-      return response.data;
-    } catch (error) {
-      console.error('Уроки не получены', error);
-    }
+  getLessonsForTheme(themeId) {
+    return http.get(`api/lessons/lesson/${themeId}`)
+        .then(response => response.data)
+  }
+
+  getAllLessons() {
+    return http.get(`api/lessons`)
+        .then(response => response.data)
+  }
+
+  createLesson(title, description, level, grade) {
+    return http.put(`api/lessons`, {title, description, level, grade})
+        .then(response => response.data)
+  }
+
+  addLessonAndMaterialForTheme(themeId, lessonDTO, materialDTO) {
+    return http.put(`api/themes/lesson`, {themeId, lessonDTO, materialDTO})
+        .then(response => response.data)
+  }
+
+
+  deleteMaterial(materialId) {
+    return http.delete(`api/materials/${materialId}`)
+        .then(response => response.data);
+  }
+
+  deleteLesson(lessonId) {
+    return http.delete(`api/lessons/${lessonId}`)
+        .then(response => response.data);
   }
 
   getProfileDetails(id) {
     return http.get(`api/specialistProfiles/${id}`)
         .then(response => response.data)
   }
+
+  getThemeDetails(id) {
+    return http.get(`api/themes/${id}`)
+        .then(response => response.data)
+  }
+
+
   getLesson(id) {
     return http.get(`api/lessons/${id}`)
         .then(response => response.data)
@@ -177,6 +205,11 @@ class Psds {
 
   getListRelationUserDTO() {
     return http.get(`api/relation-users`)
+        .then(response => response.data)
+  }
+
+  editMentorForGroup(mentorId, relationId) {
+    return http.put(`api/relation-users`, {mentorId, relationId})
         .then(response => response.data)
   }
 

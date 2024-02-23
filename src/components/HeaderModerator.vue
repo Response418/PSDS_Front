@@ -11,34 +11,34 @@
 
           <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
             <li>
-              <a href="#" class="nav-link text-secondary" @click="$router.push('/moderator')" >
+              <a href="#" class="nav-link text-white" @click="$router.push('/moderator')" >
                 <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#speedometer2" ></use></svg>
                 Панель администратора
               </a>
             </li>
             <li>
-              <a href="#" class="nav-link text-secondary" @click="$router.push('/groups/moderator')" >
+              <a href="#" class="nav-link text-white" @click="$router.push('/moderator/groups')" >
 <!--              <a href="#" class="nav-link text-white">-->
                 <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#speedometer2"></use></svg>
                Учебные группы
               </a>
             </li>
             <li>
-              <a href="#" class="nav-link text-secondary" @click="$router.push('/moderator/materials')" >
+              <a href="#" class="nav-link text-white" @click="$router.push('/moderator/materials')" >
 <!--              <a href="#" class="nav-link text-white">-->
                 <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#table"></use></svg>
                 Учебный материал
               </a>
             </li>
             <li>
-              <a href="#" class="nav-link text-secondary" @click="$router.push('/moderator/work')" >
+              <a href="#" class="nav-link text-white" @click="$router.push('/moderator/work')" >
 <!--              <a href="#" class="nav-link text-white">-->
                 <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#grid"></use></svg>
                 Пользователи
               </a>
             </li>
             <li>
-              <a href="#" class="nav-link text-white">
+              <a href="#" class="nav-link text-white" @click="$router.push('/auth/login')">
                 <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#people-circle"></use></svg>
                 Выход
               </a>

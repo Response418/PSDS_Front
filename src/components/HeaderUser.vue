@@ -11,9 +11,9 @@
 
           <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
             <li>
-              <a href="#" class="nav-link text-secondary" @click="$router.push('/')" >
+              <a href="#" class="nav-link text-white" @click="$router.push('/')" >
                 <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#speedometer2" ></use></svg>
-                Home
+                Главная
               </a>
             </li>
             <li>
@@ -23,21 +23,21 @@
               </a>
             </li>
             <li>
-              <a href="#" class="nav-link text-white">
+              <a href="#" class="nav-link text-white" @click="$router.push('/mentor/plan')">
                 <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#table"></use></svg>
                 Наставник
               </a>
             </li>
             <li>
-              <a href="#" class="nav-link text-white">
+              <a href="#" class="nav-link text-white" @click="$router.push('/profile')">
                 <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#grid"></use></svg>
-                Products
+                Учебные материалы
               </a>
             </li>
             <li>
-              <a href="#" class="nav-link text-white">
+              <a href="#" class="nav-link text-white" @click="$router.push('/plan')">
                 <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#people-circle"></use></svg>
-                Customers
+                Учебный план
               </a>
             </li>
             <li>

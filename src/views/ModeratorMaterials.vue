@@ -89,8 +89,6 @@ export default {
     },
     removeProfile(index) {
       const specialistProfileId = this.filteredProfiles[index].id;
-      // Ваша логика удаления профиля
-
         Psds.deleteSpecialistProfiles(specialistProfileId)
             .then(() => {
               this.$router.push('/moderator/materials');
@@ -141,7 +139,7 @@ export default {
 }
 
 .custom-card:hover {
-  transform: scale(1.05);
+  transform: scale(1.02);
 }
 
 .card-text {

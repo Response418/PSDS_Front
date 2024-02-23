@@ -12,37 +12,38 @@
 
           <div class="mt-4">
 
-
             <div v-if="profile && profile.themes && profile.themes.length === 0">
               <p>Добавленных тем нет (необходимо добавить темы)</p>
             </div>
 
             <div v-else>
-            <div v-for="(theme, index) in profile.themes" :key="index" class="mb-4">
-              <div class="card custom-card">
-                <div class="card-body">
-                  <h5 class="card-title">
-                    {{ theme.title }}
-                  </h5>
-                  <p class="card-text">{{ theme.description }}</p>
-                  <p class="small-text mb-0 text-muted">Уроков: {{ theme.lessons.length }}</p>
+              <div v-for="(theme, index) in profile.themes" :key="index" class="mb-4"
+                   @click="$router.push(`/moderator/materials/profiles/${profile.id}/themes/${theme.id}`)">
 
-                  <div class="cards">
-                    <div class="card lesson-card" v-if="theme.showLessons" v-for="(lesson, lessonIndex) in theme.lessons"
-                        :key="lessonIndex" @click="$router.push(`/lesson/${lesson.id}`)">
-                      <div class="card-body">
-                        <p class="card-text">
-                          {{ lesson.title }}
-                        </p>
-                        <p class="small-text mb-0 text-muted">Сложность: {{ lesson.level }}</p>
-                        <p v-if="lesson.grade !== 0" class="small-text mb-0 text-muted">
-                          Оценка: {{ lesson.grade }}
-                        </p>
+                <div class="card custom-card">
+                  <div class="card-body">
+                    <h5 class="card-title">
+                      {{ theme.title }}
+                    </h5>
+                    <p class="card-text">{{ theme.description }}</p>
+                    <p class="small-text mb-0 text-muted">Уроков: {{ theme.lessons.length }}</p>
+
+                    <div class="cards">
+                      <div class="card lesson-card" v-if="theme.showLessons" v-for="(lesson, lessonIndex) in theme.lessons"
+                           :key="lessonIndex" @click="$router.push(`/lesson/${lesson.id}`)">
+                        <div class="card-body">
+                          <p class="card-text">
+                            {{ lesson.title }}
+                          </p>
+                          <p class="small-text mb-0 text-muted">Сложность: {{ lesson.level }}</p>
+                          <p v-if="lesson.grade !== 0" class="small-text mb-0 text-muted">
+                            Оценка: {{ lesson.grade }}
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
               </div>
             </div>
           </div>
@@ -64,35 +65,35 @@
         <div class="mt-4">
           <div v-for="(theme, index) in listThemes" :key="theme.id" class="mb-4">
             <div class="card custom-card" @mouseover="showDeleteIcon(index)" @mouseleave="hideDeleteIcon(index)">
-            <div class="card custom-card" @click="toggleAddTheme(index)">
-              <div class="card-body">
-                <h5 class="card-title">
-                  {{ theme.title }}
-                </h5>
-                <p class="card-text">{{ theme.description }}</p>
-                <p class="small-text mb-0 text-muted">Уроков: {{ theme.lessons.length }}</p>
+              <div class="card custom-card" @click="toggleAddTheme(index)">
+                <div class="card-body">
+                  <h5 class="card-title">
+                    {{ theme.title }}
+                  </h5>
+                  <p class="card-text">{{ theme.description }}</p>
+                  <p class="small-text mb-0 text-muted">Уроков: {{ theme.lessons.length }}</p>
 
-                <div class="cards">
-                  <div
-                      class="card lesson-card"
-                      v-if="theme.showLessons"
-                      v-for="(lesson, lessonIndex) in theme.lessons"
-                      :key="lessonIndex"
-                      @click="$router.push(`/lesson/${lesson.id}`)"
-                  >
-                    <div class="card-body">
-                      <p class="card-text">
-                        {{ lesson.title }}
-                      </p>
-                      <p class="small-text mb-0 text-muted">Сложность: {{ lesson.level }}</p>
-                      <p v-if="lesson.grade !== 0" class="small-text mb-0 text-muted">
-                        Оценка: {{ lesson.grade }}
-                      </p>
+                  <div class="cards">
+                    <div
+                        class="card lesson-card"
+                        v-if="theme.showLessons"
+                        v-for="(lesson, lessonIndex) in theme.lessons"
+                        :key="lessonIndex"
+                        @click="$router.push(`/lesson/${lesson.id}`)"
+                    >
+                      <div class="card-body">
+                        <p class="card-text">
+                          {{ lesson.title }}
+                        </p>
+                        <p class="small-text mb-0 text-muted">Сложность: {{ lesson.level }}</p>
+                        <p v-if="lesson.grade !== 0" class="small-text mb-0 text-muted">
+                          Оценка: {{ lesson.grade }}
+                        </p>
+                      </div>
                     </div>
                   </div>
+                  <span class="bi bi-trash delete-icon" v-if="isDeleteIconVisible[index]" @click="removeTheme(index)"></span>
                 </div>
-                <span class="bi bi-trash delete-icon" v-if="isDeleteIconVisible[index]" @click="removeTheme(index)"></span>
-              </div>
               </div>
 
             </div>
@@ -301,10 +302,10 @@ export default {
   text-shadow: rgb(231, 107, 69) 0px 0px 0px;
   opacity: 1;
   -webkit-text-stroke-width: 0px;
-  transition: color 0.3s ease; /* добавляем анимацию перехода цвета */
+  transition: color 0.3s ease;
 }
 
 .delete-icon:hover {
-  color: #ee6738; /* цвет при наведении */
+  color: #ee6738;
 }
 </style>
