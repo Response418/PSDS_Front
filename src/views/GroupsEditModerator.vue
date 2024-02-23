@@ -2,20 +2,20 @@
   <div>
     <HeaderModerator />
     <section id="header" class="jumbotron text-center mt-4 mb-4">
-      <h1 class="display-4">Добавление группы</h1>
+      <h1 class="display-4">Изменение учебной группы</h1>
     </section>
     <div class="container mt-3 rounded" style="background-color: #8145e0; color: white;">
       <div class="container mt-1 rounded" style="background-color: white; color: black;">
         <div class="mb-3">
           <label for="name" class="form-label">Название группы</label>
-          <input type="text" class="form-control" id="name" v-model="name" >
+          <input type="text" class="form-control" id="name" v-model="group.name" >
         </div>
         <div class="mb-3">
           <label for="description" class="form-label">Описание группы</label>
-          <textarea type="text" class="form-control" id="description" v-model="description"></textarea>
+          <textarea type="text" class="form-control" id="description" v-model="group.description"></textarea>
         </div>
         <div class="text-center">
-          <button type="submit" class="btn btn-primary" @click="Group">{{ ModeViewAuthForm }}</button>
+          <button type="submit" class="btn btn-primary" @click="EditGroup">{{ ModeViewAuthForm }}</button>
         </div>
       </div>
     </div>
@@ -27,30 +27,35 @@
 import Psds from "@/services/Psds.js";
 import HeaderModerator from "@/components/HeaderModerator.vue";
 export default {
-  name: "Group",
+  name: "GroupsEditModerator",
   components: {HeaderModerator},
   data() {
     return {
-      ModeViewAuthForm: 'Добавить',
+      ModeViewAuthForm: 'Сохранить изменения',
       name: '',
       description: '',
+      group: {},
+      showSearch: false,
+      searchQuery: "",
     };
   },
+
+  created() {
+    Psds.getGroupById(this.$route.params.groupId).then((group) => {
+      if (group != null) this.group = group;
+    });
+
+  },
+
   methods: {
-
-    Group() {
-      const group = {
-        name: this.name,
-        description: this.description
-      };
-
-      Psds.createGroup(group.name, group.description)
+    EditGroup() {
+      Psds.editGroupModerator(this.group.id, this.group.name, this.group.description)
           .then(() => {
-            console.log('Успешное добавление группы');
-            this.$router.push('/moderator/groups');
+            console.log('Успешное редактирование группы');
+            this.$router.go(-1);
           })
           .catch((error) => {
-            console.error('Ошибка при добавлении группы', error);
+            console.error('Ошибка при редактировании группы', error);
           });
     },
   }

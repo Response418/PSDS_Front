@@ -113,20 +113,8 @@ export default {
     },
 
     async Registration() {
-      // const user = {
-      //   lastName: this.lastName,
-      //   firstName: this.firstName,
-      //   fatherName: this.fatherName,
-      //   city: this.city,
-      //   phoneNumber: this.phoneNumber,
-      //   email: this.email,
-      //   password: this.password
-      // };
-      //
-      // console.log(user)
 
       if (this.password !== this.repeatPassword) {
-        // Если пароли не совпадают, выведите сообщение и завершите функцию
         this.AddAlert('Пароли не совпадают');
         return;
       }
@@ -139,15 +127,6 @@ export default {
         this.AddAlert('Ошибка при регистрации пользователя');
       }
 
-      // const response = await Psds.registerUser(this.lastName, this.firstName, this.fatherName, this.city, this.phoneNumber, this.email, this.password)
-      //     // .then(token => {
-      //     //   console.log(token)
-      //     //   localStorage.setItem('token', token.token);
-      //     // })
-      //   if (response.status === 200) {
-      //     // Успешная регистрация, перенаправляем пользователя
-      //
-      //   } else { this.AddAlert('Ошибка регистрации: ' + response.data.message);}
 
     },
   }
@@ -172,6 +151,6 @@ export default {
 }
 
 .my-custom-button:hover {
-  background-color: #ee6738; /* Замените на оранжевый цвет при наведении */
+  background-color: #ee6738;
 }
 </style>

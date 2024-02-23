@@ -1,6 +1,5 @@
 <template>
   <section class="vh-100" style="background-color: #ffffff;">
-<!--  <AuthForm/>-->
   <div>
     <HeaderUser />
     <section id="header" class="jumbotron text-center mt-4 mb-4">
@@ -111,19 +110,4 @@ export default {
   flex-wrap: wrap;
 }
 
-.btn-primary {
-  background-color: #a281d2;
-  border-color: #a281d2;
-  transition: background-color 0.3s ease;
-}
-
-.btn-primary:hover {
-  background-color: #ee6738;
-  border-color: #ee6738;
-}
-
-.small-text {
-  font-size: 0.85rem;
-  opacity: 0.5;
-}
 </style>

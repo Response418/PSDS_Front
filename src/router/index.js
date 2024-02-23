@@ -40,10 +40,7 @@ const routes = [
     meta: { requiresAuth: true },
   },
 
-  // path: "/profile",
-  //   name: "Profiles",
-  //   component: () => import("@/views/Profiles.vue"),
-  //   meta: { requiresAuth: true },
+
 
   {
     path: "/moderator/groups/group",
@@ -53,9 +50,16 @@ const routes = [
   },
 
   {
-    path: "/groups/moderator",
+    path: "/moderator/groups",
     name: "GroupsModerator",
     component: () => import("@/views/GroupsModerator.vue"),
+    meta: { requiresAuth: true },
+  },
+
+  {
+    path: "/moderator/groups/:groupId",
+    name: "GroupsEditModerator",
+    component: () => import("@/views/GroupsEditModerator.vue"),
     meta: { requiresAuth: true },
   },
 
@@ -95,6 +99,12 @@ const routes = [
     meta: { requiresAuth: true },
   },
 
+  {
+    path: "/moderator/materials/profiles/:profileId/themes/:themeId",
+    name: "ModeratorTheme",
+    component: () => import("@/views/ModeratorTheme.vue"),
+    meta: { requiresAuth: true },
+  },
 
   {
     path: "/moderator/materials/theme",
@@ -104,18 +114,19 @@ const routes = [
   },
 
   {
-    path: "/moderator/materials/lessons",
-    name: "ModeratorLessons",
-    component: () => import("@/views/ModeratorLessons.vue"),
+    path: "/moderator/materials/theme/:themeId/lesson",
+    name: "ModeratorCreateLesson",
+    component: () => import("@/views/ModeratorCreateLesson.vue"),
+    meta: { requiresAuth: true },
   },
-
-
 
   {
-    path: "/moderator/materials/lessons/lesson",
-    name: "ModeratorLesson",
-    component: () => import("@/views/ModeratorLesson.vue"),
+    path: "/moderator/materials/theme/:themeId/lesson/:lessonId",
+    name: "ModeratorEditLessonAndMaterial",
+    component: () => import("@/views/ModeratorEditLessonAndMaterial.vue"),
+    meta: { requiresAuth: true },
   },
+
 
   {
     path: "/moderator/work",

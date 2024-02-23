@@ -28,7 +28,6 @@
             <div class="card-body">
               <h5 class="card-title">Сложность урока: {{ lesson.level }}</h5>
 
-              <!-- Input field for grade -->
               <div class="form-group">
                 <label for="inputGrade">Ваша оценка:</label>
                 <input
@@ -39,7 +38,6 @@
                 />
               </div>
 
-              <!-- Button to rate the lesson -->
               <button class="btn btn-primary" @click="rateLesson">Оценить</button>
             </div>
           </div>
@@ -63,7 +61,7 @@ export default {
     return {
       lesson: {},
       materials: [],
-      userGrade: null, // Add a variable to store user's input grade
+      userGrade: null,
     };
   },
   created() {
