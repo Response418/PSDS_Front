@@ -29,6 +29,11 @@ class Psds {
   //   }
   // }
 
+  logoutUser() {
+    return http.post(`api/auth/logout` )
+        .then(response => response.data)
+  }
+
   loginUser(email, password) {
     return http.post(`api/auth/login`,{email, password} )
         .then(response => response.data)
@@ -189,7 +194,7 @@ class Psds {
         .then(response => response.data)
   }
   getDataSession() {
-    return http.get(`users/data/session`)
+    return http.get(`api/moderator/users/data/session`)
         .then(response => response.data)
   }
   getPlan(id) {

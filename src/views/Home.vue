@@ -11,7 +11,7 @@
       <div class="container rounded" style="background-color: #8700ff;">
         <div class="row justify-content-center">
           <div class="col-lg-4 mb-4" v-for="(card, index) in cards" :key="index"  @click="$router.push(card.route)">
-            <div class="card h-100 d-flex flex-column custom-card rounded rounded-bottom">
+            <div class="card h-100 d-flex flex-column custom-card rounded rounded-bottom"  v-if="roleLevel >= card.roleAccess">
               <img :src="card.imgSrc" alt="" class="card-img-top">
               <div class="card-body flex-grow-1 bg-white">
                 <h5 class="card-title text-center">{{ card.title }}</h5>
@@ -39,6 +39,7 @@ import HeaderUser from "@/components/HeaderUser.vue";
 import miroLessonPlanningImg from "@/components/images/miro-lesson-planning.jpeg";
 import materialImg from "@/components/images/material.jpg";
 import userImg from "@/components/images/user.png";
+import Psds from "@/services/Psds.js";
 
 export default {
   name: "HomeMain",
@@ -47,27 +48,55 @@ export default {
     return {
       width: window.innerWidth,
       profileSearch: "",
+      roleLevel: -1,
       cards: [
         {
           imgSrc: miroLessonPlanningImg,
           title: "Учебные материалы",
           description: "Поиск, просмотр и добавление учебных материалов, необходимых для усвоения технологии!",
           route: "/profile",
+          roleAccess: "0"
         },
         {
           imgSrc: materialImg,
           title: "Учебный план",
           description: "Добавление тем, необходимых для обучения специалистов, создание уроков и добавление материалов для обеспечения эффективного обучения!",
           route: "/plan",
+          roleAccess: "0"
         },
         {
           imgSrc: materialImg,
           title: "Учебный план студентов",
           description: "Просмотривай учебные планы студентов!",
           route: "/mentor/plan",
+          roleAccess: "1"
+        },
+        {
+          imgSrc: materialImg,
+          title: "Руководитель группы",
+          description: "О да, я руководитель группы!",
+          route: "/mentor/plan",
+          roleAccess: "2"
+        },
+        {
+          imgSrc: materialImg,
+          title: "Only модер",
+          description: "Ты не должен этого видеть!!!!",
+          route: "/mentor/plan",
+          roleAccess: "3"
         },
       ],
     }
+  },
+  created() {
+
+    Psds.getDataSession().then(data => {
+      const role = data.role;
+      if(role === "ROLE_STUDENT")   this.roleLevel = 0;
+      else  if(role === "ROLE_MENTOR")    this.roleLevel = 1;
+      else  if(role === "ROLE_DIRECTOR")  this.roleLevel = 2;
+      else  if(role === "ROLE_ADMIN")     this.roleLevel = 3;
+    });
   }
 }
 </script>
