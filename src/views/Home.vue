@@ -10,7 +10,7 @@
         <div class="row justify-content-center" :style="{ flexWrap: getFlexWrapStyle() }">
 
           <div  class="col-lg-4 mb-4" v-for="(card, index) in cards" :key="index"  @click="$router.push(card.route)">
-            <div class="card border-0 rounded custom-card mx-auto d-flex flex-column align-items-stretch" style="height: 100%;">
+            <div class="card border-0 rounded custom-card mx-auto d-flex flex-column align-items-stretch" style="height: 100%;" v-if="ifRoleAccess(card.roleAccess)">
               <img :src="card && card.imgSrc ? card.imgSrc : ''" alt="" class="card-img-top">
               <div class="card-body">
                 <h5 class="card-title text-center">{{ card && card.title ? card.title : '' }}</h5>
