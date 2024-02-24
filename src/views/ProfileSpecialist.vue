@@ -74,6 +74,7 @@ export default {
     const userId = localStorage.getItem("userId");
     const groupId = localStorage.getItem("groupId");
     Psds.getLink(userId, groupId).then(link => {
+      console.log(link)
       Psds.getPlan(link.id).then(plan => {
         plan.specialistProfiles.forEach(profile => {
           if(profile.id == this.$route.params.id){
@@ -117,6 +118,7 @@ export default {
 
       const userId = localStorage.getItem("userId");
       const groupId = localStorage.getItem("groupId");
+
       Psds.getLink(userId, groupId).then(link => {
         console.log(link)
         Psds.subscribeProfile(link.id, this.$route.params.id)

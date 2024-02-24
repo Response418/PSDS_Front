@@ -48,34 +48,35 @@ export default {
       roleLevel: -1,
 
 
+      roles: [],
       cards: [
         {
           imgSrc: materialImg,
           title: "Учебные материалы",
           description: "Поиск, просмотр и добавление учебных материалов, необходимых для усвоения технологии!",
           route: "/profile",
-          roleAccess: "0",
+          roleAccess: "ROLE_STUDENT"
         },
         {
           imgSrc: userImg,
           title: "Учебный план",
           description: "Содержит список всех выбранных учебных материалов необходимых для усвоения технологии!",
           route: "/plan",
-          roleAccess: "0"
+          roleAccess: "ROLE_STUDENT"
         },
         {
           imgSrc: userImg,
           title: "Проверка учебных плана",
           description: "Просмотр учебных планов студентов, выставление оценок за усвоенный учебный материал!",
           route: "/mentor/plan",
-          roleAccess: "0"
+          roleAccess: "ROLE_MENTOR"
         },
         {
           imgSrc: miroLessonPlanningImg,
           title: "Руководитель группы",
           description: "Назначение наставника для студента!",
           route: "/group-leader",
-          roleAccess: "0"
+          roleAccess: "ROLE_DIRECTOR"
         },
         // {
         //   imgSrc: materialImg,
@@ -87,20 +88,17 @@ export default {
       ],
     }
   },
-
-
   created() {
 
     Psds.getDataSession().then(data => {
-      const role = data.role;
-      if(role === "ROLE_STUDENT")   this.roleLevel = 0;
-      else  if(role === "ROLE_MENTOR")    this.roleLevel = 1;
-      else  if(role === "ROLE_DIRECTOR")  this.roleLevel = 2;
-      else  if(role === "ROLE_ADMIN")     this.roleLevel = 3;
+      this.roles = data.roles;
+      console.log(this.roles)
     });
   },
-
   methods: {
+    ifRoleAccess(role) {
+      return this.roles.includes(role);
+    },
     getFlexWrapStyle() {
       const totalCards = this.cards.length;
       return totalCards === 4 ? 'wrap' : 'nowrap';

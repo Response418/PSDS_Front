@@ -215,7 +215,8 @@ router.beforeEach((to, from, next) => {
       });
     } else {
       Psds.getDataSession().then(data => {
-        localStorage.setItem('role', data.role)
+        console.log(data);
+        localStorage.setItem('role', data.roles)
         localStorage.setItem('userId', data.userId)
         localStorage.setItem('groupId', data.groupId)
       });
