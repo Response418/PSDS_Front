@@ -136,9 +136,9 @@ export default {
 
 <style scoped>
 .gradient-text {
-  font-size: 150px;
+  font-size: 170px;
   text-transform: uppercase;
-  background: linear-gradient(45deg, var(--color-main), var(--color-main-second));
+  background: linear-gradient(360deg, var(--color-main), var(--color-main-second));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   margin: 0 0 -20px 0;

@@ -10,13 +10,13 @@
                   <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Авторизация</p>
                   <form class="mx-1 mx-md-4">
                     <div class="d-flex flex-row align-items-center mb-4">
-                      <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+<!--                      <i class="bi bi-envelope-fill me-3"></i>-->
                       <div class="form-outline flex-fill mb-0">
                         <input type="email" v-model="Email" class="form-control" placeholder="Введите email"/>
                       </div>
                     </div>
                     <div class="d-flex flex-row align-items-center mb-4">
-                      <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+<!--                      <i class="bi bi-key-fill me-3"></i>-->
                       <div class="form-outline flex-fill mb-0">
                         <input type="password" v-model="Password" class="form-control" placeholder="Введите пароль"/>
                       </div>
@@ -39,9 +39,7 @@
                     <img src="@/components/images/RTK.png" style="max-width: 15%; height: auto;" class="w-100 mb-3" alt="Sample image 1">
                     <div data-v-2dc54a20="" class="title">
                       <p data-v-2dc54a20="" class="gradient-text">psds</p>
-
                       <div data-v-2dc54a20="" class="description text-center"> Professional skills development system </div>
-
                     </div>
                   </div>
                 </div>
@@ -107,20 +105,23 @@ export default {
 </script>
 
 <style scoped>
+
 .gradient-text {
-  font-size: 150px;
+  font-size: 170px;
   text-transform: uppercase;
-  background: linear-gradient(45deg, var(--color-main), var(--color-main-second));
+  background: linear-gradient(360deg, var(--color-main), var(--color-main-second));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   margin: 0 0 -20px 0;
 }
+
 
 .my-custom-button {
   background-color: #6623cc;
   color: white;
   transition: background-color 0.3s ease;
 }
+
 
 .my-custom-button:hover {
   background-color: #ee6738;

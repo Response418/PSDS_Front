@@ -6,9 +6,9 @@
         <p class="lead">Добавление, редактирование, удаление уроков и их материалов.</p>
       </section>
 
-      <div class="container mt-3" style="background-color: #8145e0; color: white;">
-        <h3 class="profile-title">Профиль специалиста: {{ profile.title }}</h3>
-        <h3 class="profile-title">Тема: {{ theme.title }}</h3>
+      <div class="container mt-3 rounded" style="background-color: #8145e0; color: white;">
+        <h3 class="profile-title" style="font-weight: 700;">Профиль специалиста: {{ profile.title }}</h3>
+        <h3 class="profile-title" style="font-weight: 700;">Тема: {{ theme.title }}</h3>
           <div class="d-flex justify-content-center">
             <button @click="$router.push(`/moderator/materials/theme/${theme.id}/lesson`)" class="btn mt-3 my-custom-button">Добавить новый урок</button>
           </div>
@@ -21,13 +21,13 @@
             <div class="card custom-card" @mouseover="showDeleteIcon(index)" @mouseleave="hideDeleteIcon(index)">
               <div class="card-body d-flex justify-content-between align-items-center">
                 <div class="text-container">
-                  <h4 class="card-title mb-3">{{ lesson.title }}</h4>
+                  <h4 class="card-title mb-2">{{ lesson.title }}</h4>
                   <p class="card-text">{{ lesson.description }}</p>
-                    <div class="difficulty-card">
-                      <p class="small-text mb-0 text-muted">Сложность: {{ lesson.level }}</p>
+                    <div class="difficulty-card text-center rounded wider"  :style="getDifficultyStyle(lesson.level)">
+                      <p class="mb-0 font-weight-bold" style="font-weight: 700;">Уровень: {{ getLevelName(lesson.level) }}</p>
                     </div>
                 </div>
-                <span class="bi bi-trash delete-icon" v-if="isDeleteIconVisible[index]" @click="removeLesson(index)"></span>
+                <span class="bi bi-trash delete-icon" v-if="isDeleteIconVisible[index]" @click="removeLesson(index, $event)"></span>
               </div>
             </div>
           </div>
@@ -71,6 +71,33 @@ export default {
   },
 
   methods: {
+
+    getDifficultyStyle(level) {
+      switch (level) {
+        case 1:
+          return { backgroundColor: '#17944f', color: 'white' };
+        case 2:
+          return { backgroundColor: '#ffdc4d', color: 'white' };
+        case 3:
+          return { backgroundColor: '#ee6738', color: 'white' };
+        default:
+          return { backgroundColor: 'lightgray', color: 'black' };
+      }
+    },
+
+    getLevelName(level) {
+      switch (level) {
+        case 1:
+          return 'Базовый';
+        case 2:
+          return 'Средний';
+        case 3:
+          return 'Продвинутый';
+        default:
+          return 'Неизвестный';
+      }
+    },
+
     showDeleteIcon(index) {
       this.isDeleteIconVisible = Object.assign([], this.isDeleteIconVisible, { [index]: true });
     },
@@ -78,8 +105,10 @@ export default {
       this.isDeleteIconVisible = Object.assign([], this.isDeleteIconVisible, { [index]: false });
     },
 
-    removeLesson(index) {
+    removeLesson(index, event) {
+      event.stopPropagation();
       const lessonId = this.theme.lessons[index].id;
+      console.log(lessonId);
       Psds.deleteLesson(lessonId)
           .then(() => {
             this.$router.go(0);
@@ -122,7 +151,7 @@ export default {
 }
 
 .custom-card:hover {
-  transform: scale(1.05);
+  transform: scale(1.02);
 }
 
 .card-text {
@@ -138,13 +167,14 @@ export default {
 }
 
 .my-custom-button {
-  background-color: #6623cc;
-  color: white;
+  background-color: #faf9f9;
+  color: #09090a;
   transition: background-color 0.3s ease;
 }
 
 .my-custom-button:hover {
   background-color: #ee6738;
+  color: white;
 }
 
 .btn-primary {
@@ -175,6 +205,10 @@ export default {
 
 .delete-icon:hover {
   color: #ee6738;
+}
+
+.wider {
+  width: 200px;
 }
 
 </style>

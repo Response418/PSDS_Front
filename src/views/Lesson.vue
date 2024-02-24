@@ -25,7 +25,13 @@
         <div class="col-md-3">
           <div class="card mt-3">
             <div class="card-body">
-              <h5 class="card-title">Сложность урока: {{ lesson.level }}</h5>
+              <div class="difficulty-card text-center rounded wider mb-2"  :style="getDifficultyStyle(lesson.level)">
+                <p class="mb-0 font-weight-bold" style="font-weight: 700;">Уровень: {{ getLevelName(lesson.level) }}</p>
+              </div>
+
+<!--              <h5 class="card-title">-->
+<!--                Сложность урока: {{ lesson.level }}-->
+<!--              </h5>-->
               <h5 class="card-title" v-if="grade !== -1">Оценка за урок: {{ grade !== 0 ? grade : 'Нет' }}</h5>
             </div>
           </div>
@@ -76,7 +82,35 @@ export default {
       }
     });
   },
-  methods: {},
+  methods: {
+    getDifficultyStyle(level) {
+      switch (level) {
+        case 1:
+          return { backgroundColor: '#17944f', color: 'white' };
+        case 2:
+          return { backgroundColor: '#ffdc4d', color: 'white' };
+        case 3:
+          return { backgroundColor: '#ee6738', color: 'white' };
+        default:
+          return { backgroundColor: 'lightgray', color: 'black' };
+      }
+    },
+
+    getLevelName(level) {
+      switch (level) {
+        case 1:
+          return 'Базовый';
+        case 2:
+          return 'Средний';
+        case 3:
+          return 'Продвинутый';
+        default:
+          return 'Неизвестный';
+      }
+    },
+
+
+  },
 };
 </script>
 

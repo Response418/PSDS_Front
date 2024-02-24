@@ -25,10 +25,15 @@
                          v-for="(lesson, lessonIndex) in theme.lessons" :key="lessonIndex"
                          @click="$router.push(`/mentor/${this.$route.params.linkId}/lesson/${lesson.id}`)">
                       <div class="card-body">
-                        <p class="card-text" @click="toggleLessonList(index)">
-                          {{ lesson.title }}
-                        </p>
-                        <p class="small-text mb-0 text-muted">Сложность: {{ lesson.level }}</p>
+                        <p class="card-text" @click="toggleLessonList(index)">{{ lesson.title }}</p>
+
+                        <p class="small-text mb-2 text-muted"> {{ lesson.description }}</p>
+
+                        <div class="difficulty-card text-center rounded wider"  :style="getDifficultyStyle(lesson.level)">
+                          <p class="mb-0 font-weight-bold" style="font-weight: 700;">Уровень: {{ getLevelName(lesson.level) }}</p>
+                        </div>
+
+<!--                        <p class="small-text mb-0 text-muted">Сложность: {{ lesson.level }}</p>-->
                       </div>
                     </div>
                   </div>
@@ -70,7 +75,32 @@ export default {
         ...this.profile.themes[index],
         showLessons: !this.profile.themes[index].showLessons,
       };
+    },
 
+    getDifficultyStyle(level) {
+      switch (level) {
+        case 1:
+          return { backgroundColor: '#17944f', color: 'white' };
+        case 2:
+          return { backgroundColor: '#ffdc4d', color: 'white' };
+        case 3:
+          return { backgroundColor: '#ee6738', color: 'white' };
+        default:
+          return { backgroundColor: 'lightgray', color: 'black' };
+      }
+    },
+
+    getLevelName(level) {
+      switch (level) {
+        case 1:
+          return 'Базовый';
+        case 2:
+          return 'Средний';
+        case 3:
+          return 'Продвинутый';
+        default:
+          return 'Неизвестный';
+      }
     },
   },
 };
@@ -90,7 +120,7 @@ export default {
 }
 
 .custom-card:hover {
-  transform: scale(1.05);
+  transform: scale(1.025);
 }
 
 .card-text {
@@ -154,7 +184,7 @@ export default {
 }
 
 .lesson-card:hover {
-  transform: scale(1.02);
+  transform: scale(1.08);
 }
 
 .cards {

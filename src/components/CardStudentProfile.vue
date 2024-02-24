@@ -54,7 +54,7 @@ export default {
 }
 
 .btn-primary {
-  background-color: #a281d2;
+  background-color: #854dd2;
   border-color: #a281d2;
   transition: background-color 0.3s ease;
 }

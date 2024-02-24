@@ -1,1 +1,1 @@
-export default {path: "http://localhost:8070/"};
+export default {path: "http://localhost:8080/"};

@@ -10,7 +10,7 @@
         <input v-model="searchQuery" type="text" class="form-control" placeholder="Поиск студента">
       </div>
       <div class="row mt-3">
-        <div v-for="(relation, index) in data.listRelation" :key="index" class="mb-4">
+        <div v-for="(relation, index) in filteredStudent" :key="index" class="mb-4">
           <div class="card custom-card">
             <div class="card-body d-flex justify-content-between align-items-center">
               <div class="text-container">
@@ -28,7 +28,7 @@
                   <div class="d-flex align-items-center justify-content-between align-items-center">
                     <h5 class="lead mb-2 mr-4">Выберите наставника для изменения:&nbsp;&nbsp;</h5>
                     <div class="form-group">
-                      <select id="mentorSelect" class="form-control" v-model="relation.selectedMentor">
+                      <select id="mentorSelect" class="form-control" v-model="relation.selectedMentor" >
                         <option v-for="mentor in data.mentorList" :key="mentor.id" :value="mentor.id">
                           {{ mentor.lastName }} {{ mentor.firstName }} {{ mentor.fatherName }}
                         </option>
@@ -65,6 +65,7 @@ export default {
       },
 
       temporarySelectedMentor: {},
+      searchQuery: "",
 
 
     };
@@ -74,6 +75,18 @@ export default {
     Psds.getListRelationUserDTO().then((data) => {
       if (data != null) this.data = data;
     });
+  },
+
+  computed: {
+    filteredStudent: function () {
+      const query = this.searchQuery.toLowerCase();
+      return this.data.listRelation.filter(
+          (relation) =>
+              relation.student.lastName.toLowerCase().includes(query) ||
+              relation.student.firstName.toLowerCase().includes(query) ||
+              relation.student.fatherName.toLowerCase().includes(query)
+      );
+    },
   },
 
 
@@ -129,7 +142,7 @@ export default {
 }
 
 .btn-primary {
-  background-color: #a281d2;
+  background-color: #854dd2;
   border-color: #a281d2;
   transition: background-color 0.3s ease;
 }
@@ -138,5 +151,7 @@ export default {
   background-color: #ee6738;
   border-color: #ee6738;
 }
+
+
 
 </style>

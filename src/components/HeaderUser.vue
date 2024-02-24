@@ -41,7 +41,14 @@
               </a>
             </li>
             <li>
-              <a href="#" class="nav-link text-white" @click="logout">
+              <a href="#" class="nav-link text-white" @click="$router.push('/groups')">
+                <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#people-circle"></use></svg>
+                Выбор учебной группы
+              </a>
+            </li>
+
+            <li>
+              <a href="#" class="nav-link text-white" @click=logout>
                 <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#people-circle"></use></svg>
                 Выход
               </a>

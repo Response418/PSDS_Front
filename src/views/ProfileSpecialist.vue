@@ -28,10 +28,16 @@
                          v-for="(lesson, lessonIndex) in theme.lessons" :key="lessonIndex"
                          @click="$router.push(`/lesson/${lesson.id}`)">
                       <div class="card-body">
+
                         <p class="card-text" @click="toggleLessonList(index)">
                           {{ lesson.title }}
                         </p>
-                        <p class="small-text mb-0 text-muted">Сложность: {{ lesson.level }}</p>
+                        <p class="small-text mb-2 text-muted"> {{ lesson.description }}</p>
+
+                        <div class="difficulty-card text-center rounded wider"  :style="getDifficultyStyle(lesson.level)">
+                          <p class="mb-0 font-weight-bold" style="font-weight: 700;">Уровень: {{ getLevelName(lesson.level) }}</p>
+                        </div>
+
                         <p v-if="lesson.grade !== 0" class="small-text mb-0 text-muted">Оценка: {{ lesson.grade }}</p>
                       </div>
                     </div>
@@ -79,14 +85,43 @@ export default {
   },
   methods: {
 
+    getDifficultyStyle(level) {
+      switch (level) {
+        case 1:
+          return { backgroundColor: '#17944f', color: 'white' };
+        case 2:
+          return { backgroundColor: '#ffdc4d', color: 'white' };
+        case 3:
+          return { backgroundColor: '#ee6738', color: 'white' };
+        default:
+          return { backgroundColor: 'lightgray', color: 'black' };
+      }
+    },
+
+    getLevelName(level) {
+      switch (level) {
+        case 1:
+          return 'Базовый';
+        case 2:
+          return 'Средний';
+        case 3:
+          return 'Продвинутый';
+        default:
+          return 'Неизвестный';
+      }
+    },
+
+
     addProfile() {
       if(this.isAdded) return;
 
       const userId = localStorage.getItem("userId");
       const groupId = localStorage.getItem("groupId");
       Psds.getLink(userId, groupId).then(link => {
+        console.log(link)
         Psds.subscribeProfile(link.id, this.$route.params.id)
             .then(data => {
+              console.log(data)
               this.isAdded = true;
             })
       })
@@ -118,7 +153,7 @@ export default {
 }
 
 .custom-card:hover {
-  transform: scale(1.05);
+  transform: scale(1.025);
 }
 
 .card-text {
@@ -146,7 +181,7 @@ export default {
 }
 
 .btn-primary {
-  background-color: #a281d2;
+  background-color: #854dd2;
   border-color: #a281d2;
   transition: background-color 0.3s ease;
 }
@@ -182,7 +217,7 @@ export default {
 }
 
 .lesson-card:hover {
-  transform: scale(1.02);
+  transform: scale(1.06);
 }
 
 .cards {
@@ -190,4 +225,10 @@ export default {
   flex-wrap: wrap;
   margin-top: 0.5rem;
 }
+
+.wider {
+  width: 200px;
+}
+
 </style>
+

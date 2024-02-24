@@ -95,7 +95,7 @@ export default {
 }
 
 .custom-card:hover {
-  transform: scale(1.05);
+  transform: scale(1.025);
 }
 
 .card-text {

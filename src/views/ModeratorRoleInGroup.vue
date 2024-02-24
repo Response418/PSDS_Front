@@ -7,6 +7,15 @@
     </section>
     <div class="container mt-3 rounded" style="background-color: #8145e0; color: white;">
       <div class="container mt-1 rounded" style="background-color: white; color: black;">
+
+        <div v-if="successMessage" class="text-center alert alert-success mt-3" role="alert" style="background-color: #e55a30; color: white; font-weight: bold; font-size: 20px;">
+          {{ successMessage }}
+          <div class="text-center">
+            <button @click="resetAndReload" type="submit" class="btn btn-primary1 mt-3">Продолжить добавление пользователей</button>
+          </div>
+        </div>
+
+
         <form @submit.prevent="submitForm">
           <div class="mb-3">
             <label for="groupSelect" class="form-label">Выберите группу:</label>
@@ -80,6 +89,8 @@ export default {
       searchRoleQuery: '',
       isRoleDropdownOpen: false,
 
+      successMessage: null,
+
     };
   },
 
@@ -136,14 +147,39 @@ export default {
             this.selectedGroup.id
         );
 
+        if (response.message) {
+          // Сообщение присутствует, вы можете получить его значение
+          const message = response.message;
+          console.log(`Получено сообщение: ${message}`);
+          this.successMessage = message;
+        }else {
+          const userName = this.selectedUser ? this.selectedUser.lastName + ' ' + this.selectedUser.firstName + ' ' + this.selectedUser.fatherName : '';
+          const groupName = this.selectedGroup ? this.selectedGroup.name : '';
+          const userRole = this.selectedRole ? this.selectedRole.name : '';
+          this.successMessage = `${userName} успешно добавлен в группу ${groupName} c ролью ${userRole}!`;
+          console.log('Добавлена роль в группе', response);
+        }
+
+        // const userName = this.selectedUser ? this.selectedUser.lastName + ' ' + this.selectedUser.firstName + ' ' + this.selectedUser.fatherName : '';
+        // const groupName = this.selectedGroup ? this.selectedGroup.name : '';
+        // const userRole = this.selectedRole ? this.selectedRole.name : '';
+
+
         this.selectedUser = null;
         this.selectedGroup = null;
         this.selectedRole = null;
 
-        console.log('Добавлена роль в группе', response);
       } catch (error) {
         console.error('Ошибка при добавлении роли в группу', error);
       }
+    },
+
+    resetAndReload() {
+      this.selectedUser = null;
+      this.selectedGroup = null;
+      this.selectedRole = null;
+      this.successMessage = null;
+      window.location.reload();
     },
 
     toggleDropdown() {
@@ -207,5 +243,17 @@ input.form-control {
 .btn-primary:hover {
   background-color: #ee6738;
   border-color: #ee6738;
+}
+
+
+.btn-primary1 {
+  background-color: white;
+  border-color: #af2f06;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary1:hover {
+  background-color: #854dd2;
+  border-color: #a281d2;
 }
 </style>

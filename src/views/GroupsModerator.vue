@@ -22,7 +22,7 @@
                 <h4 class="card-title mb-2">{{ group.name }}</h4>
                 <p class="card-text">{{ group.description }}</p>
               </div>
-              <span class="bi bi-trash delete-icon" v-if="isDeleteIconVisible[index]" @click="removeGroup(index)"></span>
+              <span class="bi bi-trash delete-icon" v-if="isDeleteIconVisible[index]" @click="removeGroup(index, $event)"></span>
             </div>
           </div>
         </div>
@@ -89,6 +89,7 @@ export default {
     },
 
     removeGroup(index) {
+      event.stopPropagation();
       const groupId = this.groupList[index].id;
       Psds.deleteGroup(groupId)
           .then(() => {

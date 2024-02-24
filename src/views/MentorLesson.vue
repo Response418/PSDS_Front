@@ -26,10 +26,13 @@
         <div class="col-md-3">
           <div class="card mt-3">
             <div class="card-body">
-              <h5 class="card-title">Сложность урока: {{ lesson.level }}</h5>
+              <div class="difficulty-card text-center rounded wider mb-2"  :style="getDifficultyStyle(lesson.level)">
+                <p class="mb-0 font-weight-bold" style="font-weight: 700;">Уровень: {{ getLevelName(lesson.level) }}</p>
+              </div>
+<!--              <h5 class="card-title">Сложность урока: {{ lesson.level }}</h5>-->
 
               <div class="form-group">
-                <label for="inputGrade">Ваша оценка:</label>
+                <label class="form-group" for="inputGrade">Ваша оценка:</label>
                 <input
                     type="number"
                     class="form-control"
@@ -90,6 +93,32 @@ export default {
         const lessonId = this.$route.params.lessonId;
         const linkId = this.$route.params.linkId;
         Psds.saveGrade(linkId, lessonId, this.userGrade)
+      }
+    },
+
+    getDifficultyStyle(level) {
+      switch (level) {
+        case 1:
+          return { backgroundColor: '#17944f', color: 'white' };
+        case 2:
+          return { backgroundColor: '#ffdc4d', color: 'white' };
+        case 3:
+          return { backgroundColor: '#ee6738', color: 'white' };
+        default:
+          return { backgroundColor: 'lightgray', color: 'black' };
+      }
+    },
+
+    getLevelName(level) {
+      switch (level) {
+        case 1:
+          return 'Базовый';
+        case 2:
+          return 'Средний';
+        case 3:
+          return 'Продвинутый';
+        default:
+          return 'Неизвестный';
       }
     },
   },

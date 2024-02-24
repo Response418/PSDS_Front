@@ -1,7 +1,11 @@
 <template>
 
   <div>
-    <HeaderUser />
+    <section id="header" class="jumbotron text-center mt-4 mb-4">
+      <h2 class="display-4">Выбор учебной группы</h2>
+      <p class="lead">Выберите группы из списка.</p>
+    </section>
+
     <div class="container mt-3 rounded" style="background-color: #6623cc; color: white;">
       <div v-if="groupList.length === 0">
         <h2 class="mb-3" > Для Вас нет учебных групп (дождитесь добавления в учебную группу) </h2>
@@ -18,16 +22,17 @@
             <div class="card custom-card">
               <div class="card-body d-flex justify-content-between align-items-center">
                 <div>
-                  <h4 class="card-title mb-3">{{ group.name }}</h4>
+                  <h4 class="card-title mb-2">{{ group.name }}</h4>
                   <p class="card-text">{{ group.description }}</p>
-                  <ul>
-                    <li v-for="(role, roleIndex) in group.userRoles" :key="roleIndex">
-                      <span v-if="role === 'ROLE_STUDENT'">Студент</span>
-                      <span v-else-if="role === 'ROLE_DIRECTOR'">Руководитель группы</span>
-                      <span v-else-if="role === 'ROLE_MENTOR'">Наставник</span>
-                      <span v-else>{{ role }}</span>
-                    </li>
-                  </ul>
+
+                  <div class="d-flex">
+                    <p class="card-text" style="font-weight: 800;">Ваши Роли в группе:&nbsp;</p>
+                    <div v-for="(role, roleIndex) in group.userRoles" :key="roleIndex" class="role-card">
+                      <div class="difficulty-card text-center rounded wider" :style="getRoleStyle(role)">
+                        <p class="mb-0 font-weight-bold" style="font-weight: 750;"> &nbsp;{{ getRole(role) }}&nbsp;</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -74,6 +79,33 @@ export default {
       });
     },
 
+    getRole(role) {
+      switch (role) {
+        case 'ROLE_STUDENT':
+          return 'Студент';
+        case 'ROLE_DIRECTOR':
+          return 'Руководитель группы';
+        case 'ROLE_MENTOR':
+          return 'Наставник';
+        default:
+          return role;
+      }
+    },
+
+    getRoleStyle(role) {
+      switch (role) {
+        case 'ROLE_STUDENT':
+          return { backgroundColor: '#bd6ac9', color: 'white' };
+        case 'ROLE_DIRECTOR':
+          return { backgroundColor: '#551bab', color: 'white' };
+        case 'ROLE_MENTOR':
+          return { backgroundColor: '#7c13bb', color: 'white' };
+        default:
+          return { backgroundColor: 'lightgray', color: 'black' };
+      }
+    },
+
+
   },
 };
 </script>
@@ -104,7 +136,7 @@ export default {
 }
 
 .custom-card:hover {
-  transform: scale(1.05);
+  transform: scale(1.02);
 }
 
 .card-text {
@@ -119,20 +151,9 @@ export default {
   flex-wrap: wrap;
 }
 
-.btn-primary {
-  background-color: #a281d2;
-  border-color: #a281d2;
-  transition: background-color 0.3s ease;
-}
 
-.btn-primary:hover {
-  background-color: #ee6738;
-  border-color: #ee6738;
-}
-
-.small-text {
-  font-size: 0.85rem;
-  opacity: 0.5;
+.role-card {
+  margin-right: 6px;
 }
 
 </style>

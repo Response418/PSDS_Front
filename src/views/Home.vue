@@ -1,5 +1,4 @@
 <template>
-  <section class="vh-100" style="background-color: #ffffff;">
   <div>
     <HeaderUser />
     <section id="header" class="jumbotron text-center mt-4 mb-4">
@@ -7,14 +6,15 @@
     </section>
 
     <section id="gallery">
-      <div class="container rounded" style="background-color: #8700ff;">
-        <div class="row justify-content-center">
-          <div class="col-lg-4 mb-4" v-for="(card, index) in cards" :key="index"  @click="$router.push(card.route)">
-            <div class="card h-100 d-flex flex-column custom-card rounded rounded-bottom"  v-if="roleLevel >= card.roleAccess">
-              <img :src="card.imgSrc" alt="" class="card-img-top">
-              <div class="card-body flex-grow-1 bg-white">
-                <h5 class="card-title text-center">{{ card.title }}</h5>
-                <p class="card-text">{{ card.description }}</p>
+      <div class="container mt-3 rounded" style="background-color: #8145e0;">
+        <div class="row justify-content-center" :style="{ flexWrap: getFlexWrapStyle() }">
+
+          <div  class="col-lg-4 mb-4" v-for="(card, index) in cards" :key="index"  @click="$router.push(card.route)">
+            <div class="card border-0 rounded custom-card mx-auto d-flex flex-column align-items-stretch" style="height: 100%;">
+              <img :src="card && card.imgSrc ? card.imgSrc : ''" alt="" class="card-img-top">
+              <div class="card-body">
+                <h5 class="card-title text-center">{{ card && card.title ? card.title : '' }}</h5>
+                <p class="card-text">{{ card && card.description ? card.description : '' }}</p>
               </div>
             </div>
           </div>
@@ -22,8 +22,6 @@
       </div>
     </section>
   </div>
-  </section>
-
   <AlertMessages ref="AddAlertMess"/>
 </template>
 
@@ -48,45 +46,49 @@ export default {
       width: window.innerWidth,
       profileSearch: "",
       roleLevel: -1,
+
+
       cards: [
         {
-          imgSrc: miroLessonPlanningImg,
+          imgSrc: materialImg,
           title: "Учебные материалы",
           description: "Поиск, просмотр и добавление учебных материалов, необходимых для усвоения технологии!",
           route: "/profile",
-          roleAccess: "0"
+          roleAccess: "0",
         },
         {
-          imgSrc: materialImg,
+          imgSrc: userImg,
           title: "Учебный план",
-          description: "Добавление тем, необходимых для обучения специалистов, создание уроков и добавление материалов для обеспечения эффективного обучения!",
+          description: "Содержит список всех выбранных учебных материалов необходимых для усвоения технологии!",
           route: "/plan",
           roleAccess: "0"
         },
         {
-          imgSrc: materialImg,
-          title: "Учебный план студентов",
-          description: "Просмотривай учебные планы студентов!",
+          imgSrc: userImg,
+          title: "Проверка учебных плана",
+          description: "Просмотр учебных планов студентов, выставление оценок за усвоенный учебный материал!",
           route: "/mentor/plan",
-          roleAccess: "1"
+          roleAccess: "0"
         },
         {
-          imgSrc: materialImg,
+          imgSrc: miroLessonPlanningImg,
           title: "Руководитель группы",
-          description: "О да, я руководитель группы!",
-          route: "/mentor/plan",
-          roleAccess: "2"
+          description: "Назначение наставника для студента!",
+          route: "/group-leader",
+          roleAccess: "0"
         },
-        {
-          imgSrc: materialImg,
-          title: "Only модер",
-          description: "Ты не должен этого видеть!!!!",
-          route: "/mentor/plan",
-          roleAccess: "3"
-        },
+        // {
+        //   imgSrc: materialImg,
+        //   title: "Only модер",
+        //   description: "Ты не должен этого видеть!!!!",
+        //   route: "/mentor/plan",
+        //   roleAccess: "3"
+        // },
       ],
     }
   },
+
+
   created() {
 
     Psds.getDataSession().then(data => {
@@ -96,7 +98,15 @@ export default {
       else  if(role === "ROLE_DIRECTOR")  this.roleLevel = 2;
       else  if(role === "ROLE_ADMIN")     this.roleLevel = 3;
     });
-  }
+  },
+
+  methods: {
+    getFlexWrapStyle() {
+      const totalCards = this.cards.length;
+      return totalCards === 4 ? 'wrap' : 'nowrap';
+    },
+
+  },
 }
 </script>
 

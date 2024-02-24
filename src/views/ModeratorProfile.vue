@@ -1,6 +1,11 @@
 <template>
   <div>
     <HeaderModerator />
+    <section id="header" class="jumbotron text-center mt-4 mb-4">
+      <h2 class="display-4">Настройка профиля специалиста</h2>
+      <p class="lead">Добавление, редактирование и удаление тем.</p>
+    </section>
+
     <div class="container mt-3">
       <div class="row">
         <div class="col-md-12">
@@ -52,73 +57,106 @@
     </div>
   </div>
 
-  <div class="container mt-3" style="background-color: #6623cc; color: white;">
+
+
+  <div class="container mt-3" style="background-color: #8145e0; color: white;">
+    <h3 class="mb-1">Список тем для добавления:</h3>
+    <div class="mb-3 text-center">
+      <button @click="$router.push('/moderator/materials/theme')" class="btn mt-1 my-custom-button">Добавить новую тему</button>
+    </div>
+    <div class="d-flex justify-content-end mb-3">
+      <input v-model="searchQuery" type="text" class="form-control" placeholder="Поиск темы...">
+    </div>
+
     <div class="row">
-      <div class="col-md-12">
-        <h2>Список тем для добавления</h2>
-
-        <div>
-          <button @click="$router.push('/moderator/materials/theme')" class="btn mt-3 my-custom-button">Добавить новую тему</button>
-        </div>
-
-
-        <div class="mt-4">
-          <div v-for="(theme, index) in listThemes" :key="theme.id" class="mb-4">
-            <div class="card custom-card" @mouseover="showDeleteIcon(index)" @mouseleave="hideDeleteIcon(index)">
-              <div class="card custom-card" @click="toggleAddTheme(index)">
-                <div class="card-body">
-                  <h5 class="card-title">
-                    {{ theme.title }}
-                  </h5>
-                  <p class="card-text">{{ theme.description }}</p>
-                  <p class="small-text mb-0 text-muted">Уроков: {{ theme.lessons.length }}</p>
-
-                  <div class="cards">
-                    <div
-                        class="card lesson-card"
-                        v-if="theme.showLessons"
-                        v-for="(lesson, lessonIndex) in theme.lessons"
-                        :key="lessonIndex"
-                        @click="$router.push(`/lesson/${lesson.id}`)"
-                    >
-                      <div class="card-body">
-                        <p class="card-text">
-                          {{ lesson.title }}
-                        </p>
-                        <p class="small-text mb-0 text-muted">Сложность: {{ lesson.level }}</p>
-                        <p v-if="lesson.grade !== 0" class="small-text mb-0 text-muted">
-                          Оценка: {{ lesson.grade }}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <span class="bi bi-trash delete-icon" v-if="isDeleteIconVisible[index]" @click="removeTheme(index)"></span>
-                </div>
-              </div>
-
+      <div v-for="(theme, index) in filteredTheme" :key="theme.id" class="mb-4" @click="toggleAddTheme(index)">
+<!--      <div v-for="(profile, index) in filteredProfiles" :key="index" class="mb-4" @click="$router.push(`/moderator/materials/profile/${profile.id}`)">-->
+        <div class="card custom-card" @mouseover="showDeleteIcon(index)" @mouseleave="hideDeleteIcon(index)">
+          <div class="card-body d-flex justify-content-between align-items-center">
+            <div>
+              <h4 class="card-title mb-1">{{ theme.title }}</h4>
+              <p class="card-text">{{ theme.description }}</p>
+              <p class="small-text mb-0 text-muted mb-0"> Уроки:{{ theme.lessons.length }}</p>
             </div>
-
+            <span class="bi bi-trash delete-icon" v-if="isDeleteIconVisible[index]" @click="removeTheme(theme.id, $event)"></span>
           </div>
-
         </div>
       </div>
     </div>
   </div>
+
+
+
+
+<!--  <div class="container mt-3" style="background-color: #6623cc; color: white;">-->
+<!--    <div class="row">-->
+<!--      <div class="col-md-12">-->
+<!--        <h2>Список тем для добавления</h2>-->
+
+<!--        <div>-->
+<!--          <button @click="$router.push('/moderator/materials/theme')" class="btn mt-3 my-custom-button">Добавить новую тему</button>-->
+<!--        </div>-->
+
+
+<!--        <div class="mt-4">-->
+<!--          <div v-for="(theme, index) in listThemes" :key="theme.id" class="mb-4">-->
+<!--            <div class="card custom-card" @mouseover="showDeleteIcon(index)" @mouseleave="hideDeleteIcon(index)">-->
+<!--              <div class="card custom-card" @click="toggleAddTheme(index)">-->
+<!--                <div class="card-body">-->
+<!--                  <h5 class="card-title">-->
+<!--                    {{ theme.title }}-->
+<!--                  </h5>-->
+<!--                  <p class="card-text">{{ theme.description }}</p>-->
+<!--                  <p class="small-text mb-0 text-muted">Уроков: {{ theme.lessons.length }}</p>-->
+
+<!--                  <div class="cards">-->
+<!--                    <div-->
+<!--                        class="card lesson-card"-->
+<!--                        v-if="theme.showLessons"-->
+<!--                        v-for="(lesson, lessonIndex) in theme.lessons"-->
+<!--                        :key="lessonIndex"-->
+<!--                        @click="$router.push(`/lesson/${lesson.id}`)"-->
+<!--                    >-->
+<!--                      <div class="card-body">-->
+<!--                        <p class="card-text">-->
+<!--                          {{ lesson.title }}-->
+<!--                        </p>-->
+<!--                        <p class="small-text mb-0 text-muted">Сложность: {{ lesson.level }}</p>-->
+<!--                        <p v-if="lesson.grade !== 0" class="small-text mb-0 text-muted">-->
+<!--                          Оценка: {{ lesson.grade }}-->
+<!--                        </p>-->
+<!--                      </div>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                  <span class="bi bi-trash delete-icon" v-if="isDeleteIconVisible[index]" @click="removeTheme(index, $event)"></span>-->
+<!--                </div>-->
+<!--              </div>-->
+
+<!--            </div>-->
+
+<!--          </div>-->
+
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
 </template>
 
 <script>
 import Psds from "@/services/Psds.js";
 import HeaderModerator from "@/components/HeaderModerator.vue";
+import AlertMessages from "@/components/AlertMessages.vue";
 
 export default {
   name: "ModeratorProfile",
-  components: { HeaderModerator },
+  components: {AlertMessages, HeaderModerator },
   data() {
     return {
       profile: {},
       listThemes: [],
       selectedThemes: [],
       isDeleteIconVisible: [],
+      searchQuery: "",
     };
   },
   created() {
@@ -131,6 +169,17 @@ export default {
     });
   },
 
+  computed: {
+    filteredTheme: function () {
+      const query = this.searchQuery.toLowerCase();
+      return this.listThemes.filter(
+          (theme) =>
+              theme.title.toLowerCase().includes(query) ||
+              theme.description.toLowerCase().includes(query)
+      );
+    },
+  },
+
 
   methods: {
     showDeleteIcon(index) {
@@ -140,8 +189,9 @@ export default {
       this.isDeleteIconVisible = Object.assign([], this.isDeleteIconVisible, { [index]: false });
     },
 
-    removeTheme(index) {
-      const themeId = this.profile.themes[index].id;
+    removeTheme(themeId, event) {
+      event.stopPropagation();
+      // const themeId = this.profile.themes[index].id;
       Psds.deleteThemes(themeId)
           .then(() => {
             this.$router.go(0);
@@ -203,15 +253,25 @@ export default {
   padding: 20px;
 }
 
+.mb-3 {
+  margin-bottom: 1.5rem !important;
+}
+
+.form-control {
+  background-color: #fff;
+  border-color: #a281d2;
+  color: #495057;
+}
+
 .card {
   border: none;
   border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s;
 }
 
 .custom-card:hover {
-  transform: scale(1.05);
+  transform: scale(1.02);
 }
 
 .card-text {
@@ -222,31 +282,20 @@ export default {
   font-size: 1.5rem;
 }
 
-.profile-info {
-  margin-bottom: 1.5rem;
-}
-
-.profile-title {
-  margin-bottom: 0.5rem;
-}
-
-.profile-description {
-  color: #6c757d;
-}
-
 .row {
   flex-wrap: wrap;
 }
 
 .my-custom-button {
-  background-color: white;
+  background-color: #faf9f9;
   color: black;
   transition: background-color 0.3s ease;
 }
 
 .my-custom-button:hover {
-  background-color: #ee6738; /* Замените на оранжевый цвет при наведении */
+  background-color: #ee6738;
   color: white;
+  transition: background-color 0.3s ease;
 }
 
 .btn-primary {
@@ -265,36 +314,6 @@ export default {
   opacity: 0.5;
 }
 
-.mb-4 {
-  margin-bottom: 1.5rem !important;
-}
-
-.mt-4 {
-  margin-top: 1.5rem !important;
-}
-
-.card-body {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
-}
-
-.lesson-card {
-  width: 30%;
-  margin: 1rem;
-}
-
-.lesson-card:hover {
-  transform: scale(1.02);
-}
-
-.cards {
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: 0.5rem;
-}
-
 .delete-icon {
   cursor: pointer;
   font-size: 35px;
@@ -302,10 +321,10 @@ export default {
   text-shadow: rgb(231, 107, 69) 0px 0px 0px;
   opacity: 1;
   -webkit-text-stroke-width: 0px;
-  transition: color 0.3s ease;
+  transition: color 0.3s ease; /* добавляем анимацию перехода цвета */
 }
 
 .delete-icon:hover {
-  color: #ee6738;
+  color: #ee6738; /* цвет при наведении */
 }
 </style>
