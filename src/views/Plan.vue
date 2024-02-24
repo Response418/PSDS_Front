@@ -9,14 +9,6 @@
         <div class="card-body">
           <h5 class="card-title">{{ profile.title }}</h5>
           <p class="card-text">{{ profile.description }}</p>
-          <ul class="list-group">
-            <li class="list-group-item">
-              <strong>Количество тем:</strong> {{ profile.themes.length }}
-            </li>
-            <li class="list-group-item">
-              <strong>Количество уроков:</strong> {{ getTotalLessons(profile.themes) }}
-            </li>
-          </ul>
           <router-link :to="'/profile/' + profile.id" class="btn btn-primary mt-2">
             Перейти к профилю
           </router-link>
@@ -49,11 +41,6 @@ export default {
         this.specialistProfiles = plan.specialistProfiles;
       })
     })
-  },
-  methods: {
-    getTotalLessons(themes) {
-      return themes.reduce((total, theme) => total + theme.lessons.length, 0);
-    },
   },
 };
 </script>
