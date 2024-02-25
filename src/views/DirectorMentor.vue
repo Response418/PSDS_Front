@@ -26,9 +26,9 @@
                 </div>
 
                 <div class="d-flex align-items-center justify-content-between align-items-center">
-                  <h5 class="lead mb-2 mr-4">Выберите наставника для изменения:&nbsp;&nbsp;</h5>
+                  <h5 class="lead mb-2 mr-4">Выберите наставника для изменения: &nbsp;&nbsp;</h5>
                   <div class="form-group">
-                    <select id="mentorSelect" class="form-control" v-model="relation.selectedMentor" >
+                    <select id="mentorSelect" class="form-control" v-model="relation.selectedMentor" style="width: 300px;">
                       <option v-for="mentor in data.mentorList" :key="mentor.id" :value="mentor.id">
                         {{ mentor.lastName }} {{ mentor.firstName }} {{ mentor.fatherName }}
                       </option>

@@ -3,7 +3,7 @@
     <HeaderModerator />
     <section id="header" class="jumbotron text-center mt-4 mb-4">
       <h1 class="display-4">Работа с пользователями</h1>
-      <p class="lead">Настройка и редактирование данных пользователя.</p>
+      <p class="lead">Настройка и редактирование данных пользователей.</p>
     </section>
 
     <section id="gallery">
@@ -29,8 +29,8 @@
 <script>
 import HeaderModerator from "@/components/HeaderModerator.vue";
 
-import miroLessonPlanningImg from "@/components/images/miro-lesson-planning.jpeg";
-import materialImg from "@/components/images/material.jpg";
+import miroLessonPlanningImg from "@/components/images/users.png";
+import materialImg from "@/components/images/group.png";
 import userImg from "@/components/images/user.png";
 
 export default {
@@ -42,14 +42,14 @@ export default {
       cards: [
         {
           imgSrc: miroLessonPlanningImg,
-          title: "Упраление пользователями",
-          description: "Удаление, редактирование данных пользователя!",
+          title: "Управление пользователями",
+          description: "Удаление пользователей из учебной группы или из системы PSDS!",
           route: "/moderator/work/users",
         },
         {
           imgSrc: materialImg,
-          title: "Добавление пользователя в группу",
-          description: "Добавление и удаление пользователя в группу!",
+          title: "Добавление в группу",
+          description: "Добавление пользователей в группу с выбранной ролью!",
           route: "/moderator/work/role-in-group",
         },
       ],

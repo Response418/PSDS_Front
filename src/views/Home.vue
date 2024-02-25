@@ -36,6 +36,7 @@ import HeaderUser from "@/components/HeaderUser.vue";
 import miroLessonPlanningImg from "@/components/images/miro-lesson-planning.jpeg";
 import materialImg from "@/components/images/material.jpg";
 import userImg from "@/components/images/user.png";
+import plan from "@/components/images/plan.png";
 import Psds from "@/services/Psds.js";
 
 export default {
@@ -58,15 +59,15 @@ export default {
           roleAccess: "ROLE_STUDENT"
         },
         {
-          imgSrc: userImg,
+          imgSrc: plan,
           title: "Учебный план",
-          description: "Содержит список всех выбранных учебных материалов необходимых для усвоения технологии!",
+          description: "Содержит список всех выбранных учебных материалов, необходимых для освоения технологии!",
           route: "/plan",
           roleAccess: "ROLE_STUDENT"
         },
         {
           imgSrc: userImg,
-          title: "Проверка учебных плана",
+          title: "Проверка учебных планов",
           description: "Просмотр учебных планов студентов, выставление оценок за усвоенный учебный материал!",
           route: "/mentor/plan",
           roleAccess: "ROLE_MENTOR"
@@ -74,7 +75,7 @@ export default {
         {
           imgSrc: miroLessonPlanningImg,
           title: "Руководитель группы",
-          description: "Назначение наставника для студента!",
+          description: "Назначение наставника для студента. Добавление студента в группу. Просмотр результатов обучения студентов!",
           route: "/group-leader",
           roleAccess: "ROLE_DIRECTOR"
         },

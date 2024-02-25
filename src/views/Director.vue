@@ -26,9 +26,9 @@
 
 <script>
 
-import miroLessonPlanningImg from "@/components/images/miro-lesson-planning.jpeg";
-import materialImg from "@/components/images/material.jpg";
-import userImg from "@/components/images/user.png";
+import mentor from "@/components/images/mentor.png";
+import students from "@/components/images/students.jpg";
+
 import HeaderUser from "@/components/HeaderUser.vue";
 
 export default {
@@ -37,13 +37,13 @@ export default {
     return {
       cards: [
         {
-          imgSrc: miroLessonPlanningImg,
+          imgSrc: mentor,
           title: "Назначение наставника",
           description: "Назначить наставника для студента, отслеживающего процесс его обучения!",
           route: "/group-leader/mentor",
         },
         {
-          imgSrc: materialImg,
+          imgSrc: students,
           title: "Студенты группы",
           description: "Добавление студентов в учебную группы. Просмотр результатов их обучения!",
           route: "/group-leader/students",
