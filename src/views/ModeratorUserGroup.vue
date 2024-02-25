@@ -1,33 +1,28 @@
 <template>
 
   <div>
-    <HeaderGroup />
+    <HeaderModerator />
     <section id="header" class="jumbotron text-center mt-4 mb-4">
-      <h2 class="display-4">Выбор учебной группы</h2>
-      <p class="lead">Выберите группы из списка.</p>
+      <h2 class="display-4">Учебные группы пользователя</h2>
+      <p class="lead">Удаление пользователя из группы.</p>
     </section>
 
     <div class="container mt-3 rounded" style="background-color: #6623cc; color: white;">
       <div v-if="groupList.length === 0">
-        <h2 class="mb-3" > Для Вас нет учебных групп (дождитесь добавления в учебную группу) </h2>
+        <h2 class="mb-3" >У данного пользователя нет учебных групп </h2>
       </div>
       <div v-else >
-        <h1 class="mb-3" > Учебные группы </h1>
         <AlertMessages ref="AddAlertMess" />
         <div class="row">
-          <div v-if="groupList.length === 0">
-            <p>Для вас еще нет учебных групп.</p>
-          </div>
-
-          <div v-for="(group, index) in groupList" :key="index" class="mb-4" @click="handleGroupClick(group.id)">
-            <div class="card custom-card">
+          <div v-for="(group, index) in groupList" :key="index" class="mb-4">
+            <div class="card custom-card" @mouseover="showDeleteIcon(index)" @mouseleave="hideDeleteIcon(index)">
               <div class="card-body d-flex justify-content-between align-items-center">
                 <div>
                   <h4 class="card-title mb-2">{{ group.name }}</h4>
                   <p class="card-text">{{ group.description }}</p>
 
                   <div class="d-flex">
-                    <p class="card-text" style="font-weight: 800;">Ваши Роли в группе:&nbsp;</p>
+                    <p class="card-text" style="font-weight: 800;">Роли пользователя в группе:&nbsp;</p>
                     <div v-for="(role, roleIndex) in group.userRoles" :key="roleIndex" class="role-card">
                       <div class="difficulty-card text-center rounded wider" :style="getRoleStyle(role)">
                         <p class="mb-0 font-weight-bold" style="font-weight: 750;"> &nbsp;{{ getRole(role) }}&nbsp;</p>
@@ -35,6 +30,7 @@
                     </div>
                   </div>
                 </div>
+                <span class="bi bi-trash delete-icon" v-if="isDeleteIconVisible[index]" @click="deleteUser(index)"></span>
               </div>
             </div>
           </div>
@@ -49,12 +45,14 @@
 import Psds from "@/services/Psds.js";
 import HeaderGroup from "@/components/HeaderGroup.vue";
 import AlertMessages from "@/components/AlertMessages.vue";
+import HeaderModerator from "@/components/HeaderModerator.vue";
 
 export default {
-  components: {AlertMessages, HeaderGroup},
+  components: {HeaderModerator, AlertMessages, HeaderGroup},
   data() {
     return {
       groupList: [],
+      isDeleteIconVisible: [],
     };
   },
 
@@ -65,18 +63,33 @@ export default {
 
 
   methods: {
-    loadGroupList() {
-      Psds.getGroupForUser().then((groupList) => {
-        if (groupList != null) this.groupList = groupList;
-      });
+
+    showDeleteIcon(index) {
+      this.isDeleteIconVisible = Object.assign([], this.isDeleteIconVisible, { [index]: true });
+    },
+    hideDeleteIcon(index) {
+      this.isDeleteIconVisible = Object.assign([], this.isDeleteIconVisible, { [index]: false });
     },
 
-    handleGroupClick(groupId) {
-      Psds.selectGroup(groupId).then(() => {
-        console.log('Выбрана группа с id:', groupId);
-        this.$router.push('/');
-      }).catch((error) => {
-        console.error("Ошибка при выборе группы:", error);
+    deleteUser(index) {
+      const userId = this.$route.params.userId;
+      const groupId = this.groupList[index].id;
+      console.log(userId, groupId)
+      Psds.deleteUsersForGroup(groupId, userId)
+          .then(() => {
+            console.log('Удаление пользователя с id:', userId);
+            this.$router.go(0);
+          })
+          .catch((error) => {
+            console.error('Ошибка при удалении пользователя', error);
+          });
+    },
+
+
+    loadGroupList() {
+      const userId = this.$route.params.userId;
+      Psds.getGroupUserForModerator(userId).then((groupList) => {
+        if (groupList != null) this.groupList = groupList;
       });
     },
 
@@ -140,6 +153,8 @@ export default {
   transform: scale(1.02);
 }
 
+
+
 .card-text {
   color: #495057;
 }
@@ -155,6 +170,20 @@ export default {
 
 .role-card {
   margin-right: 6px;
+}
+
+.delete-icon {
+  cursor: pointer;
+  font-size: 35px;
+  color: rgb(72, 3, 138);
+  text-shadow: rgb(231, 107, 69) 0px 0px 0px;
+  opacity: 1;
+  -webkit-text-stroke-width: 0px;
+  transition: color 0.3s ease;
+}
+
+.delete-icon:hover {
+  color: #ee6738;
 }
 
 </style>

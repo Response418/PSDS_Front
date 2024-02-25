@@ -38,7 +38,7 @@
               </a>
             </li>
             <li>
-              <a href="#" class="nav-link text-white" @click="$router.push('/auth/login')">
+              <a href="#" class="nav-link text-white" @click=logout>
                 <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#people-circle"></use></svg>
                 Выход
               </a>
@@ -56,8 +56,20 @@
 </template>
 
 <script>
+import Psds from "@/services/Psds.js";
+
 export default {
   name: "Header",
+
+  methods: {
+    logout() {
+      Psds.logoutUser().then(() => {
+        localStorage.clear();
+        sessionStorage.clear();
+        this.$router.push('/auth/login');
+      })
+    }
+  }
 };
 </script>
 

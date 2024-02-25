@@ -70,7 +70,6 @@
 
     <div class="row">
       <div v-for="(theme, index) in filteredTheme" :key="theme.id" class="mb-4" @click="toggleAddTheme(index)">
-<!--      <div v-for="(profile, index) in filteredProfiles" :key="index" class="mb-4" @click="$router.push(`/moderator/materials/profile/${profile.id}`)">-->
         <div class="card custom-card" @mouseover="showDeleteIcon(index)" @mouseleave="hideDeleteIcon(index)">
           <div class="card-body d-flex justify-content-between align-items-center">
             <div>
@@ -86,60 +85,6 @@
   </div>
 
 
-
-
-<!--  <div class="container mt-3" style="background-color: #6623cc; color: white;">-->
-<!--    <div class="row">-->
-<!--      <div class="col-md-12">-->
-<!--        <h2>Список тем для добавления</h2>-->
-
-<!--        <div>-->
-<!--          <button @click="$router.push('/moderator/materials/theme')" class="btn mt-3 my-custom-button">Добавить новую тему</button>-->
-<!--        </div>-->
-
-
-<!--        <div class="mt-4">-->
-<!--          <div v-for="(theme, index) in listThemes" :key="theme.id" class="mb-4">-->
-<!--            <div class="card custom-card" @mouseover="showDeleteIcon(index)" @mouseleave="hideDeleteIcon(index)">-->
-<!--              <div class="card custom-card" @click="toggleAddTheme(index)">-->
-<!--                <div class="card-body">-->
-<!--                  <h5 class="card-title">-->
-<!--                    {{ theme.title }}-->
-<!--                  </h5>-->
-<!--                  <p class="card-text">{{ theme.description }}</p>-->
-<!--                  <p class="small-text mb-0 text-muted">Уроков: {{ theme.lessons.length }}</p>-->
-
-<!--                  <div class="cards">-->
-<!--                    <div-->
-<!--                        class="card lesson-card"-->
-<!--                        v-if="theme.showLessons"-->
-<!--                        v-for="(lesson, lessonIndex) in theme.lessons"-->
-<!--                        :key="lessonIndex"-->
-<!--                        @click="$router.push(`/lesson/${lesson.id}`)"-->
-<!--                    >-->
-<!--                      <div class="card-body">-->
-<!--                        <p class="card-text">-->
-<!--                          {{ lesson.title }}-->
-<!--                        </p>-->
-<!--                        <p class="small-text mb-0 text-muted">Сложность: {{ lesson.level }}</p>-->
-<!--                        <p v-if="lesson.grade !== 0" class="small-text mb-0 text-muted">-->
-<!--                          Оценка: {{ lesson.grade }}-->
-<!--                        </p>-->
-<!--                      </div>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                  <span class="bi bi-trash delete-icon" v-if="isDeleteIconVisible[index]" @click="removeTheme(index, $event)"></span>-->
-<!--                </div>-->
-<!--              </div>-->
-
-<!--            </div>-->
-
-<!--          </div>-->
-
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
 </template>
 
 <script>
@@ -204,17 +149,6 @@ export default {
           });
     },
 
-    // toggleLessonList(index) {
-    //   const selectedTheme = this.profile.themes[index];
-    //   const isThemeSelected = this.selectedThemes.some((theme) => theme.id === selectedTheme.id);
-    //
-    //   if (!isThemeSelected) {
-    //     this.selectedThemes.push(selectedTheme);
-    //     this.saveSelectedThemes();
-    //   } else {
-    //     this.selectedThemes = this.selectedThemes.filter((theme) => theme.id !== selectedTheme.id);
-    //   }
-    // },
     toggleAddTheme(index) {
       const selectedTheme = this.listThemes[index];
       const isThemeAlreadyAdded = this.profile.themes.some((theme) => theme.id === selectedTheme.id);

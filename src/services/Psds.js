@@ -75,6 +75,12 @@ class Psds {
         .then(response => response.data)
   }
 
+
+  getGroupUserForModerator(userId) {
+    return http.get(`api/groups/${userId}/moderator`)
+        .then(response => response.data)
+  }
+
   editGroupModerator(id, name, description) {
     return http.put(`api/groups/moderator`, {id, name, description })
         .then(response => response.data)
@@ -150,6 +156,11 @@ class Psds {
         .then(response => response.data);
   }
 
+  deleteUsersForGroup(groupId, userId) {
+    return http.delete(`api/roleInGroup/${groupId}/${userId}`)
+        .then(response => response.data);
+  }
+
 
   getLessonsForTheme(themeId) {
     return http.get(`api/lessons/lesson/${themeId}`)
@@ -184,6 +195,16 @@ class Psds {
 
   getProfileDetails(id) {
     return http.get(`api/specialistProfiles/${id}`)
+        .then(response => response.data)
+  }
+
+  getUsersForGroup(groupId) {
+    return http.get(`api/roleInGroup/${groupId}`)
+        .then(response => response.data)
+  }
+
+  getRoleUser() {
+    return http.get(`api/roleInGroup/role`)
         .then(response => response.data)
   }
 

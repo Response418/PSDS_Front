@@ -2,115 +2,60 @@
   <div>
     <HeaderUser />
     <section id="header" class="jumbotron text-center mt-4 mb-4">
-      <h1 class="display-4">Выбор наставника для студента</h1>
+      <h1 class="display-4">РУКОВОДИТЕЛЬ ГРУППЫ</h1>
+      <p class="lead">Настройка и редактирование наставников. Добавление пользователей в группу и отслеживание их результатов.</p>
     </section>
 
-    <div class="container mt-3 rounded" style="background-color: #8145e0; color: white;">
-      <div class="d-flex justify-content-end mb-3">
-        <input v-model="searchQuery" type="text" class="form-control" placeholder="Поиск студента">
-      </div>
-      <div class="row mt-3">
-        <div v-for="(relation, index) in filteredStudent" :key="index" class="mb-4">
-          <div class="card custom-card">
-            <div class="card-body d-flex justify-content-between align-items-center">
-              <div class="text-container">
-                <h5 class="lead mb-2">Студент: {{ relation.student.lastName }} {{ relation.student.firstName }} {{ relation.student.fatherName }}</h5>
-                <div class="d-flex align-items-center">
-                  <h5 class="lead mb-2 mr-4">Наставник:&nbsp; </h5>
-                  <div v-if="relation.master" class="mr-4">
-                    <h5 class="lead mb-2"> {{ relation.master.lastName }} {{ relation.master.firstName }} {{ relation.master.fatherName }}</h5>
-                  </div>
-                  <div v-else>
-                    <h5 class="lead mb-2"> наставник не выбран</h5>
-                  </div>
-                </div>
-
-                  <div class="d-flex align-items-center justify-content-between align-items-center">
-                    <h5 class="lead mb-2 mr-4">Выберите наставника для изменения:&nbsp;&nbsp;</h5>
-                    <div class="form-group">
-                      <select id="mentorSelect" class="form-control" v-model="relation.selectedMentor" >
-                        <option v-for="mentor in data.mentorList" :key="mentor.id" :value="mentor.id">
-                          {{ mentor.lastName }} {{ mentor.firstName }} {{ mentor.fatherName }}
-                        </option>
-                      </select>
-                    </div>
-                    &nbsp;
-                    <button @click="saveRelation(relation)"  class="btn btn-primary">Изменить</button>
-                  </div>
-                </div>
+    <section id="gallery">
+      <div class="container mt-3 rounded" style="background-color: #8145e0;">
+        <div class="row justify-content-center">
+          <div class="col-lg-4 mb-4" v-for="(card, index) in cards" :key="index" @click="$router.push(card.route)">
+            <div class="card border-0 rounded custom-card mx-auto d-flex flex-column align-items-stretch" style="height: 100%;">
+              <img :src="card.imgSrc" alt="" class="card-img-top">
+              <div class="card-body">
+                <h5 class="card-title text-center">{{ card.title }}</h5>
+                <p class="card-text">{{ card.description }}</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   </div>
-
 </template>
 
 <script>
-import Psds from "@/services/Psds.js";
+
+import miroLessonPlanningImg from "@/components/images/miro-lesson-planning.jpeg";
+import materialImg from "@/components/images/material.jpg";
+import userImg from "@/components/images/user.png";
 import HeaderUser from "@/components/HeaderUser.vue";
-import AlertMessages from "@/components/AlertMessages.vue";
-import HeaderModerator from "@/components/HeaderModerator.vue";
 
 export default {
-  components: {HeaderModerator, AlertMessages, HeaderUser},
+  components: {HeaderUser},
   data() {
     return {
-      data: {
-        listRelation: [],
-        groupId: '',
-        studentList: [],
-        mentorList: [],
-      },
-
-      temporarySelectedMentor: {},
-      searchQuery: "",
-
-
+      cards: [
+        {
+          imgSrc: miroLessonPlanningImg,
+          title: "Назначение наставника",
+          description: "Назначить наставника для студента, отслеживающего процесс его обучения!",
+          route: "/group-leader/mentor",
+        },
+        {
+          imgSrc: materialImg,
+          title: "Студенты группы",
+          description: "Добавление студентов в учебную группы. Просмотр результатов их обучения!",
+          route: "/group-leader/students",
+        },
+      ],
     };
-  },
-
-  created() {
-    Psds.getListRelationUserDTO().then((data) => {
-      if (data != null) this.data = data;
-    });
-  },
-
-  computed: {
-    filteredStudent: function () {
-      const query = this.searchQuery.toLowerCase();
-      return this.data.listRelation.filter(
-          (relation) =>
-              relation.student.lastName.toLowerCase().includes(query) ||
-              relation.student.firstName.toLowerCase().includes(query) ||
-              relation.student.fatherName.toLowerCase().includes(query)
-      );
-    },
-  },
-
-
-  methods: {
-    saveRelation(relation) {
-      const mentorId = relation.selectedMentor;
-      const relationId = relation.id;
-
-      Psds.editMentorForGroup(mentorId, relationId)
-          .then(() => {
-            console.log('Успешное изменение наставника для студента');
-            window.location.reload();
-          })
-          .catch((error) => {
-            console.error(error);
-          });
-    },
   },
 };
 </script>
 
 
 <style scoped>
-
 .container {
   background-color: #f8f9fa;
   padding: 20px;
@@ -134,7 +79,15 @@ export default {
 }
 
 .custom-card:hover {
-  transform: scale(1.02);
+  transform: scale(1.05);
+}
+
+.card-text {
+  color: #495057;
+}
+
+.card-title {
+  font-size: 1.5rem;
 }
 
 .row {
@@ -142,7 +95,7 @@ export default {
 }
 
 .btn-primary {
-  background-color: #854dd2;
+  background-color: #a281d2;
   border-color: #a281d2;
   transition: background-color 0.3s ease;
 }
@@ -152,6 +105,8 @@ export default {
   border-color: #ee6738;
 }
 
-
-
+.small-text {
+  font-size: 0.85rem;
+  opacity: 0.5;
+}
 </style>

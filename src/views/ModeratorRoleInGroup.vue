@@ -160,11 +160,6 @@ export default {
           console.log('Добавлена роль в группе', response);
         }
 
-        // const userName = this.selectedUser ? this.selectedUser.lastName + ' ' + this.selectedUser.firstName + ' ' + this.selectedUser.fatherName : '';
-        // const groupName = this.selectedGroup ? this.selectedGroup.name : '';
-        // const userRole = this.selectedRole ? this.selectedRole.name : '';
-
-
         this.selectedUser = null;
         this.selectedGroup = null;
         this.selectedRole = null;

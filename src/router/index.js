@@ -40,6 +40,42 @@ const routes = [
     meta: { requiresAuth: true },
   },
 
+  {
+    path: "/group-leader/mentor",
+    name: "DirectorMentor",
+    component: () => import("@/views/DirectorMentor.vue"),
+    meta: { requiresAuth: true },
+  },
+
+  {
+    path: "/group-leader/students",
+    name: "DirectorStudents",
+    component: () => import("@/views/DirectorStudents.vue"),
+    meta: { requiresAuth: true },
+  },
+
+  {
+    path: "/group-leader/students/:studentId/profiles",
+    name: "DirectorStudentsProfile",
+    component: () => import("@/views/DirectorStudentsProfile.vue"),
+    meta: { requiresAuth: true },
+  },
+
+
+  {
+    path: "/group-leader/students/:studentId/profiles/:profileId",
+    name: "DirectorStudentsProfileSpecialist",
+    component: () => import("@/views/DirectorStudentsProfileSpecialist.vue"),
+    meta: { requiresAuth: true },
+  },
+
+  {
+    path: "/group-leader/students/:studentId/profiles/:profileId/lesson/:lessonId",
+    name: "DirectorStudentsLesson",
+    component: () => import("@/views/DirectorStudentsLesson.vue"),
+    meta: { requiresAuth: true },
+  },
+
 
 
   {
@@ -139,6 +175,13 @@ const routes = [
     path: "/moderator/work/users",
     name: "UserModeratorWork",
     component: () => import("@/views/UserModeratorWork.vue"),
+    meta: { requiresAuth: true },
+  },
+
+  {
+    path: "/moderator/users/:userId",
+    name: "ModeratorUserGroup",
+    component: () => import("@/views/ModeratorUserGroup.vue"),
     meta: { requiresAuth: true },
   },
 

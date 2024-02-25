@@ -11,7 +11,8 @@
         <input v-model="searchQuery" type="text" class="form-control" placeholder="Поиск пользователя">
       </div>
       <div class="row mt-3">
-        <div v-for="(user, index) in filteredUsers" :key="index" class="mb-4">
+        <div v-for="(user, index) in filteredUsers" :key="index" class="mb-4"
+             @click="$router.push(`/moderator/users/${user.id}`)">
           <div class="card custom-card" @mouseover="showDeleteIcon(index)" @mouseleave="hideDeleteIcon(index)">
             <div class="card-body d-flex justify-content-between align-items-center">
               <div class="text-container">
