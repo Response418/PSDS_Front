@@ -16,26 +16,26 @@
                 Главная
               </a>
             </li>
+              <li>
+                <a href="#" class="nav-link text-white" @click="$router.push('/group-leader')" v-if="roles && ifRoleAccess('ROLE_DIRECTOR')">
+                  <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#speedometer2"></use></svg>
+                  Руководитель группы
+                </a>
+              </li>
+              <li>
+                <a href="#" class="nav-link text-white" @click="$router.push('/mentor/plan')" v-if="roles && ifRoleAccess('ROLE_MENTOR')">
+                  <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#table"></use></svg>
+                  Наставник
+                </a>
+              </li>
             <li>
-              <a href="#" class="nav-link text-white" @click="$router.push('/group-leader')">
-                <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#speedometer2"></use></svg>
-                Руководитель группы
-              </a>
-            </li>
-            <li>
-              <a href="#" class="nav-link text-white" @click="$router.push('/mentor/plan')">
-                <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#table"></use></svg>
-                Наставник
-              </a>
-            </li>
-            <li>
-              <a href="#" class="nav-link text-white" @click="$router.push('/profile')">
+              <a href="#" class="nav-link text-white" @click="$router.push('/profile')" v-if="roles && ifRoleAccess('ROLE_STUDENT')">
                 <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#grid"></use></svg>
                 Учебные материалы
               </a>
             </li>
             <li>
-              <a href="#" class="nav-link text-white" @click="$router.push('/plan')">
+              <a href="#" class="nav-link text-white" @click="$router.push('/plan')" v-if="roles && ifRoleAccess('ROLE_STUDENT')">
                 <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#people-circle"></use></svg>
                 Учебный план
               </a>
@@ -70,6 +70,17 @@ import Psds from "@/services/Psds.js";
 
 export default {
   name: "Header",
+  roles: [],
+
+
+  created() {
+    Psds.getDataSession().then(data => {
+      this.roles = data.roles;
+      console.log(this.roles);
+      this.$forceUpdate();
+    });
+  },
+
   methods: {
     logout() {
       Psds.logoutUser().then(() => {
@@ -77,7 +88,13 @@ export default {
         sessionStorage.clear();
         this.$router.push('/auth/login');
       })
-    }
+    },
+
+    ifRoleAccess(role) {
+      console.log('Roles:', this.roles);
+      console.log('Role to check:', role);
+      return this.roles.includes(role);
+    },
   }
 };
 </script>

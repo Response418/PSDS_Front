@@ -7,10 +7,27 @@
 
     <section id="gallery">
       <div class="container mt-3 rounded" style="background-color: #8145e0;">
-        <div class="row justify-content-center" :style="{ flexWrap: getFlexWrapStyle() }">
-
-          <div  class="col-lg-4 mb-4" v-for="(card, index) in cards" :key="index"  @click="$router.push(card.route)">
-            <div class="card border-0 rounded custom-card mx-auto d-flex flex-column align-items-stretch" style="height: 100%;" v-if="ifRoleAccess(card.roleAccess)">
+        <div class="row justify-content-center">
+            <div  class="col-lg-4 mb-4" v-for="(card, index) in cardsStudent" :key="index"  @click="$router.push(card.route)" v-if="ifRoleAccess('ROLE_STUDENT')">
+              <div class="card border-0 rounded custom-card mx-auto d-flex flex-column align-items-stretch" style="height: 100%;" >
+                <img :src="card && card.imgSrc ? card.imgSrc : ''" alt="" class="card-img-top">
+                <div class="card-body">
+                  <h5 class="card-title text-center">{{ card && card.title ? card.title : '' }}</h5>
+                  <p class="card-text">{{ card && card.description ? card.description : '' }}</p>
+                </div>
+              </div>
+            </div>
+          <div  class="col-lg-4 mb-4" v-for="(card, index) in cardsMentor" :key="index"  @click="$router.push(card.route)" v-if="ifRoleAccess('ROLE_MENTOR')">
+            <div class="card border-0 rounded custom-card mx-auto d-flex flex-column align-items-stretch" style="height: 100%;" >
+              <img :src="card && card.imgSrc ? card.imgSrc : ''" alt="" class="card-img-top">
+              <div class="card-body">
+                <h5 class="card-title text-center">{{ card && card.title ? card.title : '' }}</h5>
+                <p class="card-text">{{ card && card.description ? card.description : '' }}</p>
+              </div>
+            </div>
+          </div>
+          <div  class="col-lg-4 mb-4" v-for="(card, index) in cardsDirector" :key="index"  @click="$router.push(card.route)" v-if="ifRoleAccess('ROLE_DIRECTOR')">
+            <div class="card border-0 rounded custom-card mx-auto d-flex flex-column align-items-stretch" style="height: 100%;" >
               <img :src="card && card.imgSrc ? card.imgSrc : ''" alt="" class="card-img-top">
               <div class="card-body">
                 <h5 class="card-title text-center">{{ card && card.title ? card.title : '' }}</h5>
@@ -50,7 +67,7 @@ export default {
 
 
       roles: [],
-      cards: [
+      cardsStudent: [
         {
           imgSrc: materialImg,
           title: "Учебные материалы",
@@ -65,6 +82,9 @@ export default {
           route: "/plan",
           roleAccess: "ROLE_STUDENT"
         },
+      ],
+
+      cardsMentor: [
         {
           imgSrc: userImg,
           title: "Проверка учебных планов",
@@ -72,6 +92,9 @@ export default {
           route: "/mentor/plan",
           roleAccess: "ROLE_MENTOR"
         },
+      ],
+
+      cardsDirector: [
         {
           imgSrc: miroLessonPlanningImg,
           title: "Руководитель группы",
@@ -101,11 +124,6 @@ export default {
     ifRoleAccess(role) {
       return this.roles.includes(role);
     },
-    getFlexWrapStyle() {
-      const totalCards = this.cards.length;
-      return totalCards === 4 ? 'wrap' : 'nowrap';
-    },
-
   },
 }
 </script>
@@ -114,16 +132,6 @@ export default {
 .container {
   background-color: #f8f9fa;
   padding: 20px;
-}
-
-.mb-3 {
-  margin-bottom: 1.5rem !important;
-}
-
-.form-control {
-  background-color: #fff;
-  border-color: #a281d2;
-  color: #495057;
 }
 
 .card {
