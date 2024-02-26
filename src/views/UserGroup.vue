@@ -1,12 +1,10 @@
 <template>
-
   <div>
     <HeaderGroup />
     <section id="header" class="jumbotron text-center mt-4 mb-4">
       <h2 class="display-4">Выбор учебной группы</h2>
       <p class="lead">Выберите группы из списка.</p>
     </section>
-
     <div class="container mt-3 rounded" style="background-color: #6623cc; color: white;">
       <div v-if="groupList.length === 0">
         <h2 class="mb-3" > Для Вас нет учебных групп (дождитесь добавления в учебную группу) </h2>
@@ -18,7 +16,6 @@
           <div v-if="groupList.length === 0">
             <p>Для вас еще нет учебных групп.</p>
           </div>
-
           <div v-for="(group, index) in groupList" :key="index" class="mb-4" @click="handleGroupClick(group.id)">
             <div class="card custom-card">
               <div class="card-body d-flex justify-content-between align-items-center">
@@ -49,19 +46,21 @@
 import Psds from "@/services/Psds.js";
 import HeaderGroup from "@/components/HeaderGroup.vue";
 import AlertMessages from "@/components/AlertMessages.vue";
+import HeaderModerator from "@/components/HeaderModerator.vue";
 
 export default {
-  components: {AlertMessages, HeaderGroup},
+  components: {HeaderModerator, AlertMessages, HeaderGroup},
   data() {
     return {
       groupList: [],
+      userRole: '',
     };
   },
+
 
   created() {
     this.loadGroupList();
   },
-
 
 
   methods: {

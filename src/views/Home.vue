@@ -79,16 +79,17 @@ export default {
           route: "/group-leader",
           roleAccess: "ROLE_DIRECTOR"
         },
-        // {
-        //   imgSrc: materialImg,
-        //   title: "Only модер",
-        //   description: "Ты не должен этого видеть!!!!",
-        //   route: "/mentor/plan",
-        //   roleAccess: "3"
-        // },
       ],
     }
   },
+
+  mounted() {
+    const storedRole = localStorage.getItem('role');
+    if (storedRole === 'ROLE_ADMIN') {
+      this.$router.push('/moderator');
+    }
+  },
+
   created() {
 
     Psds.getDataSession().then(data => {
