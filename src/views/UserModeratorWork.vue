@@ -19,7 +19,7 @@
                 <h5 class="card-title mb-2">{{ user.lastName }} {{ user.firstName }} {{ user.fatherName }}</h5>
                 <p class="card-text">Город: {{ user.city }}</p>
               </div>
-              <span class="bi bi-trash delete-icon" v-if="isDeleteIconVisible[index]" @click="deleteUser(index)"></span>
+              <span class="bi bi-trash delete-icon" v-if="isDeleteIconVisible[index]" @click="deleteUser(index, $event)"></span>
             </div>
           </div>
         </div>
@@ -74,7 +74,8 @@ export default {
       });
     },
 
-    deleteUser(index) {
+    deleteUser(index, event) {
+      event.stopPropagation();
       const userId = this.usersList[index].id;
       Psds.deleteUser(userId)
           .then(() => {
