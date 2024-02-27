@@ -10,13 +10,12 @@
         <h2 class="mb-3" > Для Вас нет учебных групп (дождитесь добавления в учебную группу) </h2>
       </div>
       <div v-else >
-        <h1 class="mb-3" > Учебные группы </h1>
         <AlertMessages ref="AddAlertMess" />
         <div class="row">
           <div v-if="groupList.length === 0">
             <p>Для вас еще нет учебных групп.</p>
           </div>
-          <div v-for="(group, index) in groupList" :key="index" class="mb-4" @click="handleGroupClick(group.id)">
+          <div v-for="(group, index) in groupList" :key="index" class="mb-4" @click="handleGroupClick(group.id, group.userRoles)">
             <div class="card custom-card">
               <div class="card-body d-flex justify-content-between align-items-center">
                 <div>
@@ -70,9 +69,14 @@ export default {
       });
     },
 
-    handleGroupClick(groupId) {
+    handleGroupClick(groupId, roles) {
       Psds.selectGroup(groupId).then(() => {
         console.log('Выбрана группа с id:', groupId);
+        console.log(groupId);
+        console.log(roles);
+        localStorage.setItem('role', roles)
+        // localStorage.setItem('userId', data.userId)
+        localStorage.setItem('groupId', groupId)
         this.$router.push('/');
       }).catch((error) => {
         console.error("Ошибка при выборе группы:", error);

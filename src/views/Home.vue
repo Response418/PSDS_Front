@@ -114,11 +114,7 @@ export default {
   },
 
   created() {
-
-    Psds.getDataSession().then(data => {
-      this.roles = data.roles;
-      console.log(this.roles)
-    });
+    this.roles = localStorage.getItem('role');
   },
   methods: {
     ifRoleAccess(role) {

@@ -92,7 +92,8 @@ export default {
 
       Psds.loginUser(this.Email, this.Password)
           .then(token => {
-            localStorage.setItem('token', token.token);
+            localStorage.setItem('token', token.jwt);
+            localStorage.setItem('userId', token.userId);
             this.$router.push('/groups');
           })
           .catch(error => {

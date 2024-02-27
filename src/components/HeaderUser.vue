@@ -74,11 +74,12 @@ export default {
 
 
   created() {
-    Psds.getDataSession().then(data => {
-      this.roles = data.roles;
-      console.log(this.roles);
-      this.$forceUpdate();
-    });
+    this.roles = localStorage.getItem('role');
+    // Psds.getDataSession().then(data => {
+    //   this.roles = data.roles;
+    //   console.log(this.roles);
+    //   this.$forceUpdate();
+    // });
   },
 
   methods: {

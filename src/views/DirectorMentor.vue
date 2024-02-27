@@ -72,7 +72,8 @@ export default {
   },
 
   created() {
-    Psds.getListRelationUserDTO().then((data) => {
+    const groupId = parseInt(localStorage.getItem('groupId'), 10);
+    Psds.getListRelationUserDTO(groupId).then((data) => {
       if (data != null) this.data = data;
     });
   },

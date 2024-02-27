@@ -14,10 +14,6 @@ class Psds {
   constructor() {
   }
 
-  login(data) {
-    return http.post(`api/auth/login`, data)
-  }
-
 
   logoutUser() {
     return http.post(`api/auth/logout` )
@@ -32,7 +28,7 @@ class Psds {
 
   async registerUser(lastName, firstName, fatherName, city, phoneNumber, email, password) {
     try {
-      const response = await axios.post('http://localhost:8080/api/auth/registration',
+      const response = await http.post('api/auth/registration',
           {'lastName': lastName, 'firstName': firstName, 'fatherName': fatherName, 'city': city,
           'phoneNumber': phoneNumber, 'email': email, 'password': password});
       console.log('Регистрация прошла успешно', response.data);
@@ -224,8 +220,8 @@ class Psds {
   }
 
 
-  getListRelationUserDTO() {
-    return http.get(`api/relation-users`)
+  getListRelationUserDTO(groupId) {
+    return http.get(`api/relation-users?groupId=${groupId}`)
         .then(response => response.data)
   }
 
@@ -263,10 +259,16 @@ class Psds {
     return http.get(`api/plans/${linkId}/specialistProfiles/${profileId}`)
         .then(response => response.data)
   }
-  getStudentsByMentor() {
-    return http.get(`api/groups/masters/students`)
-        .then(response => response.data)
+  // getStudentsByMentor() {
+  //   return http.get(`api/groups/masters/students`)
+  //       .then(response => response.data)
+  // }
+
+  getStudentsByMentor(userId, groupId) {
+    return http.get(`api/groups/masters/students?userId=${userId}&groupId=${groupId}`)
+        .then(response => response.data);
   }
+
   saveGrade(linkId, lessonId, userGrade) {
     return http.put(`api/grades/${lessonId}/${linkId}`, {grade: userGrade})
         .then(response => response.data)

@@ -32,7 +32,9 @@ export default {
     };
   },
   created() {
-    Psds.getStudentsByMentor().then(students => {
+    const userId = parseInt(localStorage.getItem('userId'), 10);
+    const groupId = parseInt(localStorage.getItem('groupId'), 10);
+    Psds.getStudentsByMentor(userId, groupId).then(students => {
       this.students = students;
     });
   },
