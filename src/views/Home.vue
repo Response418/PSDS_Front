@@ -43,22 +43,17 @@
 </template>
 
 <script>
-import AuthForm from "@/components/AuthForm.vue";
 import AlertMessages from "@/components/AlertMessages.vue";
-import Profile from "@/components/Profile.vue";
-import Plan from "@/components/Plan.vue";
-import Team from "@/components/Team.vue";
 
 import HeaderUser from "@/components/HeaderUser.vue";
 import miroLessonPlanningImg from "@/components/images/miro-lesson-planning.jpeg";
 import materialImg from "@/components/images/material.jpg";
 import userImg from "@/components/images/user.png";
 import plan from "@/components/images/plan.png";
-import Psds from "@/services/Psds.js";
 
 export default {
   name: "HomeMain",
-  components: {HeaderUser, Plan, Profile, AuthForm, AlertMessages, Team },
+  components: {HeaderUser, AlertMessages },
   data() {
     return {
       width: window.innerWidth,

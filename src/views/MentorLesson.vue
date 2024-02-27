@@ -77,9 +77,11 @@ export default {
       }
     });
 
-    Psds.getGrade(lessonId, linkId).then((grade) => {
-      if (grade) this.userGrade = grade.value;
-    });
+    Psds.getStudentIdByLink(linkId).then(userId => {
+      Psds.getGrade(lessonId, userId).then((grade) => {
+        if (grade) this.userGrade = grade.value;
+      });
+    })
 
     Psds.getMaterials(lessonId).then((materials) => {
       if (materials != null) {
@@ -92,7 +94,9 @@ export default {
       if (this.userGrade !== null) {
         const lessonId = this.$route.params.lessonId;
         const linkId = this.$route.params.linkId;
-        Psds.saveGrade(linkId, lessonId, this.userGrade)
+        Psds.getStudentIdByLink(linkId).then(userId => {
+          Psds.saveGrade(userId, lessonId, this.userGrade)
+        })
       }
     },
 

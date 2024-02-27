@@ -1,13 +1,4 @@
 import http from "../http-common";
-import axios from "axios";
-import data from "bootstrap/js/src/dom/data.js";
-// import * as http from "http";
-// import data from "bootstrap/js/src/dom/data.js";
-// import * as console from "console";
-// import response from "core-js/internals/is-forced.js";
-// import * as console from "console";
-// import {error} from "vue-resource/src/util.js";
-
 
 
 class Psds {
@@ -25,7 +16,6 @@ class Psds {
         .then(response => response.data)
   }
 
-
   async registerUser(lastName, firstName, fatherName, city, phoneNumber, email, password) {
     try {
       const response = await http.post('api/auth/registration',
@@ -38,28 +28,20 @@ class Psds {
     }
   }
 
-
   getGroupForUser() {
     return http.get(`api/groups`)
         .then(response => response.data)
   }
-
 
   selectGroup(groupId) {
     return http.put(`api/groups/${groupId}`)
         .then(response => response.data)
   }
 
-
   createGroup(name, description) {
     return http.post(`api/groups/moderator/group`,{name, description} )
         .then(response => response.data)
   }
-
-  // getProfileDetails(id) {
-  //   return http.get(`api/specialistProfiles/${id}`)
-  //       .then(response => response.data)
-  // }
 
   getListGroups() {
     return http.get(`api/groups/moderator`)
@@ -136,11 +118,6 @@ class Psds {
         .then(response => response.data)
   }
 
-  editTheme(id, title, description, lessons) {
-    return http.put(`api/themes`, {id, title, description, lessons})
-        .then(response => response.data)
-  }
-
   getAllThemes() {
     return http.get(`api/themes`)
         .then(response => response.data)
@@ -157,19 +134,8 @@ class Psds {
         .then(response => response.data);
   }
 
-
-  getLessonsForTheme(themeId) {
-    return http.get(`api/lessons/lesson/${themeId}`)
-        .then(response => response.data)
-  }
-
   getAllLessons() {
     return http.get(`api/lessons`)
-        .then(response => response.data)
-  }
-
-  createLesson(title, description, level, grade) {
-    return http.put(`api/lessons`, {title, description, level, grade})
         .then(response => response.data)
   }
 
@@ -177,7 +143,6 @@ class Psds {
     return http.put(`api/themes/lesson`, {themeId, lessonDTO, materialDTO})
         .then(response => response.data)
   }
-
 
   deleteMaterial(materialId) {
     return http.delete(`api/materials/${materialId}`)
@@ -230,23 +195,15 @@ class Psds {
         .then(response => response.data)
   }
 
+  getGrade(lessonId, userId) {
+    return http.get(`api/grades/${lessonId}/${userId}`)
+        .then(response => response.data)
+  }
+  getStudentIdByLink(LinkId) {
+    return http.get(`api/moderator/users/link/${LinkId}`)
+        .then(response => response.data)
+  }
 
-  getGrade(lessonId, LinkId) {
-    return http.get(`api/grades/${lessonId}/${LinkId}`)
-        .then(response => response.data)
-  }
-  getUserIdByLink(LinkId) {
-    return http.get(`users/link/${LinkId}`)
-        .then(response => response.data)
-  }
-  getListLinkByUserId(userId) {
-    return http.get(`api/relation-users/${userId}`)
-        .then(response => response.data)
-  }
-  getDataSession() {
-    return http.get(`api/moderator/users/data/session`)
-        .then(response => response.data)
-  }
   getPlan(id) {
     return http.get(`api/plans/${id}`)
         .then(response => response.data)
@@ -259,290 +216,15 @@ class Psds {
     return http.get(`api/plans/${linkId}/specialistProfiles/${profileId}`)
         .then(response => response.data)
   }
-  // getStudentsByMentor() {
-  //   return http.get(`api/groups/masters/students`)
-  //       .then(response => response.data)
-  // }
 
   getStudentsByMentor(userId, groupId) {
     return http.get(`api/groups/masters/students?userId=${userId}&groupId=${groupId}`)
         .then(response => response.data);
   }
 
-  saveGrade(linkId, lessonId, userGrade) {
-    return http.put(`api/grades/${lessonId}/${linkId}`, {grade: userGrade})
+  saveGrade(userId, lessonId, userGrade) {
+    return http.put(`api/grades/${lessonId}/${userId}`, {grade: userGrade})
         .then(response => response.data)
-  }
-  // async getSpecialistProfile() {
-  //   try {
-  //     const token = localStorage.getItem('token');
-  //     if (!token) {
-  //       console.error('Токен отсутствует');
-  //       return;
-  //     }
-  //     const headers = {
-  //       Authorization: `Bearer ${token}`,
-  //     };
-  //
-  //     const response = await axios.get('http://localhost:8080/api/specialistProfiles', {headers});
-  //     console.log('Получены все профили специалиста', response.data);
-  //     return response.data;
-  //   } catch (error) {
-  //     console.error('Профили не получены', error);
-  //   }
-  //
-  // }
-
-  CreateUser(formData) {
-    return http.post(`/users/create`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      },
-      enctype: 'multipart/form-data'
-    });
-  }
-  Authentication(data) {
-    return http.post(`/users`, data, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-  }
-  isAuthenticated(data) {
-    return http.post(`/users/isAuthenticated`, data, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-  }
-  findUserById(data) {
-    return http.post(`/users/findOneId`, data, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-  }
-  findUserByEmail(data) {
-    return http.post(`/users/findOneEmail`, data, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-  }
-  updateUser(data) {
-    return http.post(`/users/update`, data, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-  }
-  createCompetition(formData) {
-    return http.post('/competition/create', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      },
-      enctype: 'multipart/form-data'
-    });
-  }
-  updateCompetition(formData) {
-    return http.post('/competition/update', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      },
-      enctype: 'multipart/form-data'
-    });
-  }
-  updateModel(formData) {
-    return http.post('/model/update', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      },
-      enctype: 'multipart/form-data'
-    });
-  }
-  createCriteria(data) {
-    return http.post(`/competition/createCriteria`, data, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-  }
-  getCriteria(data) {
-    return http.post(`/competition/getCriteria`, data, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-  }
-
-
-getWinner(data) {
-    return http.post(`/competition/getWinner`, data, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-  }
-  sendScore(data) {
-    return http.post(`/model/sendScore`, data, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-  }
-  getCountModel(data) {
-    return http.post(`/model/getCountModel`, data, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-  }
-  getScore(data) {
-    return http.post(`/model/getScore`, data, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-  }
-  createJudge(data) {
-    return http.post(`/competition/createJudge`, data, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-  }
-  deleteJudge(data) {
-    return http.post(`/competition/deleteJudge`, data, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-  }
-  approvalJudge(data) {
-    return http.post(`/competition/approvalJudge`, data, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-  }
-  getCompetition(data) {
-    return http.post(`/competition/getCompetition`, data, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-  }
-  getCompetitionEnd(data) {
-    return http.post(`/competition/getCompetitionEnd`, data, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-  }
-  getOneCompetition(data) {
-    return http.post(`/competition/getOneCompetition`, data, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-  }
-  GetOneModel(data) {
-    return http.post(`/model/GetOneModel`, data, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-  }
-  deleteCompetition(data) {
-    return http.post(`/competition/deleteCompetition`, data, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-  }
-  deleteModel(data) {
-    return http.post(`/competition/deleteModel`, data, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-  }
-  GetModelImages(data) {
-    return http.post(`/model/GetModelImages`, data, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-  }
-  createModel(data) {
-    return http.post(`/model/create`, data, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    });
-  }
-  signIn(data) {
-    return http.post(`/sign-in`, data, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-  }
-  signOut(data) {
-    return http.post(`/sign-out`, data, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-  }
-  isAdmin(data) {
-    return http.post(`/isAdmin`, data, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-  }
-  isJudge(data) {
-    return http.post(`/isJudge`, data, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-  }
-  isOrganizer(data) {
-    return http.post(`/isOrganizer`, data, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-  }
-  isParticipant(data) {
-    return http.post(`/isParticipant`, data, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-  }
-  GetOrganizers(data) {
-    return http.post(`/competition/GetOrganizers`, data, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-  }
-  GetJudges(data) {
-    return http.post(`/competition/GetJudges`, data, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-  }
-  GetParticipants(data) {
-    return http.post(`/competition/GetParticipants`, data, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
   }
 }
 export default new Psds();

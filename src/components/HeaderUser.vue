@@ -75,11 +75,6 @@ export default {
 
   created() {
     this.roles = localStorage.getItem('role');
-    // Psds.getDataSession().then(data => {
-    //   this.roles = data.roles;
-    //   console.log(this.roles);
-    //   this.$forceUpdate();
-    // });
   },
 
   methods: {
@@ -92,8 +87,6 @@ export default {
     },
 
     ifRoleAccess(role) {
-      console.log('Roles:', this.roles);
-      console.log('Role to check:', role);
       return this.roles.includes(role);
     },
   }

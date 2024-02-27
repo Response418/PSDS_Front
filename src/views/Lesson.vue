@@ -68,12 +68,8 @@ export default {
     });
 
     if(localStorage.getItem("userId"))
-      Psds.getListLinkByUserId(localStorage.getItem("userId")).then(links => {
-        links.forEach(link => {
-          Psds.getGrade(lessonId, link.id).then(grade => {
-            if(grade) this.grade = grade.value;
-          })
-        })
+      Psds.getGrade(lessonId, localStorage.getItem("userId")).then(grade => {
+        if(grade) this.grade = grade.value;
       })
 
     Psds.getMaterials(this.$route.params.id).then((materials) => {

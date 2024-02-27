@@ -63,14 +63,11 @@ export default {
       }
     });
     const userId = this.$route.params.studentId;
-    if(userId )
-      Psds.getListLinkByUserId(userId ).then(links => {
-        links.forEach(link => {
-          Psds.getGrade(lessonId, link.id).then(grade => {
-            if(grade) this.grade = grade.value;
-          })
+    if(userId)
+        Psds.getGrade(lessonId, userId).then(grade => {
+          if(grade) this.grade = grade.value;
         })
-      })
+
 
     Psds.getMaterials(this.$route.params.lessonId).then((materials) => {
       if (materials != null) {

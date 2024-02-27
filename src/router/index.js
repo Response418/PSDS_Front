@@ -257,12 +257,6 @@ router.beforeEach((to, from, next) => {
         query: { redirect: to.fullPath }
       });
     } else {
-      // Psds.getDataSession().then(data => {
-      //   console.log(data);
-      //   localStorage.setItem('role', data.roles)
-      //   localStorage.setItem('userId', data.userId)
-      //   localStorage.setItem('groupId', data.groupId)
-      // });
       next();
     }
   } else {
